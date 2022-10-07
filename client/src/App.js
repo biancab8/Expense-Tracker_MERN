@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 function App() {
 
@@ -8,14 +8,38 @@ function App() {
     date: ""
   });
 
+  //for the transactions to be rendered on the page
+  const [transactions, setTransactions] = useState([])
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  async function fetchTransactions(){
+    const res = await fetch("http://localhost:4000/transactions", {
+      method: "GET", 
+    })
+    //read received data 
+    const {data} = await res.json(); //parse entire json, returns a promise
+    setTransactions(data);
+    console.log(data);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault(); 
     const res = await fetch("http://localhost:4000/transactions", {
       method: "POST",
-      body: form,
-    })
-    console.log(res);
-
+      body: JSON.stringify(form),
+      headers: {
+        "content-type": "application/json"
+      }
+    }) 
+    //if receive response
+    //fetch transactions again so that can update rendered page with new ones
+    if(res.ok){
+      fetchTransactions();
+    }
+    
   }
 
   function handleInput(event){
@@ -31,6 +55,31 @@ function App() {
         <input type="date" onChange={handleInput} value={form.date} name="date"/>
         <button type="submit">Submit</button>
       </form>
+
+      <br/>
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Description</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((transaction) => {
+              return (
+                <tr key={transaction._id}>
+                  <td>{transaction.amount}</td>
+                  <td>{transaction.description}</td>
+                  <td>{transaction.date}</td>
+                </tr>
+              )
+            })}
+
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }
