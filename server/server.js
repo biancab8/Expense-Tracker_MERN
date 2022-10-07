@@ -4,16 +4,8 @@ import * as dotenv from "dotenv";
 import cors from "cors";
 
 const app = express();
-app.use(cors);
+app.use(cors);      //to allow http requests from outside of server
 dotenv.config(); 
-
-//connect to DB
-try{
-    await mongoose.connect("mongodb+srv://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD + "@cluster0.igfw9cr.mongodb.net/?retryWrites=true&w=majority");
-    console.log("successfullly connected to mongoDB");
-} catch (err) {
-    console.log("Could not connect to mongoDB. Error: "+err);
-}
 
 
 app.get("/", (req, res) => {
@@ -21,4 +13,16 @@ app.get("/", (req, res) => {
 })
 
 
-app.listen(4000, () => {console.log("server running on port 4000")});
+
+
+//connect to DB & start server
+mongoose.connect("mongodb+srv://" + process.env.DB_USERNAME + ":" + process.env.DB_PASSWORD + "@cluster0.igfw9cr.mongodb.net/?retryWrites=true&w=majority")
+.then(() => {
+    console.log("successfullly connected to mongoDB");
+    app.listen(4000, () => {console.log("server running on port 4000")});
+})
+.catch((error) => console.log("Could not connect to mongoDB. Error: "+ error));
+    
+
+
+
