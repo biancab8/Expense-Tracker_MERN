@@ -7,12 +7,19 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { Typography } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import IconButton from "@mui/material/IconButton";
 
 // function createData(amount, description, date) {
 //   return { amount, description, date };
 // }
 
 export default function TransactionsTable(props) {
+  function remove(id){
+    console.log(id);
+  }
+
   return (
     <>
       <Typography sx={{ marginTop: 10 }} variant="h6">
@@ -38,14 +45,18 @@ export default function TransactionsTable(props) {
                 <TableCell align="center">{transaction.description}</TableCell>
                 <TableCell align="center">{transaction.date}</TableCell>
                 <TableCell align="center">
-                  <p>edit</p>
-                  <p>delete</p>
+                  <IconButton color="primary" component="label">
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton color="warning" component="label" onClick={() => remove(transaction._id)}>
+                    <DeleteIcon />
+                  </IconButton>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      </>
+    </>
   );
 }
