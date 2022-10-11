@@ -32,4 +32,10 @@ router.post("/", async (req, res) => {
 
 });
 
+//handle delete requests to /transactions
+router.delete("/:id", async (req, res) => {
+    await Transaction.deleteOne({_id: req.params.id});
+    res.json({mesage: "success"});
+})
+
 export default router;

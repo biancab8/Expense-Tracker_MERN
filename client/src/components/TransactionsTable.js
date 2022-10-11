@@ -16,8 +16,19 @@ import IconButton from "@mui/material/IconButton";
 // }
 
 export default function TransactionsTable(props) {
-  function remove(id){
-    console.log(id);
+
+  async function remove(id){
+    if(!window.confirm("Are you sure you want to delete this item?")){
+      return; 
+    } else {
+      const res = await fetch(`http://localhost:4000/transactions/${id}`, {
+        method: "DELETE",
+       });
+      if(res.ok){
+        await props.fetchTransactions();
+        window.alert("Item successfully deleted.")
+      }
+    }
   }
 
   return (
@@ -48,7 +59,7 @@ export default function TransactionsTable(props) {
                   <IconButton color="primary" component="label">
                     <EditIcon />
                   </IconButton>
-                  <IconButton color="warning" component="label" onClick={() => remove(transaction._id)}>
+                  <IconButton color="warning" component="label" onClick={() => {remove(transaction._id)}}>
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

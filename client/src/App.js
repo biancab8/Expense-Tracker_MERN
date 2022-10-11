@@ -35,7 +35,8 @@ function App() {
       <Container>
         <TransactionForm fetchTransactions={fetchTransactions} />
         <br />
-        <TransactionsTable transactions={transactions} />
+        <TransactionsTable transactions={transactions} 
+        fetchTransactions={fetchTransactions}/>
       </Container>
     </div>
   );
