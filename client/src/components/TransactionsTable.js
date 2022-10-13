@@ -61,7 +61,7 @@ export default function TransactionsTable(props) {
                 <TableCell align="center">{transaction.description}</TableCell>
                 <TableCell align="center">{formatDate(transaction.date)}</TableCell>
                 <TableCell align="center">
-                  <IconButton color="primary" component="label">
+                  <IconButton color="primary" component="label" onClick={() => props.setEditTransaction(transaction)}>
                     <EditIcon />
                   </IconButton>
                   <IconButton color="warning" component="label" onClick={() => {remove(transaction._id)}}>

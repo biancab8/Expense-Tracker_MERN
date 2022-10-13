@@ -1,8 +1,6 @@
 import * as React from "react";
-import { useState } from "react";
-import Box from "@mui/material/Box";
+import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -12,7 +10,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 const initialForm = {
-  amount: 0,
+  amount: "",
   description: "",
   date: new Date(),
 };
@@ -20,31 +18,57 @@ const initialForm = {
 export default function TransactionForm(props) {
   const [form, setForm] = useState(initialForm);
 
+  useEffect(() => {
+    if (props.editTransaction.amount !== undefined) {
+      setForm(props.editTransaction);
+    }
+  }, [props.editTransaction.amount]); //run whenever this var changes/is updated
+
   function handleChange(event) {
-    setForm({...form, [event.target.name] : event.target.value});
+    setForm({ ...form, [event.target.name]: event.target.value });
   }
 
-  function handleDateChange(newDate){
-    setForm({...form, date: newDate});
+  function handleDateChange(newDate) {
+    setForm({ ...form, date: newDate });
   }
 
   async function handleSubmit(event) {
-    event.preventDefault(); 
+    event.preventDefault();
+    let res;
+    if(props.editTransaction.amount === undefined){
+      res = await addTransaction(); 
+    } else {
+      res = await updateTransaction();
+    }
+    if (res.ok) {
+      setForm(initialForm);
+      props.fetchTransactions();
+    }
+
+  }
+
+  async function addTransaction(){
     const res = await fetch("http://localhost:4000/transactions", {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
-        "content-type": "application/json"
-      }
-    }) 
-    //if receive response
-    //fetch transactions again so that can update rendered page with new ones
-    if(res.ok){
-      setForm(initialForm);
-      props.fetchTransactions();
-    }
-    
+        "content-type": "application/json",
+      },
+    });
+    return res; 
   }
+
+  async function updateTransaction(){
+    const res = await fetch(`http://localhost:4000/transactions/${props.editTransaction._id}`, {
+      method: "PATCH",
+      body: JSON.stringify(form),
+      headers: {
+        "content-type": "application/json",
+      },
+    });
+    return res; 
+  }
+
 
   return (
     <Card
@@ -88,9 +112,16 @@ export default function TransactionForm(props) {
               )}
             />
           </LocalizationProvider>
-          <Button type="submit" variant="contained">
-            Submit
-          </Button>
+          {props.editTransaction.amount !== undefined && (
+            <Button type="submit" variant="secondary">
+              Edit
+            </Button>
+          )}
+          {props.editTransaction.amount === undefined && (
+            <Button type="submit" variant="contained">
+              Submit
+            </Button>
+          )}
         </form>
       </CardContent>
     </Card>
