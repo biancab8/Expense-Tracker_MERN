@@ -3,6 +3,8 @@
 //DB connect -> /database
 //DB models -> /models
 //API -> /routes
+//api calls with fetch()
+//hashing password with bcrypt
 
 import express, { response } from "express";
 import mongoose from "mongoose";

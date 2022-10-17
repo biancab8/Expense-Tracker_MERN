@@ -1,5 +1,6 @@
 import { Router } from  "express";
 import User from "../models/User.js"
+import bcrypt  from "bcrypt"
 
 const router = Router();
 
@@ -15,17 +16,24 @@ router.post("/register", (req, res) => {
         } else if (user){
             res.status(409).json({message: "User already exists."}); //409 = conflict
         } else {
+            //hash the password with bcrypt
+            const saltRounds = 10;
+            const salt = await bcrypt.genSaltSync(saltRounds);
+            const hashedPassword = await bcrypt.hashSync(password, salt); 
+            //create new user instance
             const newUser = User({
                 email: email, 
                 firstName: firstName, 
                 lastName: lastName,
-                password: password
+                password: hashedPassword
             });
+            //save user to db
             await newUser.save(); 
-            res.json({message: "Success"})
+            res.status(201).json({message: "User was created successfully."}) //201=created ok
         }
     })
-    //hash the password
+
+
     //store new user in DB
     
     // res.json({message: "registering...."})
