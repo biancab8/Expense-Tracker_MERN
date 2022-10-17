@@ -9,13 +9,16 @@ import mongoose from "mongoose";
 import cors from "cors";
 import bodyParser from "body-parser";
 import transactionRoutes from "./routes/transactions.js";
+import authRoutes from "./routes/auth.js";
 import connectDB from "./database/mongoDB.js";
 
 const app = express();
 app.use(cors());      //to allow http requests from outside of server
 app.use(bodyParser.json()); //using jsons in http requests 
-app.use("/transactions", transactionRoutes);        //transactions API
 
+//APIs
+app.use("/transactions", transactionRoutes);      
+app.use("/register", authRoutes); 
 
 
 
