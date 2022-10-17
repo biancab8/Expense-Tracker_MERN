@@ -1,19 +1,20 @@
 import { Router } from  "express";
 import User from "../models/User.js"
 import bcrypt  from "bcrypt"
+import jwt from "jsonwebtoken";
 
 const router = Router();
 
 //handle post requets to /auth/register
 router.post("/register", (req, res) => {
     //get data from req
-    console.log(req.body)
+    // console.log(req.body)
     const {email, firstName, lastName, password} = req.body;
     //check if use already has an account 
-    User.findOne({email: email}, async function(err, user){
+    User.findOne({email: email}, async function(err, foundUser){
         if(err){
             console.err("Could not check if user exists. Error: " + err);
-        } else if (user){
+        } else if (foundUser){
             res.status(409).json({message: "User already exists."}); //409 = conflict
         } else {
             //hash the password with bcrypt
@@ -32,11 +33,36 @@ router.post("/register", (req, res) => {
             res.status(201).json({message: "User was created successfully."}) //201=created ok
         }
     })
-
-
-    //store new user in DB
-    
-    // res.json({message: "registering...."})
 })
+
+//handle post request to auth/login
+router.post("/login", (req, res) => {
+    const {email, password} = req.body;
+    //check if user exists
+    User.findOne({email: email}, async function(err, foundUser){
+        if(err){
+            console.err("Could not check if user exists. Error: " + err);
+        } else if(foundUser){
+            const matched = await bcrypt.compare(password, foundUser.password);
+            if(!matched){
+                res.status(406).json({message: "Incorret email or password."});
+            } else{ //paswords match
+                //create JWT JSON Web Token
+                const payload ={
+                    username: email,
+                    id: foundUser._id
+                }
+                const token = jwt.sign(payload, "someSecret");
+                console.log(token);
+                res.json({message: "successfully loged in", token: token})
+
+            }
+        } else {
+            console.log("User credentials not found.")
+        }
+    })
+    //check if password matches
+})
+
 
 export default router; 

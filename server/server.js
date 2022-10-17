@@ -5,6 +5,8 @@
 //API -> /routes
 //api calls with fetch()
 //hashing password with bcrypt
+//token for signed-in user with JWT jason web token
+// -> store in front end cookies with js-cockie
 
 import express, { response } from "express";
 import mongoose from "mongoose";
