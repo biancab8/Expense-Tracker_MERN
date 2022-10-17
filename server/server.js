@@ -18,7 +18,7 @@ app.use(bodyParser.json()); //using jsons in http requests
 
 //APIs
 app.use("/transactions", transactionRoutes);      
-app.use("/register", authRoutes); 
+app.use("/auth", authRoutes); 
 
 
 

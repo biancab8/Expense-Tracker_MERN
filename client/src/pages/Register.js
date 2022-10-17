@@ -11,15 +11,28 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const formData = 
+    {
       firstName: data.get('firstName'),
       lastName: data.get('lastName'),
       email: data.get('email'),
       password: data.get('password')
-    });
+    }
+    const res = await fetch("http://localhost:4000/auth/register", {
+      method: "POST",
+      body: JSON.stringify(formData),
+      headers: {
+        "content-type": "application/json"
+      }
+    })
+    if(res.ok){
+      console.log("success");
+    }
+
+
   };
 
   return (
