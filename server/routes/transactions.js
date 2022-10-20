@@ -1,13 +1,14 @@
 //handle all requests to .../transactions
 
 import { Router } from "express";
-import Transaction from "../models/transaction.js";
+import Transaction from "../models/Transaction.js";
+import passport from "passport";
 
 //init router intsance
 const router = Router();
 
 //handle get requests to /transactions/
-router.get("/", (req, res) => {
+router.get("/", passport.authenticate("jwt", {session: false}), (req, res) => {
     Transaction.find({}, function (err, transactions){
         if(err){
             console.err(err);

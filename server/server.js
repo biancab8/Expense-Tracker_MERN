@@ -5,8 +5,9 @@
 //API -> /routes
 //api calls with fetch()
 //hashing password with bcrypt
-//token for signed-in user with JWT jason web token
+//create token for signed-in user with JWT jason web token
 // -> store in front end cookies with js-cockie
+//create protected routes (can only access when logged in) with passport-jwt
 
 import express, { response } from "express";
 import mongoose from "mongoose";
@@ -15,10 +16,14 @@ import bodyParser from "body-parser";
 import transactionRoutes from "./routes/transactions.js";
 import authRoutes from "./routes/auth.js";
 import connectDB from "./database/mongoDB.js";
+import passport from "passport";
+import passportConfig from "./config/passport.js";
 
 const app = express();
 app.use(cors());      //to allow http requests from outside of server
 app.use(bodyParser.json()); //using jsons in http requests 
+app.use(passport.initialize());
+passportConfig(passport);
 
 //APIs
 app.use("/transactions", transactionRoutes);      

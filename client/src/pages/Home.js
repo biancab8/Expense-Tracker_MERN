@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TransactionForm from "../components/TransactionForm";
 import TransactionsTable from "../components/TransactionsTable";
 import { Container } from "@mui/system";
-
+import Cookies from "js-cookie";
 
 
 function Home() {
@@ -16,8 +16,12 @@ function Home() {
   }, []);
 
   async function fetchTransactions() {
+    const token = Cookies.get("token");
     const res = await fetch("http://localhost:4000/transactions", {
       method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     });
     //read received data
     const { data } = await res.json(); //parse entire json, returns a promise
