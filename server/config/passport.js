@@ -7,7 +7,7 @@ let opts = {};
 //store token and secret in opts: 
 //extract token from the header
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = "someSecret";
+opts.secretOrKey = process.env.JWT_SECRET;
 
 export default (passport) => {
   passport.use(

@@ -5,6 +5,7 @@ import { Container } from "@mui/system";
 import Cookies from "js-cookie";
 
 
+
 function Home() {
 
   //for the transactions to be rendered on the page
@@ -17,7 +18,7 @@ function Home() {
 
   async function fetchTransactions() {
     const token = Cookies.get("token");
-    const res = await fetch("http://localhost:4000/transactions", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`

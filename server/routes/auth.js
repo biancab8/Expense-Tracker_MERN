@@ -52,7 +52,7 @@ router.post("/login", (req, res) => {
                     username: email,
                     id: foundUser._id
                 }
-                const token = jwt.sign(payload, "someSecret");
+                const token = jwt.sign(payload, process.env.JWT_SECRET);
                 res.json({message: "successfully loged in", token: token})
 
             }

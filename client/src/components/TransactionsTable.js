@@ -22,7 +22,7 @@ export default function TransactionsTable(props) {
     if(!window.confirm("Are you sure you want to delete this item?")){
       return; 
     } else {
-      const res = await fetch(`http://localhost:4000/transactions/${id}`, {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions/${id}`, {
         method: "DELETE",
        });
       if(res.ok){

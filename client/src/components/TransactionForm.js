@@ -48,7 +48,7 @@ export default function TransactionForm(props) {
   }
 
   async function addTransaction(){
-    const res = await fetch("http://localhost:4000/transactions", {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
@@ -59,7 +59,7 @@ export default function TransactionForm(props) {
   }
 
   async function updateTransaction(){
-    const res = await fetch(`http://localhost:4000/transactions/${props.editTransaction._id}`, {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions/${props.editTransaction._id}`, {
       method: "PATCH",
       body: JSON.stringify(form),
       headers: {
