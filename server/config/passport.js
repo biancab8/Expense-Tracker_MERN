@@ -5,7 +5,7 @@ const ExtractJwt = pkg.ExtractJwt;
 
 let opts = {};
 //store token and secret in opts: 
-//extract token from the header
+//extract token from the header of the http request
 opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 opts.secretOrKey = process.env.JWT_SECRET;
 
