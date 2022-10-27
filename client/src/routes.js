@@ -18,9 +18,7 @@ export default createBrowserRouter([
       children: [
         {
           path: "/",
-          element: <CheckAuth>
-            <Home />
-          </CheckAuth>,
+          element: <CheckAuth><Home /></CheckAuth>,
         },
         {
           path: "/login",

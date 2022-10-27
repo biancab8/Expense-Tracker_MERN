@@ -1,4 +1,4 @@
-//2:09
+//3:41
 
 //DB connect -> /database
 //DB models -> /models
@@ -15,6 +15,7 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import transactionRoutes from "./routes/transactions.js";
 import authRoutes from "./routes/auth.js";
+import userRoutes from "./routes/user.js";
 import connectDB from "./database/mongoDB.js";
 import passport from "passport";
 import passportConfig from "./config/passport.js";
@@ -28,6 +29,7 @@ passportConfig(passport);
 //APIs
 app.use("/transactions", transactionRoutes);      
 app.use("/auth", authRoutes); 
+app.use("/user", userRoutes);
 
 
 

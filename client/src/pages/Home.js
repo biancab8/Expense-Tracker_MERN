@@ -24,9 +24,11 @@ function Home() {
         Authorization: `Bearer ${token}`
       }
     });
-    //read received data
-    const { data } = await res.json(); //parse entire json, returns a promise
-    setTransactions(data);
+    if(res.ok){
+      //read received data
+      const { data } = await res.json(); //parse entire json, returns a promise
+      setTransactions(data);
+    }
   }
 
   return (
