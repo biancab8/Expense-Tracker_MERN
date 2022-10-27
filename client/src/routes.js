@@ -8,30 +8,37 @@ import { Navigate } from "react-router-dom";
 import CheckAuth from "./utils/CheckAuth";
 import CheckGuest from "./utils/CheckGuest";
 
-const token = Cookies.get("token");
-
+// const token = Cookies.get("token");
 
 export default createBrowserRouter([
-    {
-      path: "/",
-      element: <App />,
-      children: [
-        {
-          path: "/",
-          element: <CheckAuth><Home /></CheckAuth>,
-        },
-        {
-          path: "/login",
-          element: <CheckGuest>
-                    <Login />
-                    </CheckGuest>,
-}, 
-        {
-          path: "/register",
-          element: <CheckGuest>
-                    <Register />
-                    </CheckGuest>,
-        },
-      ],
-    },
-  ]);
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "/",
+        element: (
+          <CheckAuth>
+            <Home />
+          </CheckAuth>
+        ),
+      },
+      {
+        path: "/login",
+        element: (
+          <CheckGuest>
+            <Login />
+          </CheckGuest>
+        ),
+      },
+      {
+        path: "/register",
+        element: (
+          <CheckGuest>
+            <Register />
+          </CheckGuest>
+        ),
+      },
+    ],
+  },
+]);

@@ -1,11 +1,12 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 
 export default function CheckAuth({children}){
-    const [verified, setVerified] = useState(true);
-    let navigate=useNavigate();
+    // let navigate=useNavigate();
+    const [verified, setVerified] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
     // props.children gives whatever is between the <CheckAuth> opening and </CheckAuth> closing tag. I.e. for:
     // <CheckAuth><Home/></CheckAuth>
     // it would give <Home />
@@ -13,27 +14,33 @@ export default function CheckAuth({children}){
     //send token to back-end to validate
     // let verified; 
     async function fetchUser(){
-
+        console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        setIsLoading(true);
         const res = await fetch(`${process.env.REACT_APP_API_URL}/user`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
         });
+
+        setIsLoading(false);
         //user could not be authorized
         if (!res.ok){
             // console.log("cannot verify user")
             // verified=false;
             setVerified(false);
-            navigate("/login");
-        } else{
-            // verified=true;
+            // navigate("/login");
+        } else {
+            setVerified(true)
         }
         // console.log("user verified")
     }
 
     //only once
-    useEffect(() => {fetchUser()}, []);
-
+    useEffect(() => {fetchUser()}, [])
+    
+    if(isLoading){
+        return <p>Loading...</p>
+    }
     return verified?children:<Navigate to="/login" replace={true} />;
     // return children;
 }
