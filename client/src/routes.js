@@ -14,7 +14,7 @@ export default createBrowserRouter([
       {
         path: "/",
         element: (
-          <CheckAuth sth="asdf">
+          <CheckAuth>
             <Home />
           </CheckAuth>
         ),
