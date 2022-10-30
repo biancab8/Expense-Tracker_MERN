@@ -4,7 +4,6 @@ import { Navigate, useNavigate} from "react-router-dom";
 
 
 export default function CheckAuth({children}){
-    console.log("RERENDERING!!!!!!!")
     let navigate=useNavigate();
     const [verified, setVerified] = useState(false);
     const [ isLoading, setIsLoading ] = useState(false);
