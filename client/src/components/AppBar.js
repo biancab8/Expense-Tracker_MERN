@@ -8,14 +8,16 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-
+import { useDispatch } from "react-redux";
+import {removeUser} from "../features/auth/authSlice";
 
 export default function ButtonAppBar() {
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   function logout(){
     Cookies.remove("token");
+    dispatch(removeUser());
     navigate("/login");
   }
 

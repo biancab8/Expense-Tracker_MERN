@@ -14,11 +14,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Cookies from "js-cookie";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { getUser } from "../features/auth/authSlice";
 
 
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -37,8 +40,9 @@ export default function Login() {
     });
     if(res.ok){
       //save JWT in cookies
-      const {token} = await res.json();
+      const {token, user} = await res.json();
       Cookies.set("token", token)
+      dispatch(getUser(user));
       //redirect user to homepage
       navigate("/");
     }
