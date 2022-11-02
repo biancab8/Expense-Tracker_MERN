@@ -9,7 +9,6 @@ export default function CheckAuth({children}){
     // it would give <Home />
 
     const auth = useSelector((state) => state.authReducer);
-    console.log("check auth: is logged in? " + auth.isAuthenticated)
 
     return auth.isAuthenticated?children:<Navigate to="/login" />;
 

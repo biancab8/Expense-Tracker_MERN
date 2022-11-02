@@ -22,10 +22,9 @@ function App() {
       },
     });
 
-    // //user could not be authorized
+    // //user is authorized
     if (res.ok) {
       const user = await res.json();
-      console.log("App: gonna dispatch and login now ")
       dispatch(getUser(user));
     }
     setIsLoading(false);
