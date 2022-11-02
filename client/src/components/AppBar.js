@@ -8,14 +8,16 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
-import {removeUser} from "../features/auth/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { removeUser } from "../features/auth/authSlice";
 
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function logout(){
+  const isAuthenticated = useSelector((state) => state.authReducer.isAuthenticated);
+
+  function logout() {
     Cookies.remove("token");
     dispatch(removeUser());
     navigate("/login");
@@ -26,15 +28,25 @@ export default function ButtonAppBar() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/" className="text-white">Expense Tracker</Link>
+            <Link to="/" className="text-white">
+              Expense Tracker
+            </Link>
           </Typography>
-            <Button onClick={logout} color="inherit">Logout</Button>
-          <Link to="/login" className="text-white">
-            <Button color="inherit">Login</Button>
-          </Link>
-          <Link to="/register" className="text-white">
-            <Button color="inherit">Register</Button>
-          </Link>
+          {isAuthenticated && (
+            <Button onClick={logout} color="inherit">
+              Logout
+            </Button>
+          )}
+          {!isAuthenticated && 
+            <>
+              <Link to="/login" className="text-white">
+                <Button color="inherit">Login</Button>
+              </Link>
+              <Link to="/register" className="text-white">
+                <Button color="inherit">Register</Button>
+              </Link>
+            </>
+          }
         </Toolbar>
       </AppBar>
     </Box>
