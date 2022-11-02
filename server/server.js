@@ -9,16 +9,13 @@
 // -> store in front end cookies with js-cockie
 //create protected routes (can only access when logged in) with passport-jwt
 
-import express, { response } from "express";
-import mongoose from "mongoose";
+import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
-import transactionRoutes from "./routes/transactions.js";
-import authRoutes from "./routes/auth.js";
-import userRoutes from "./routes/user.js";
 import connectDB from "./database/mongoDB.js";
 import passport from "passport";
 import passportConfig from "./config/passport.js";
+import routes from "./routes/index.js";
 
 const app = express();
 app.use(cors());      //to allow http requests from outside of server
@@ -27,10 +24,7 @@ app.use(passport.initialize());
 passportConfig(passport);
 
 //APIs
-app.use("/transactions", transactionRoutes);      
-app.use("/auth", authRoutes); 
-app.use("/user", userRoutes);
-
+app.use("/", routes);
 
 
 
