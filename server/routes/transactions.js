@@ -9,7 +9,7 @@ import * as TransactionController from "../controller/TransactionController.js";
 const router = Router();
 
 //handle get requests to /transactions/
-router.get("/", passport.authenticate("jwt", {session: false}), TransactionController.findTransaction
+router.get("/", TransactionController.findTransaction
 )
 
 //handle post requets to /transactions/

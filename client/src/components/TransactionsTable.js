@@ -11,12 +11,15 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
+import Cookies from "js-cookie";
+
 
 // function createData(amount, description, date) {
 //   return { amount, description, date };
 // }
 
 export default function TransactionsTable(props) {
+  const token = Cookies.get("token");
 
   async function remove(id){
     if(!window.confirm("Are you sure you want to delete this item?")){
@@ -24,6 +27,9 @@ export default function TransactionsTable(props) {
     } else {
       const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions/${id}`, {
         method: "DELETE",
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
        });
       if(res.ok){
         await props.fetchTransactions();

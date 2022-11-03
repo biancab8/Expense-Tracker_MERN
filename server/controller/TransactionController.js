@@ -3,7 +3,7 @@
 import Transaction from "../models/Transaction.js";
 
 export const findTransaction = async (req, res) => {
-    Transaction.find({}, function (err, transactions){
+    Transaction.find({user_id: req.user._id}, function (err, transactions){
         if(err){
             console.err(err);
         } else {
@@ -18,7 +18,8 @@ export const createTransaction = async (req, res) => {
     const transaction = new Transaction({
         amount: amount, 
         description: description,
-        date: date
+        date: date,
+        user_id: req.user._id,
     });
     await transaction.save(); 
     res.json({message: "Successfully added transaction to DB"});

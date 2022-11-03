@@ -8,6 +8,7 @@ import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import Cookies from "js-cookie";
 
 const initialForm = {
   amount: "",
@@ -17,6 +18,8 @@ const initialForm = {
 
 export default function TransactionForm(props) {
   const [form, setForm] = useState(initialForm);
+
+  const token = Cookies.get("token");
 
   useEffect(() => {
     if (props.editTransaction.amount !== undefined) {
@@ -53,6 +56,7 @@ export default function TransactionForm(props) {
       body: JSON.stringify(form),
       headers: {
         "content-type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     });
     return res; 
@@ -64,6 +68,7 @@ export default function TransactionForm(props) {
       body: JSON.stringify(form),
       headers: {
         "content-type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
     });
     return res; 
