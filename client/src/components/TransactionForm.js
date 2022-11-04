@@ -82,6 +82,11 @@ export default function TransactionForm(props) {
     return res;
   }
 
+  function getCategoryNameById(){
+    return categories.find((category) => category._id === form.category_id) ?? ""
+    //categories is DB array with name + ids
+  }
+
   return (
     <Card
       sx={{
@@ -125,7 +130,7 @@ export default function TransactionForm(props) {
             />
 
             <Autocomplete
-              value={form.category_id} //
+              value={getCategoryNameById()} 
               onChange={(event, newValue) => {
                 setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
               }}

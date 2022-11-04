@@ -50,6 +50,7 @@ export default function TransactionsTable(props) {
             <TableRow>
               <TableCell align="center">Amount</TableCell>
               <TableCell align="center">Description</TableCell>
+              <TableCell align="center">Category</TableCell>
               <TableCell align="center">Date</TableCell>
               <TableCell align="center">Action</TableCell>
             </TableRow>
@@ -62,6 +63,7 @@ export default function TransactionsTable(props) {
               >
                 <TableCell align="center">{transaction.amount}</TableCell>
                 <TableCell align="center">{transaction.description}</TableCell>
+                <TableCell align="center">{transaction.category_id}</TableCell>
                 <TableCell align="center">{formatDate(transaction.date)}</TableCell>
                 <TableCell align="center">
                   <IconButton color="primary" component="label" onClick={() => props.setEditTransaction(transaction)}>
