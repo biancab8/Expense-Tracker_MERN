@@ -1,15 +1,16 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
 export const authSlice = createSlice({
     name: "auth", 
     initialState: {
         isAuthenticated: false, 
-        user: {categories: []},
+        user: {categories: [{label: "Miscellaneous"}]},
     },
     reducers: {
         setUser: (state, {payload}) => {
-            state.user = {...state, ...payload.user};
-            // state.user = payload; 
+            // state.user = {...state, ...payload.user};
+            state.user = {...state, ...payload.user}; 
             // state.user = {categories: [{label: "abc"}]}
             // console.log("in slice")
             // console.log(payload.user.categories)
