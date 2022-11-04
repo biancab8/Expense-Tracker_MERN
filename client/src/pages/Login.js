@@ -12,10 +12,10 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getUser } from "../features/auth/authSlice";
+import { setUser } from "../features/auth/authSlice";
 
 
 
@@ -39,10 +39,13 @@ export default function Login() {
       }
     });
     if(res.ok){
-      //save JWT in cookies
+      //save JWT in Cookie
       const {token, user} = await res.json();
-      Cookies.set("token", token)
-      dispatch(getUser(user));
+      Cookie.set("token", token)
+      // console.log("in login: ")
+      // console.log(user)
+      // console.log("log in out")
+      dispatch(setUser(user));
       //redirect user to homepage
       navigate("/");
     }

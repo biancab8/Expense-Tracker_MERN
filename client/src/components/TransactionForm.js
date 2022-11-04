@@ -3,29 +3,50 @@ import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
+import Autocomplete from "@mui/material/Autocomplete";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
+import { useSelector, useDispatch } from 'react-redux';
 
 const initialForm = {
   amount: "",
   description: "",
   date: new Date(),
-};
+  category_id: "",
+};//mongo automatically creates an _id field for each member of an array
+
 
 export default function TransactionForm(props) {
+  // const categories =  useSelector(state => state.authReducer.user.categories);
+  const cats = useSelector(state => state.authReducer.user.categories);
+  const categories = cats?cats:[{label: "abc"}]
+  const token = Cookie.get("token");
+  
   const [form, setForm] = useState(initialForm);
 
-  const token = Cookies.get("token");
+  // const [categories, setCategories] = useState([]);
+  // const categoryOptions = useSelector(state => state.authReducer.user.categories);
+// TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// made categories a state variable because: 
+// useSelector returns undefined on first render, so will get err msg until refresh page
+// -> find better way to do this. If so, also remove the if/else part for categoryOptions from useEffect
 
   useEffect(() => {
     if (props.editTransaction.amount !== undefined) {
       setForm(props.editTransaction);
     }
-  }, [props.editTransaction.amount]); //run whenever this var changes/is updated
+    // if(categoryOptions){
+    //   setCategories(categoryOptions);
+    // } 
+    // else {
+    //   window.location.reload();
+    // }
+  }, [props.editTransaction.amount, cats]); //run whenever this var changes/is updated
 
   function handleChange(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -38,8 +59,8 @@ export default function TransactionForm(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     let res;
-    if(props.editTransaction.amount === undefined){
-      res = await addTransaction(); 
+    if (props.editTransaction.amount === undefined) {
+      res = await addTransaction();
     } else {
       res = await updateTransaction();
     }
@@ -47,33 +68,34 @@ export default function TransactionForm(props) {
       setForm(initialForm);
       props.fetchTransactions();
     }
-
   }
 
-  async function addTransaction(){
+  async function addTransaction() {
     const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
         "content-type": "application/json",
-        "Authorization": `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
     });
-    return res; 
+    return res;
   }
 
-  async function updateTransaction(){
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions/${props.editTransaction._id}`, {
-      method: "PATCH",
-      body: JSON.stringify(form),
-      headers: {
-        "content-type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-    });
-    return res; 
+  async function updateTransaction() {
+    const res = await fetch(
+      `${process.env.REACT_APP_API_URL}/transactions/${props.editTransaction._id}`,
+      {
+        method: "PATCH",
+        body: JSON.stringify(form),
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    return res;
   }
-
 
   return (
     <Card
@@ -84,7 +106,7 @@ export default function TransactionForm(props) {
     >
       <CardContent>
         <Typography variant="h6">Add New Transaction</Typography>
-        <form onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} sx={{display: "flex"}}>
           <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
@@ -116,6 +138,23 @@ export default function TransactionForm(props) {
                 <TextField sx={{ marginRight: 5 }} size="small" {...params} />
               )}
             />
+
+            <Autocomplete
+              value={form.category_id} //
+              onChange={(event, newValue) => {
+                setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
+              }}
+              id="controllable-states-demo"
+              options={categories}
+              sx={{ width: 200, marginRight: 5 }}
+              // defaultValue={[]}
+              renderInput={(params) => (
+                <TextField {...params} size="small" label="Category" />
+              )}
+            />
+
+
+
           </LocalizationProvider>
           {props.editTransaction.amount !== undefined && (
             <Button type="submit" variant="secondary">
@@ -127,7 +166,7 @@ export default function TransactionForm(props) {
               Submit
             </Button>
           )}
-        </form>
+        </Box>
       </CardContent>
     </Card>
   );

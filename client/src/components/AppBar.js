@@ -7,7 +7,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../features/auth/authSlice";
 
@@ -18,7 +18,7 @@ export default function ButtonAppBar() {
   const isAuthenticated = useSelector((state) => state.authReducer.isAuthenticated);
 
   function logout() {
-    Cookies.remove("token");
+    Cookie.remove("token");
     dispatch(removeUser());
     navigate("/login");
   }

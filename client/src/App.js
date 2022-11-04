@@ -1,9 +1,9 @@
 import AppBar from "./components/AppBar";
 import { Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getUser } from "./features/auth/authSlice";
+import { setUser } from "./features/auth/authSlice.js"
 import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
 import { useNavigate } from "react-router-dom";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
   let navigate = useNavigate();
   const [verified, setVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const token = Cookies.get("token");
+  const token = Cookie.get("token");
   async function fetchUser() {
     //verify token+user
 
@@ -25,7 +25,9 @@ function App() {
     // //user is authorized
     if (res.ok) {
       const user = await res.json();
-      dispatch(getUser(user));
+      console.log(user)
+      console.log('in app ')
+      dispatch(setUser(user));
     }
     setIsLoading(false);
     // else {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import TransactionForm from "../components/TransactionForm";
 import TransactionsTable from "../components/TransactionsTable";
 import { Container } from "@mui/system";
-import Cookies from "js-cookie";
+import Cookie from "js-cookie";
 
 
 
@@ -17,7 +17,7 @@ function Home() {
   }, []);
 
   async function fetchTransactions() {
-    const token = Cookies.get("token");
+    const token = Cookie.get("token");
     const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
       method: "GET",
       headers: {

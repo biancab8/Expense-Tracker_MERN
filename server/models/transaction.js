@@ -13,6 +13,7 @@ const transactionSchema = new mongoose.Schema({
         default: Date().now
     },
     user_id: mongoose.Types.ObjectId,
+    category_id: mongoose.Types.ObjectId,
 })
 
 //create model
