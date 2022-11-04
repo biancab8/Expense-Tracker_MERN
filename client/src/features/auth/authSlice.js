@@ -5,17 +5,12 @@ export const authSlice = createSlice({
     name: "auth", 
     initialState: {
         isAuthenticated: false, 
-        user: {categories: [{label: "Miscellaneous"}]},
+        user: {},
     },
     reducers: {
-        setUser: (state, {payload}) => {
-            // state.user = {...state, ...payload.user};
-            state.user = {...state, ...payload.user}; 
-            // state.user = {categories: [{label: "abc"}]}
-            // console.log("in slice")
-            // console.log(payload.user.categories)
-            // console.log("sssssssssssssssssss")
-            state.isAuthenticated = true; 
+        setUser: (state, action) => {
+            state.user = action.payload
+            state.isAuthenticated = true 
         },
         removeUser: (state) => {
             state.user = {};

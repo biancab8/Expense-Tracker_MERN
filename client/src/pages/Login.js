@@ -42,9 +42,6 @@ export default function Login() {
       //save JWT in Cookie
       const {token, user} = await res.json();
       Cookie.set("token", token)
-      // console.log("in login: ")
-      // console.log(user)
-      // console.log("log in out")
       dispatch(setUser(user));
       //redirect user to homepage
       navigate("/");

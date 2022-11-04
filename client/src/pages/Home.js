@@ -5,7 +5,6 @@ import { Container } from "@mui/system";
 import Cookie from "js-cookie";
 
 
-
 function Home() {
 
   //for the transactions to be rendered on the page

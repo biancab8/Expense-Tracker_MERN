@@ -22,26 +22,14 @@ const initialForm = {
 
 
 export default function TransactionForm(props) {
-  // const categories =  useSelector(state => state.authReducer.user.categories);
-  // const categories = cats?cats:[{label: "abc"}]
+  let categories =  useSelector(state => state.authReducer.user.categories);
+
   const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
-
-  const [categories, setCategories] = useState([]);
-  const categoryOptions = useSelector(state => state.authReducer.user.categories);
-// TODO: !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-// made categories a state variable because: 
-// useSelector returns undefined on first render, so will get err msg until refresh page
-// -> find better way to do this. If so, also remove the if/else part for categoryOptions from useEffect
 
   useEffect(() => {
     if (props.editTransaction.amount !== undefined) {
       setForm(props.editTransaction);
-    }
-    if(categoryOptions){
-      setCategories(categoryOptions);
-    } else {
-      window.location.reload();
     }
   }, [props.editTransaction.amount]); //run whenever this var changes/is updated
 

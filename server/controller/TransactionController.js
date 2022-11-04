@@ -8,8 +8,7 @@ export const findTransaction = async (req, res) => {
             console.err(err);
         } else {
             //won't actually be sent back before rest of function finished. (bc not saying return res.json())
-            console.log(transactions)
-            console.log(req.user._id)
+
             res.json({data: transactions});
         }
     }).sort({date: "descending"})
