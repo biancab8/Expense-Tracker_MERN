@@ -18,18 +18,30 @@ import { useSelector } from "react-redux";
 
 
 export default function Categories() {
-  const token = Cookie.get("token");
+const token = Cookie.get("token");
+const user = useSelector((state) => state.authReducer.user);
 
-  function formatDate(date){
-    return dayjs(date).format("MMM DD, YYYY");
-  }
+//   function formatDate(date){
+//     return dayjs(date).format("MMM DD, YYYY");
+//   }
 
-  const user = useSelector((state) => state.authReducer.user);
-  function CategoryNameById(id){
-    //get category array (w/ names + ids) from user from the store, then compare id with those to get the name
-    const category = user.categories.find(category => category._id === id);
-    return category?category.label:"NA";
 
+//   function CategoryNameById(id){
+//     //get category array (w/ names + ids) from user from the store, then compare id with those to get the name
+//     const category = user.categories.find(category => category._id === id);
+//     return category?category.label:"NA";
+//   }
+
+  async function remove(id){
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
+        method: "DELETE",
+        header: {
+            Authorization: `Bearer ${token}`
+        }
+    })
+    if(res.ok){
+        console.log("you did it you bastard.")
+    }
   }
 
   return (
@@ -61,7 +73,7 @@ export default function Categories() {
                     <EditIcon />
                   </IconButton>
                   <IconButton color="warning" component="label" 
-                  // onClick={() => {remove(transaction._id)}}
+                  onClick={() => {remove(category._id)}}
                   >
                     <DeleteIcon />
                   </IconButton>

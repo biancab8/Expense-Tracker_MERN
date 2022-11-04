@@ -18,7 +18,8 @@ import { useSelector } from "react-redux";
 
 export default function Categories(props) {
   const token = Cookie.get("token");
-
+  const user = useSelector((state) => state.authReducer.user);
+  
   async function remove(id){
     if(!window.confirm("Are you sure you want to delete this item?")){
       return; 
@@ -40,7 +41,7 @@ export default function Categories(props) {
     return dayjs(date).format("MMM DD, YYYY");
   }
 
-  const user = useSelector((state) => state.authReducer.user);
+
   function CategoryNameById(id){
     //get category array (w/ names + ids) from user from the store, then compare id with those to get the name
     const category = user.categories.find(category => category._id === id);
