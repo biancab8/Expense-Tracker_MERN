@@ -12,6 +12,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import Cookie from "js-cookie";
+import { useSelector } from "react-redux";
 
 
 
@@ -39,6 +40,14 @@ export default function TransactionsTable(props) {
     return dayjs(date).format("MMM DD, YYYY");
   }
 
+  const user = useSelector((state) => state.authReducer.user);
+  function CategoryNameById(id){
+    //get category array (w/ names + ids) from user from the store, then compare id with those to get the name
+    const category = user.categories.find(category => category._id === id);
+    return category?category.label:"NA";
+
+  }
+
   return (
     <>
       <Typography sx={{ marginTop: 10 }} variant="h6">
@@ -63,7 +72,7 @@ export default function TransactionsTable(props) {
               >
                 <TableCell align="center">{transaction.amount}</TableCell>
                 <TableCell align="center">{transaction.description}</TableCell>
-                <TableCell align="center">{transaction.category_id}</TableCell>
+                <TableCell align="center">{CategoryNameById(transaction.category_id)}</TableCell>
                 <TableCell align="center">{formatDate(transaction.date)}</TableCell>
                 <TableCell align="center">
                   <IconButton color="primary" component="label" onClick={() => props.setEditTransaction(transaction)}>
