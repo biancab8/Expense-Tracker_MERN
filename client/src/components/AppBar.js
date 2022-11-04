@@ -15,7 +15,9 @@ export default function ButtonAppBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const isAuthenticated = useSelector((state) => state.authReducer.isAuthenticated);
+  const isAuthenticated = useSelector(
+    (state) => state.authReducer.isAuthenticated
+  );
 
   function logout() {
     Cookie.remove("token");
@@ -33,11 +35,16 @@ export default function ButtonAppBar() {
             </Link>
           </Typography>
           {isAuthenticated && (
+            <Link to="/categories" className="text-white">
+              <Button color="inherit">Edit Categories</Button>
+            </Link>
+          )}
+          {isAuthenticated && (
             <Button onClick={logout} color="inherit">
               Logout
             </Button>
           )}
-          {!isAuthenticated && 
+          {!isAuthenticated && (
             <>
               <Link to="/login" className="text-white">
                 <Button color="inherit">Login</Button>
@@ -46,7 +53,7 @@ export default function ButtonAppBar() {
                 <Button color="inherit">Register</Button>
               </Link>
             </>
-          }
+          )}
         </Toolbar>
       </AppBar>
     </Box>
