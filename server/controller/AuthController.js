@@ -56,7 +56,7 @@ export const loginUser = (req, res) => {
                     id: foundUser._id
                 }
                 const token = jwt.sign(payload, process.env.JWT_SECRET);
-                res.json({message: "successfully loged in", token: token, user:foundUser})
+                res.json({message: "successfully logged in", token: token, user:foundUser})
             }
         } else {
             console.log("User credentials not found.")

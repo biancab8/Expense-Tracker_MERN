@@ -13,35 +13,32 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import Cookie from "js-cookie";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../features/auth/authSlice";
 
 
 
 export default function Categories() {
 const token = Cookie.get("token");
 const user = useSelector((state) => state.authReducer.user);
-
-//   function formatDate(date){
-//     return dayjs(date).format("MMM DD, YYYY");
-//   }
-
-
-//   function CategoryNameById(id){
-//     //get category array (w/ names + ids) from user from the store, then compare id with those to get the name
-//     const category = user.categories.find(category => category._id === id);
-//     return category?category.label:"NA";
-//   }
+const dispatch = useDispatch();
 
   async function remove(id){
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
+    if(!window.confirm("Are you sure you want to delete this item?")){
+        return; 
+      } else {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/categories/${id}`, {
         method: "DELETE",
-        header: {
+        headers: {
             Authorization: `Bearer ${token}`
         }
     })
     if(res.ok){
-        console.log("you did it you bastard.")
+        const {user} = await res.json();
+        dispatch(setUser(user)) //update user in store so that page refreshes
+        window.alert("Item successfully deleted.")
     }
+}
   }
 
   return (
