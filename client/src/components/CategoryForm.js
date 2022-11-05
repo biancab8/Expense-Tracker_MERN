@@ -11,53 +11,56 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
+import { setUser } from "../features/auth/authSlice";
 
 const initialForm = {
-  amount: "",
-  description: "",
-  date: new Date(),
-  category_id: "",
-};//mongo automatically creates an _id field for each member of an array
+  label: "",
+  icon: "",
+}; //mongo automatically creates an _id field for each member of an array
 
-
-export default function TransactionForm(props) {
-  let categories =  useSelector(state => state.authReducer.user.categories);
+export default function CategoryForm(props) {
+  const dispatch = useDispatch();
+  let categories = useSelector((state) => state.authReducer.user.categories);
 
   const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
-    if (props.editTransaction.amount !== undefined) {
-      setForm(props.editTransaction);
+    if (props.editCategory._id !== undefined) {
+      setForm(props.editCategory);
     }
-  }, [props.editTransaction.amount]); //run whenever this var changes/is updated
+  }, [props.editCategory._id]); //run whenever this var changes/is updated
 
   function handleChange(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
   }
 
   function handleDateChange(newDate) {
-    setForm({ ...form, date: newDate });
+    // setForm({ ...form, date: newDate });
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
     let res;
-    if (props.editTransaction.amount === undefined) {
-      res = await addTransaction();
+    if (props.editCategory._id === undefined) {
+      res = await addCategory();
     } else {
-      res = await updateTransaction();
+        res = await updateCategory();
     }
     if (res.ok) {
+      const {user} = await res.json();
+    //   console.log(user)
+    if(props.editCategory){
+        props.setEditCategory({});
+    }
       setForm(initialForm);
-      props.setEditTransaction({});
-      props.fetchTransactions();
+      dispatch(setUser(user));
     }
   }
 
-  async function addTransaction() {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
+  async function addCategory() {
+    const res = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
@@ -68,9 +71,9 @@ export default function TransactionForm(props) {
     return res;
   }
 
-  async function updateTransaction() {
+  async function updateCategory() {
     const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/transactions/${props.editTransaction._id}`,
+      `${process.env.REACT_APP_API_URL}/categories/${props.editCategory._id}`,
       {
         method: "PATCH",
         body: JSON.stringify(form),
@@ -83,8 +86,8 @@ export default function TransactionForm(props) {
     return res;
   }
 
-  function getCategoryNameById(){
-    return categories.find((category) => category._id === form.category_id) ?? ""
+  function getCategoryNameById() {
+    // return categories.find((category) => category._id === form.category_id) ?? ""
     //categories is DB array with name + ids
   }
 
@@ -96,30 +99,32 @@ export default function TransactionForm(props) {
       }}
     >
       <CardContent>
-        <Typography variant="h6">{props.editTransaction.amount?"Edit ":"Add New"} Transaction</Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{display: "flex"}}>
+        <Typography variant="h6">
+          {props.editCategory._id ? "Edit " : "Add New"} Category
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
           <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
             size="small"
             id="outlined-basic"
-            label="Amount"
+            label="Label"
             variant="outlined"
-            value={form.amount}
-            name="amount"
+            value={form.label}
+            name="label"
           />
           <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
             size="small"
             id="outlined-basic"
-            label="Description"
+            label="Icon"
             variant="outlined"
-            value={form.description}
-            name="description"
+            value={form.icon}
+            name="icon"
           />
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DesktopDatePicker
+          {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
+          {/* <DesktopDatePicker
               label="Transaction Date"
               inputFormat="MM/DD/YYYY"
               //   value={value}
@@ -128,9 +133,9 @@ export default function TransactionForm(props) {
               renderInput={(params) => (
                 <TextField sx={{ marginRight: 5 }} size="small" {...params} />
               )}
-            />
+            /> */}
 
-            <Autocomplete
+          {/* <Autocomplete
               value={getCategoryNameById()} 
               onChange={(event, newValue) => {
                 setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
@@ -143,15 +148,15 @@ export default function TransactionForm(props) {
               renderInput={(params) => (
                 <TextField {...params} size="small" label="Category" />
               )}
-            />
+            /> */}
 
-          </LocalizationProvider>
-          {props.editTransaction.amount !== undefined && (
+          {/* </LocalizationProvider> */}
+          {props.editCategory._id !== undefined && (
             <Button type="submit" variant="secondary">
               Edit
             </Button>
           )}
-          {props.editTransaction.amount === undefined && (
+          {props.editCategory._id === undefined && (
             <Button type="submit" variant="contained">
               Submit
             </Button>

@@ -34,6 +34,7 @@ function Home() {
       <Container>
         <TransactionForm fetchTransactions={fetchTransactions} 
           editTransaction={editTransaction}
+          setEditTransaction={setEditTransaction}
         />
         <br />
         <TransactionsTable transactions={transactions} 
