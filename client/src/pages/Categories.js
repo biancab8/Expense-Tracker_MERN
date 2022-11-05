@@ -66,8 +66,10 @@ export default function Categories() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {user.categories && user.categories.length > 0 ? (
-              user.categories.map((category) => (
+          {/* don't allow category 'Other' to be edited or deleted */}
+              {user.categories.map((category) => {
+                if(category.label!== "Other"){
+                  return (
                 <TableRow
                   key={category._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -93,10 +95,10 @@ export default function Categories() {
                     </IconButton>
                   </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <></>         
-            )}
+                
+              )}})
+              }
+
           </TableBody>
         </Table>
       </TableContainer>

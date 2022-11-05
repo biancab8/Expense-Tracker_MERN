@@ -112,6 +112,7 @@ export default function CategoryForm(props) {
             variant="outlined"
             value={form.label}
             name="label"
+            required
           />
           <TextField
             onChange={handleChange}
@@ -123,32 +124,7 @@ export default function CategoryForm(props) {
             value={form.icon}
             name="icon"
           />
-          {/* <LocalizationProvider dateAdapter={AdapterDayjs}> */}
-          {/* <DesktopDatePicker
-              label="Transaction Date"
-              inputFormat="MM/DD/YYYY"
-              //   value={value}
-              onChange={handleDateChange}
-              value={form.date}
-              renderInput={(params) => (
-                <TextField sx={{ marginRight: 5 }} size="small" {...params} />
-              )}
-            /> */}
 
-          {/* <Autocomplete
-              value={getCategoryNameById()} 
-              onChange={(event, newValue) => {
-                setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
-              }}
-              id="controllable-states-demo"
-              options={categories}
-              isOptionEqualToValue={(option, value) => option.id === value.id}
-              sx={{ width: 200, marginRight: 5 }}
-              // defaultValue={[]}
-              renderInput={(params) => (
-                <TextField {...params} size="small" label="Category" />
-              )}
-            /> */}
 
           {/* </LocalizationProvider> */}
           {props.editCategory._id !== undefined && (

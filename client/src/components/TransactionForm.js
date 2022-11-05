@@ -12,6 +12,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
 import { useSelector, useDispatch } from 'react-redux';
+import { FormControl, InputLabel, OutlinedInput, InputAdornment } from "@mui/material";
 
 const initialForm = {
   amount: "",
@@ -98,16 +99,24 @@ export default function TransactionForm(props) {
       <CardContent>
         <Typography variant="h6">{props.editTransaction.amount?"Edit ":"Add New"} Transaction</Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{display: "flex"}}>
+          
           <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
             size="small"
-            id="outlined-basic"
+            // id="outlined-basic"
+            id="outlined-start-adornment"
             label="Amount"
             variant="outlined"
             value={form.amount}
             name="amount"
+            type="number"
+            required
+            InputProps={{
+            startAdornment: <InputAdornment position="start">$</InputAdornment>,
+          }}
           />
+
           <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
@@ -117,6 +126,7 @@ export default function TransactionForm(props) {
             variant="outlined"
             value={form.description}
             name="description"
+            required
           />
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
@@ -141,7 +151,7 @@ export default function TransactionForm(props) {
               sx={{ width: 200, marginRight: 5 }}
               // defaultValue={[]}
               renderInput={(params) => (
-                <TextField {...params} size="small" label="Category" />
+                <TextField {...params} size="small" label="Category" required/>
               )}
             />
 

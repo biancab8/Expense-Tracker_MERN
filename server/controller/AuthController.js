@@ -7,6 +7,7 @@ const categories = [
     { label: "Shopping", icon: "user" },
     { label: "Investment", icon: "user" },
     { label: "Bills", icon: "user" },
+    { label: "Other", icon: "user"},
   ];
 
 export const registerUser = (req, res) => {
