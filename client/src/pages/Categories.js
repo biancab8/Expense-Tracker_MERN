@@ -17,12 +17,33 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
 import CategoryForm from "../components/CategoryForm";
 import { useState } from "react";
+import AcUnitIcon from "@mui/icons-material/AcUnit";
+import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
+
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
+import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
+import PaidIcon from '@mui/icons-material/Paid';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+
+import getIcon from "../utils/getIcon";
 
 export default function Categories() {
   const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
   const dispatch = useDispatch();
 
+  // const icons = {
+  //   "travel": <WbSunnyIcon/>,
+  //   "shopping": <ShoppingCartIcon/>,
+  //   "health": <LocalHospitalIcon/>, 
+  //   "bills": <ReceiptLongIcon/>, 
+  //   "leisure": <EmojiEmotionsIcon/>,
+  //   "other": <AttachMoneyIcon/>,
+  // }
   //to populate the category form with data of the state to be edited
   const [editCategory, setEditCategory] = useState({});
 
@@ -42,40 +63,39 @@ export default function Categories() {
       if (res.ok) {
         const { user } = await res.json();
         dispatch(setUser(user)); //update user in store so that page refreshes
-        window.alert("Item successfully deleted.");
       }
     }
   }
 
+
   return (
-    <Container>
+    <Container align="center" sx={{ width:'40%', minWidth: 720}}>
       <CategoryForm
         editCategory={editCategory}
         setEditCategory={setEditCategory}
       ></CategoryForm>
-      <Typography sx={{ marginTop: 10 }} variant="h6">
+      <Typography  sx={{ marginTop: 10,  marginBottom:1}} variant="h6">
         Lists of Categories
       </Typography>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer component={Paper} sx={{width:'70%'}}>
+        <Table sx={{ minWidth: 400}} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="center">Label</TableCell>
-              <TableCell align="center">Icon</TableCell>
+              {/* <TableCell align="center">Icon</TableCell> */}
               <TableCell align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-          {/* don't allow category 'Other' to be edited or deleted */}
               {user.categories.map((category) => {
-                if(category.label!== "Other"){
+                if(!category.icon.default){ //only allow non-default categories to be deleted/changed, so don't show those here
                   return (
                 <TableRow
                   key={category._id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center">{category.label}</TableCell>
-                  <TableCell align="center">{category.icon}</TableCell>
+                  {/* <TableCell align="center">{icons[category.icon.name]}</TableCell> */}
                   <TableCell align="center">
                     <IconButton
                       color="primary"

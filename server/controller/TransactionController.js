@@ -11,7 +11,8 @@ export const findTransaction = async (req, res) => {
 
             res.json({data: transactions});
         }
-    }).sort({date: "descending"})
+    }).sort({date: "descending", createdAt: "descending"})
+    //also sort by createdAt so that same date but more recently created will be at top
 }
 
 export const createTransaction = async (req, res) => {

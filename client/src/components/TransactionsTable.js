@@ -13,45 +13,55 @@ import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import Cookie from "js-cookie";
 import { useSelector } from "react-redux";
-
-
+import getIcon from "../utils/getIcon";
+import Box from "@mui/material/Box";
+import { Fragment } from "react";
+import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 
 export default function Categories(props) {
   const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
-  
-  async function remove(id){
-    if(!window.confirm("Are you sure you want to delete this item?")){
-      return; 
+
+  async function remove(id) {
+    if (!window.confirm("Are you sure you want to delete this item?")) {
+      return;
     } else {
-      const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`
+      const res = await fetch(
+        `${process.env.REACT_APP_API_URL}/transactions/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-       });
-      if(res.ok){
+      );
+      if (res.ok) {
         await props.fetchTransactions();
-        window.alert("Item successfully deleted.")
       }
     }
   }
 
-  function formatDate(date){
+  function formatDate(date) {
     return dayjs(date).format("MMM DD, YYYY");
   }
 
-
-  function CategoryNameById(id){
+  function categoryNameById(id) {
     //get category array (w/ names + ids) from user from the store, then compare id with those to get the name
-    const category = user.categories.find(category => category._id === id);
-    return category?category.label:"NA";
+    const category = user.categories.find((category) => category._id === id);
+    return category ? category.label : "NA";
+  }
 
+  function numToCurrency(num) {
+    const formatter = new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 2, //max nr of minor digits
+    });
+    return formatter.format(num);
   }
 
   return (
     <>
-      <Typography sx={{ marginTop: 10 }} variant="h6">
+      <Typography  sx={{ marginTop: 10, marginBottom:1 }} variant="h6">
         Lists of Transactions
       </Typography>
       <TableContainer component={Paper}>
@@ -61,6 +71,7 @@ export default function Categories(props) {
               <TableCell align="center">Amount</TableCell>
               <TableCell align="center">Description</TableCell>
               <TableCell align="center">Category</TableCell>
+              {/* <TableCell align="center"></TableCell> */}
               <TableCell align="center">Date</TableCell>
               <TableCell align="center">Action</TableCell>
             </TableRow>
@@ -71,15 +82,41 @@ export default function Categories(props) {
                 key={transaction._id}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="center">{transaction.amount}</TableCell>
-                <TableCell align="center">{transaction.description}</TableCell>
-                <TableCell align="center">{CategoryNameById(transaction.category_id)}</TableCell>
-                <TableCell align="center">{formatDate(transaction.date)}</TableCell>
                 <TableCell align="center">
-                  <IconButton color="primary" component="label" onClick={() => props.setEditTransaction(transaction)}>
+                  {"$" + numToCurrency(transaction.amount)}
+                </TableCell>
+                <TableCell align="center">{transaction.description}</TableCell>
+
+                <TableCell align="center">
+                  <Grid container>
+                    <Grid item xs={1} />
+                    <Grid item xs={4} align="center">
+                      {getIcon(categoryNameById(transaction.category_id))}
+                    </Grid>
+                    <Grid item xs={6} align="left">
+                      {categoryNameById(transaction.category_id)}
+                    </Grid>
+                  </Grid>
+                </TableCell>
+
+                <TableCell align="center">
+                  {formatDate(transaction.date)}
+                </TableCell>
+                <TableCell align="center">
+                  <IconButton
+                    color="primary"
+                    component="label"
+                    onClick={() => props.setEditTransaction(transaction)}
+                  >
                     <EditIcon />
                   </IconButton>
-                  <IconButton color="warning" component="label" onClick={() => {remove(transaction._id)}}>
+                  <IconButton
+                    color="warning"
+                    component="label"
+                    onClick={() => {
+                      remove(transaction._id);
+                    }}
+                  >
                     <DeleteIcon />
                   </IconButton>
                 </TableCell>

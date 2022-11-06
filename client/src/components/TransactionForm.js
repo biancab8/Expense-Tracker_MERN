@@ -11,19 +11,23 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
-import { useSelector, useDispatch } from 'react-redux';
-import { FormControl, InputLabel, OutlinedInput, InputAdornment } from "@mui/material";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  FormControl,
+  InputLabel,
+  OutlinedInput,
+  InputAdornment,
+} from "@mui/material";
 
 const initialForm = {
   amount: "",
   description: "",
   date: new Date(),
   category_id: "",
-};//mongo automatically creates an _id field for each member of an array
-
+}; //mongo automatically creates an _id field for each member of an array
 
 export default function TransactionForm(props) {
-  let categories =  useSelector(state => state.authReducer.user.categories);
+  let categories = useSelector((state) => state.authReducer.user.categories);
 
   const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
@@ -84,8 +88,10 @@ export default function TransactionForm(props) {
     return res;
   }
 
-  function getCategoryNameById(){
-    return categories.find((category) => category._id === form.category_id) ?? ""
+  function getCategoryNameById() {
+    return (
+      categories.find((category) => category._id === form.category_id) ?? ""
+    );
     //categories is DB array with name + ids
   }
 
@@ -97,9 +103,10 @@ export default function TransactionForm(props) {
       }}
     >
       <CardContent>
-        <Typography variant="h6">{props.editTransaction.amount?"Edit ":"Add New"} Transaction</Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{display: "flex"}}>
-          
+        <Typography variant="h6" sx={{marginBottom: 2}}>
+          {props.editTransaction.amount ? "Edit " : "Add New"} Transaction
+        </Typography>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
           <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
@@ -113,8 +120,10 @@ export default function TransactionForm(props) {
             type="number"
             required
             InputProps={{
-            startAdornment: <InputAdornment position="start">$</InputAdornment>,
-          }}
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
           />
 
           <TextField
@@ -123,6 +132,7 @@ export default function TransactionForm(props) {
             size="small"
             id="outlined-basic"
             label="Description"
+            inputProps={{ maxLength: 35 }}
             variant="outlined"
             value={form.description}
             name="description"
@@ -141,20 +151,24 @@ export default function TransactionForm(props) {
             />
 
             <Autocomplete
-              value={getCategoryNameById()} 
+              value={getCategoryNameById()}
               onChange={(event, newValue) => {
                 setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
               }}
-              id="controllable-states-demo"
+              id="categories-dropdown"
               options={categories}
               isOptionEqualToValue={(option, value) => option.id === value.id}
               sx={{ width: 200, marginRight: 5 }}
-              // defaultValue={[]}
+              // renderOption: Autocomplete uses the category label as a key. If user enters 2 categories with same name, will give error due to identical keys. Using option._id which refers to category._id overwrites the key and makes it unique no matter what
+              renderOption={(props, option) => (
+                <Box component="li" {...props} key={option._id}>
+                  {option.label}
+                </Box>
+              )}
               renderInput={(params) => (
-                <TextField {...params} size="small" label="Category" required/>
+                <TextField {...params} size="small" label="Category" required />
               )}
             />
-
           </LocalizationProvider>
           {props.editTransaction.amount !== undefined && (
             <Button type="submit" variant="secondary">

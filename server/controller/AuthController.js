@@ -3,14 +3,16 @@ import bcrypt  from "bcrypt"
 import jwt from "jsonwebtoken";
 
 const categories = [
-    { label: "Travel", icon: "user" },
-    { label: "Shopping", icon: "user" },
-    { label: "Investment", icon: "user" },
-    { label: "Bills", icon: "user" },
-    { label: "Other", icon: "user"},
+    { label: "Travel", icon: {name: "travel", default: true} },
+    { label: "Shopping", icon: {name: "shopping", default: true} },
+    { label: "Health", icon: {name: "health", default: true }},
+    { label: "Bills", icon: {name: "bills", default: true }},
+    { label: "Leisure", icon: {name: "leisure", default: true}},
+    { label: "Other", icon: {name: "other", default: true}},
   ];
 
-export const registerUser = (req, res) => {
+
+  export const registerUser = (req, res) => {
     //get data from req
     // console.log(req.body)
     const {email, firstName, lastName, password} = req.body;
