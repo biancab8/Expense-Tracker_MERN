@@ -9,7 +9,7 @@ import * as TransactionController from "../controller/TransactionController.js";
 const router = Router();
 
 //handle get requests to /transactions/
-router.get("/", TransactionController.findTransaction)
+router.get("/", TransactionController.findTransactions)
 
 router.get("/dateFilter/:startDate/:endDate", TransactionController.filterByDate);
 

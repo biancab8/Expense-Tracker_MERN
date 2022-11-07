@@ -2,18 +2,65 @@
 
 import Transaction from "../models/Transaction.js";
 
-export const findTransaction = async (req, res) => {
-    Transaction.find({user_id: req.user._id}, function (err, transactions){
-        if(err){
-            console.err(err);
-        } else {
-            //won't actually be sent back before rest of function finished. (bc not saying return res.json())
+// export const findTransactions = async (req, res) => {
+//     Transaction.find({user_id: req.user._id}, function (err, transactions){
+//         if(err){
+//             console.err(err);
+//         } else {
+//             //won't actually be sent back before rest of function finished. (bc not saying return res.json())
 
-            res.json({data: transactions});
+//             res.json({data: transactions});
+//         }
+//     }).sort({date: "descending", createdAt: "descending"})
+//     //also sort by createdAt so that same date but more recently created will be at top
+// }
+
+export const findTransactions = async (req, res) => {
+    Transaction.aggregate([
+        //only look at transactions for this user, and sort all with newest at top
+        {
+            $match: {user_id: req.user._id},
+        },
+        {
+            $sort: {date: -1, createdAt: -1}}, //descending
+            //also sort by createdAt so that same date but more recently created will be at top
+        {
+            //STAGE 1 -> CREATE GROUPS
+            //group by month/year -> creates 1 document per month+year 
+            $group: {
+                _id: {year: {$year: "$date"}, month: {$month: "$date"}}, 
+                //now looks like this: {"data":[{"_id":{"year":2022,"month":11}},{"_id":{"year":2022,"month":10}}]}
+                //for each group, create a list with all of its transactions 
+                transactionData: {
+                    $push: {
+                        amount: "$amount",
+                        description: "$description", 
+                        date: "$date",
+                        type: "$type", 
+                        _id: "$_id",
+                    },
+                    
+                },
+                //for each group, sum up the total expenses
+                totalExpenses: { $sum: "$amount"}, 
+            },
+        },
+        {
+            //STAGE 2 -> WORK ON THE GROUP LEVEL, ie sort the groups not the individual transactions 
+            //sort the groups by their _id which is the year+month
+            // { $sort: { _id: 1}}, 
+            $sort: {_id: -1} //descending ie newest at top
         }
-    }).sort({date: "descending", createdAt: "descending"})
-    //also sort by createdAt so that same date but more recently created will be at top
+    ], function(err, groupedTransactions){
+        if(err){
+            console.log(err);
+        } else {
+            res.json({data: groupedTransactions});
+        }
+    })
+
 }
+
 
 export const filterByDate = async (req, res) => {
     const startDate = new Date(req.params.startDate).setHours(0,0,0); 
