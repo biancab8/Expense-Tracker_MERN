@@ -14,11 +14,18 @@ export default function BasicDatePicker(props) {
 
 function handleStartDateChange(newDate){
     setStartDate(newDate);
+    if(endDate){
+        props.filterTransactions(newDate, endDate);
+    }
   
 }
 
 function handleEndDateChange(newDate){
     setEndDate(newDate);
+    if(startDate){
+        props.filterTransactions(startDate, newDate);
+    }
+  
   
 }
 

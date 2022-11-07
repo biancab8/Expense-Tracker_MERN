@@ -47,6 +47,13 @@ export default function Categories(props) {
     }
   }
 
+
+  async function filterTransactions(startDate, endDate){
+    //calls fetchTransactions in TransactionsTable and provides a start and end date to 
+    //filter the transactions list
+    await props.fetchTransactions(startDate, endDate);
+  }
+
   function formatDate(date) {
     return dayjs(date).format("MMM DD, YYYY");
   }
@@ -75,7 +82,7 @@ export default function Categories(props) {
           filter={categoryFilter}
           setFilter={setCategoryFilter}
         ></CategoryFilter>
-        <DateFilter>
+        <DateFilter filterTransactions={filterTransactions}>
        
         </DateFilter>
       </Box>

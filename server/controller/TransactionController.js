@@ -15,9 +15,22 @@ export const findTransaction = async (req, res) => {
     //also sort by createdAt so that same date but more recently created will be at top
 }
 
-// export const filterByCategory = async (req, res) => {
-//     res.json({message: req.query.id});
-// }
+export const filterByDate = async (req, res) => {
+    const startDate = req.params.startDate; 
+    const endDate = req.params.endDate; 
+    console.log(startDate)
+
+    // Transaction.find({
+    //     user_id: req.user._id,
+    //     date: {$gte: startDate, $lte: endDate}}, function (err, transactions){
+    //     if(err){
+    //         console.err(err);
+    //     } else {
+    //         res.json({data: transactions});
+    //     }
+    // }).sort({date: "descending", createdAt: "descending"})
+    //also sort by createdAt so that same date but more recently created will be at top
+}
 
 export const createTransaction = async (req, res) => {
     const {amount, description, date, category_id} = req.body; 

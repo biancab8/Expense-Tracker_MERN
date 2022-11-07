@@ -11,7 +11,7 @@ const router = Router();
 //handle get requests to /transactions/
 router.get("/", TransactionController.findTransaction)
 
-// router.get("/category", TransactionController.filterByCategory);
+router.get("/dateFilter/:startDate/:endDate", TransactionController.filterByDate);
 
 router.post("/", TransactionController.createTransaction);
 

@@ -18,13 +18,16 @@ function Home() {
   }, []);
 
   async function fetchTransactions(startDate=null, endDate=null) {
-    // start and end date are optional. If provided, only ask back end for transactions 
-    // between those date 
-    if(startDate){
-      console.log("dude there's a start date")
+    //if start and end dates are provided, only requests entries within that 
+    //time frame from the database
+    // ///////////////////////////////////////////////////////////
+    let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
+    if(startDate && endDate){
+      apiUrl= apiUrl+`/dateFilter/${startDate.format("YYYY-MM-DD")}/${endDate.format("YYYY-MM-DD")}`
     }
+    //////////////////////////////////////////////////////////////
     const token = Cookie.get("token");
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
+    const res = await fetch(apiUrl, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${token}`
