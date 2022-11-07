@@ -141,7 +141,7 @@ export default function TransactionForm(props) {
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label="Transaction Date"
-              inputFormat="MM/DD/YYYY"
+              inputFormat="DD/MM/YYYY"
               //   value={value}
               onChange={handleDateChange}
               value={form.date}

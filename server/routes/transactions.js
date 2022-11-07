@@ -9,13 +9,13 @@ import * as TransactionController from "../controller/TransactionController.js";
 const router = Router();
 
 //handle get requests to /transactions/
-router.get("/", TransactionController.findTransaction
-)
+router.get("/", TransactionController.findTransaction)
 
-//handle post requets to /transactions/
+// router.get("/category", TransactionController.filterByCategory);
+
 router.post("/", TransactionController.createTransaction);
 
-//handle delete requests to /transactions
+
 router.delete("/:id", TransactionController.deleteTransaction)
 
 //handle update requests to /transactions

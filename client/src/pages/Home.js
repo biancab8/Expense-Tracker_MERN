@@ -3,6 +3,7 @@ import TransactionForm from "../components/TransactionForm";
 import TransactionsTable from "../components/TransactionsTable";
 import { Container } from "@mui/system";
 import Cookie from "js-cookie";
+import SortSelect from "../components/CategoryFilter";
 
 
 function Home() {
@@ -11,11 +12,17 @@ function Home() {
   const [transactions, setTransactions] = useState([]);
   const [editTransaction, setEditTransaction] = useState({}); 
 
+
   useEffect(() => {
     fetchTransactions();
   }, []);
 
-  async function fetchTransactions() {
+  async function fetchTransactions(startDate=null, endDate=null) {
+    // start and end date are optional. If provided, only ask back end for transactions 
+    // between those date 
+    if(startDate){
+      console.log("dude there's a start date")
+    }
     const token = Cookie.get("token");
     const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
       method: "GET",

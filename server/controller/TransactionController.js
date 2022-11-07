@@ -15,6 +15,10 @@ export const findTransaction = async (req, res) => {
     //also sort by createdAt so that same date but more recently created will be at top
 }
 
+// export const filterByCategory = async (req, res) => {
+//     res.json({message: req.query.id});
+// }
+
 export const createTransaction = async (req, res) => {
     const {amount, description, date, category_id} = req.body; 
     const transaction = new Transaction({

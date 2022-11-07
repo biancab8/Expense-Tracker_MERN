@@ -75,7 +75,7 @@ export default function Categories() {
         setEditCategory={setEditCategory}
       ></CategoryForm>
       <Typography  sx={{ marginTop: 10,  marginBottom:1}} variant="h6">
-        Lists of Categories
+        Custom Categories
       </Typography>
       <TableContainer component={Paper} sx={{width:'70%'}}>
         <Table sx={{ minWidth: 400}} aria-label="simple table">

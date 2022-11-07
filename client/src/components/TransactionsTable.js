@@ -18,10 +18,15 @@ import Box from "@mui/material/Box";
 import { Fragment } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import SortSelect from "./CategoryFilter";
+import { useState } from "react";
+import CategoryFilter from "./CategoryFilter";
+import DateFilter from "./DateFilter";
 
 export default function Categories(props) {
   const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
+  const [categoryFilter, setCategoryFilter] = useState("");
 
   async function remove(id) {
     if (!window.confirm("Are you sure you want to delete this item?")) {
@@ -61,9 +66,19 @@ export default function Categories(props) {
 
   return (
     <>
-      <Typography  sx={{ marginTop: 10, marginBottom:1 }} variant="h6">
-        Lists of Transactions
-      </Typography>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Typography sx={{ marginTop: 10, marginBottom: 1 }} variant="h6">
+          Lists of Transactions
+        </Typography>
+        <CategoryFilter
+          categories={user.categories}
+          filter={categoryFilter}
+          setFilter={setCategoryFilter}
+        ></CategoryFilter>
+        <DateFilter>
+       
+        </DateFilter>
+      </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -77,51 +92,57 @@ export default function Categories(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.transactions.map((transaction) => (
-              <TableRow
-                key={transaction._id}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell align="center">
-                  {"$" + numToCurrency(transaction.amount)}
-                </TableCell>
-                <TableCell align="center">{transaction.description}</TableCell>
-
-                <TableCell align="center">
-                  <Grid container>
-                    <Grid item xs={1} />
-                    <Grid item xs={4} align="center">
-                      {getIcon(categoryNameById(transaction.category_id))}
-                    </Grid>
-                    <Grid item xs={6} align="left">
-                      {categoryNameById(transaction.category_id)}
-                    </Grid>
-                  </Grid>
-                </TableCell>
-
-                <TableCell align="center">
-                  {formatDate(transaction.date)}
-                </TableCell>
-                <TableCell align="center">
-                  <IconButton
-                    color="primary"
-                    component="label"
-                    onClick={() => props.setEditTransaction(transaction)}
+            {props.transactions.map((transaction) => {
+              if (!categoryFilter || (categoryFilter && transaction.category_id == categoryFilter)) {
+                return (
+                  <TableRow
+                    key={transaction._id}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton
-                    color="warning"
-                    component="label"
-                    onClick={() => {
-                      remove(transaction._id);
-                    }}
-                  >
-                    <DeleteIcon />
-                  </IconButton>
-                </TableCell>
-              </TableRow>
-            ))}
+                    <TableCell align="center">
+                      {"$" + numToCurrency(transaction.amount)}
+                    </TableCell>
+                    <TableCell align="center">
+                      {transaction.description}
+                    </TableCell>
+
+                    <TableCell align="center">
+                      <Grid container>
+                        <Grid item xs={1} />
+                        <Grid item xs={4} align="center">
+                          {getIcon(categoryNameById(transaction.category_id))}
+                        </Grid>
+                        <Grid item xs={6} align="left">
+                          {categoryNameById(transaction.category_id)}
+                        </Grid>
+                      </Grid>
+                    </TableCell>
+
+                    <TableCell align="center">
+                      {formatDate(transaction.date)}
+                    </TableCell>
+                    <TableCell align="center">
+                      <IconButton
+                        color="primary"
+                        component="label"
+                        onClick={() => props.setEditTransaction(transaction)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                      <IconButton
+                        color="warning"
+                        component="label"
+                        onClick={() => {
+                          remove(transaction._id);
+                        }}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
+                  </TableRow>
+                );
+              }
+            })}
           </TableBody>
         </Table>
       </TableContainer>
