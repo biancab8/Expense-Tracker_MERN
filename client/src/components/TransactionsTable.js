@@ -22,6 +22,8 @@ import SortSelect from "./CategoryFilter";
 import { useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import DateFilter from "./DateFilter";
+import Container from "@mui/material/Container";
+import Button from '@mui/material/Button';
 
 export default function Categories(props) {
   const token = Cookie.get("token");
@@ -73,18 +75,24 @@ export default function Categories(props) {
 
   return (
     <>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Typography sx={{ marginTop: 10, marginBottom: 1 }} variant="h6">
+      {/* <Box  sx={{ display: "inline-flex", justifyContent: "space-between"}}> */}
+    <Box sx={{display: "flex", alignItems:"flex-end", justifyContent:"space-between", marginBottom:1}}>
+        <Typography  sx={{ marginTop: 10, marginBottom: 1}} variant="h6" display="inline">
           Lists of Transactions
         </Typography>
+        {/* <Typography sx={{ alignSelf:"right", marginTop: 10, marginBottom: 1, marginRight:0,}} variant="string" display="inline">
+          <em>Filter by:</em>
+        </Typography> */}
+        <div >
         <CategoryFilter
           categories={user.categories}
           filter={categoryFilter}
           setFilter={setCategoryFilter}
         ></CategoryFilter>
         <DateFilter filterTransactions={filterTransactions}>
-       
         </DateFilter>
+       {/* <Button size="small" sx={{whiteSpace:"break-spaces", maxWidth:"10px", color:"#B5B5B5"}}>Reset Dates</Button> */}
+       </div>
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">

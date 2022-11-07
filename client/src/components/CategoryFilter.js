@@ -14,9 +14,9 @@ export default function CategoryFilter(props) {
   }
 
   return (
-    <FormControl sx={{ minWidth: 120 }}>
+    <FormControl sx={{ minWidth: 120, marginRight: 5, }}>
       <InputLabel size="small" id="demo-simple-select-autowidth-label">
-        Sort by
+        Category
       </InputLabel>
       <Select
         size="small"
@@ -25,6 +25,7 @@ export default function CategoryFilter(props) {
         value={props.filter}
         onChange={handleChange}
         autoWidth
+        variant="filled"
         label="Sort"
       >
       <MenuItem value={""}><em>None</em></MenuItem>

@@ -119,10 +119,10 @@ export default function CategoryForm(props) {
         <Typography variant="h6" sx={{marginBottom: 2, }} align="left">
           {props.editCategory._id ? "Edit " : "Add New"} Category
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex",  justifyContent: "center"}}>
-          <TextField
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex",  justifyContent: "space-between"}}>
+          <TextField 
             onChange={handleChange}
-            sx={{ marginRight: 7 }}
+            sx={{ marginRight: 5 }}
             size="small"
             id="outlined-basic"
             label="Category"

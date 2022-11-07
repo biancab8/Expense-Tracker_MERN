@@ -69,16 +69,16 @@ export default function Categories() {
 
 
   return (
-    <Container align="center" sx={{ width:'40%', minWidth: 720}}>
+    <Container align="center" sx={{ width:'32%', minWidth: 450}}>
       <CategoryForm
         editCategory={editCategory}
         setEditCategory={setEditCategory}
       ></CategoryForm>
-      <Typography  sx={{ marginTop: 10,  marginBottom:1}} variant="h6">
+      <Typography  align="left" sx={{ marginTop: 10,  marginBottom:1}} variant="h6">
         Custom Categories
       </Typography>
-      <TableContainer component={Paper} sx={{width:'70%'}}>
-        <Table sx={{ minWidth: 400}} aria-label="simple table">
+      <TableContainer component={Paper} > {/*sx={{width:'70%'}}*/}
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell align="center">Label</TableCell>

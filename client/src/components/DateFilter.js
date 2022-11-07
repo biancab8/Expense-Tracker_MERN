@@ -6,6 +6,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
+import Button from '@mui/material/Button';
 
 export default function BasicDatePicker(props) {
   const [startDate, setStartDate] = useState(null);
@@ -29,8 +30,24 @@ function handleEndDateChange(newDate){
   
 }
 
+function plusMinus1Day(date, operator){
+    //takes a date, adds or subtracts 1 day, and returns the new date
+    if(!date){
+        return null; 
+    }
+    let newDate = new Date(date);
+    if(operator === "+"){
+        return newDate.setDate(new Date(date).getDate() + 1);
+    } else{
+        return newDate.setDate(new Date(date).getDate() - 1)
+    }
+}
 
-
+    function handleReset(){
+        setStartDate(null);
+        setEndDate(null);
+        props.filterTransactions();
+    }
   return (
     // prevent invalid date entries by setting min and max dates
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -39,21 +56,22 @@ function handleEndDateChange(newDate){
               inputFormat="DD/MM/YYYY"
               onChange={handleStartDateChange}
               value={startDate}
-              maxDate={endDate}
+              maxDate={plusMinus1Day(endDate, "-")}
               renderInput={(params) => (
-                <TextField sx={{ marginRight: 5 }} size="small" {...params} />
+                <TextField variant="standard" sx={{ marginRight: 2 }} size="small" {...params} />
               )}
             />
                         <DesktopDatePicker
-              label="End Date"
+              label="End Date (excluded)"
               inputFormat="DD/MM/YYYY"
               onChange={handleEndDateChange}
               value={endDate}
-              minDate={startDate}
+              minDate={plusMinus1Day(startDate, "+")} //at least 1 day between start and end date
               renderInput={(params) => (
-                <TextField sx={{ marginRight: 5 }} size="small" {...params} />
+                <TextField sx={{marginRight:1}} variant="standard" size="small" {...params} />
               )}
             />
+                   <Button onClick={handleReset} size="small" sx={{whiteSpace:"break-spaces", maxWidth:"10px", color:"#B5B5B5"}}>Reset Dates</Button>
   </LocalizationProvider>
   )
 }
