@@ -9,7 +9,7 @@ import SortSelect from "../components/CategoryFilter";
 function Home() {
 
   //for the transactions to be rendered on the page
-  const [transactions, setTransactions] = useState([]);
+  const [transactionsData, setTransactionsData] = useState([]);
   const [editTransaction, setEditTransaction] = useState({}); 
 
 
@@ -23,7 +23,9 @@ function Home() {
     // ///////////////////////////////////////////////////////////
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
     if(startDate && endDate){
-      apiUrl= apiUrl+`/dateFilter/${startDate.format("YYYY-MM-DD")}/${endDate.format("YYYY-MM-DD")}`
+      // apiUrl= apiUrl+`/dateFilter/${startDate.format("YYYY-MM-DD")}/${endDate.format("YYYY-MM-DD")}`
+      apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
+console.log(apiUrl)
     }
     //////////////////////////////////////////////////////////////
     const token = Cookie.get("token");
@@ -36,7 +38,7 @@ function Home() {
     if(res.ok){
       //read received data
       const { data } = await res.json(); //parse entire json, returns a promise
-      setTransactions(data);
+      setTransactionsData(data);
     }
   }
 
@@ -47,7 +49,7 @@ function Home() {
           setEditTransaction={setEditTransaction}
         />
         <br />
-        <TransactionsTable transactions={transactions} 
+        <TransactionsTable transactionsData={transactionsData} 
         fetchTransactions={fetchTransactions}
           setEditTransaction={setEditTransaction}
         />

@@ -10,6 +10,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../features/auth/authSlice";
+import colors from "../utils/colors"
 
 export default function ButtonAppBar() {
   const dispatch = useDispatch();
@@ -27,7 +28,7 @@ export default function ButtonAppBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="static" sx={{backgroundColor: colors.tableBackgroundPrimary, color: colors.textSecondary,}}>
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/" className="text-white">

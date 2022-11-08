@@ -23,7 +23,8 @@ import { useState } from "react";
 import CategoryFilter from "./CategoryFilter";
 import DateFilter from "./DateFilter";
 import Container from "@mui/material/Container";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
+import colors from "../utils/colors";
 
 export default function Categories(props) {
   const token = Cookie.get("token");
@@ -49,9 +50,8 @@ export default function Categories(props) {
     }
   }
 
-
-  async function filterTransactions(startDate, endDate){
-    //calls fetchTransactions in TransactionsTable and provides a start and end date to 
+  async function filterTransactions(startDate, endDate) {
+    //calls fetchTransactions in TransactionsTable and provides a start and end date to
     //filter the transactions list
     await props.fetchTransactions(startDate, endDate);
   }
@@ -73,26 +73,42 @@ export default function Categories(props) {
     return formatter.format(num);
   }
 
+  function numToMonth(num){
+    const date = new Date();
+    date.setMonth(num - 1);
+    return date.toLocaleString('en-US', { month: 'long'});
+  }
+
   return (
     <>
       {/* <Box  sx={{ display: "inline-flex", justifyContent: "space-between"}}> */}
-    <Box sx={{display: "flex", alignItems:"flex-end", justifyContent:"space-between", marginBottom:1}}>
-        <Typography  sx={{ marginTop: 10, marginBottom: 1}} variant="h6" display="inline">
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "space-between",
+          marginBottom: 1,
+        }}
+      >
+        <Typography
+          sx={{ marginTop: 10, marginBottom: 1 }}
+          variant="h6"
+          display="inline"
+        >
           Lists of Transactions
         </Typography>
         {/* <Typography sx={{ alignSelf:"right", marginTop: 10, marginBottom: 1, marginRight:0,}} variant="string" display="inline">
           <em>Filter by:</em>
         </Typography> */}
-        <div >
-        <CategoryFilter
-          categories={user.categories}
-          filter={categoryFilter}
-          setFilter={setCategoryFilter}
-        ></CategoryFilter>
-        <DateFilter filterTransactions={filterTransactions}>
-        </DateFilter>
-       {/* <Button size="small" sx={{whiteSpace:"break-spaces", maxWidth:"10px", color:"#B5B5B5"}}>Reset Dates</Button> */}
-       </div>
+        <div>
+          <CategoryFilter
+            categories={user.categories}
+            filter={categoryFilter}
+            setFilter={setCategoryFilter}
+          ></CategoryFilter>
+          <DateFilter filterTransactions={filterTransactions}></DateFilter>
+          {/* <Button size="small" sx={{whiteSpace:"break-spaces", maxWidth:"10px", color:"#B5B5B5"}}>Reset Dates</Button> */}
+        </div>
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -112,56 +128,97 @@ export default function Categories(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.transactions.map((transaction) => {
-              if (!categoryFilter || (categoryFilter && transaction.category_id == categoryFilter)) {
-                return (
+            {/* transactionsData = transactions grouped by month+year */}
+            {/* each group has own list of transactions for that month */}
+            {props.transactionsData.map((transactionsByMonth) => {
+              return (
+                <Fragment key={transactionsByMonth.transactions[0]._id}>
                   <TableRow
-                    key={transaction._id}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    sx={{
+                      "&:last-child td, &:last-child th": { 
+                        border: 0,  },
+                    }}
                   >
-                    <TableCell align="center">
-                      {"$" + numToCurrency(transaction.amount)}
+                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
+                      {`${numToMonth(transactionsByMonth._id.month)}, ${transactionsByMonth._id.year}`}
                     </TableCell>
-                    <TableCell align="center">
-                      {transaction.description}
+                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
+                    
                     </TableCell>
-
-                    <TableCell align="center">
-                      <Grid container>
-                        <Grid item xs={1} />
-                        <Grid item xs={4} align="center">
-                          {getIcon(categoryNameById(transaction.category_id))}
-                        </Grid>
-                        <Grid item xs={6} align="left">
-                          {categoryNameById(transaction.category_id)}
-                        </Grid>
-                      </Grid>
+                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
+                 
                     </TableCell>
-
-                    <TableCell align="center">
-                      {formatDate(transaction.date)}
+                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
+                    
                     </TableCell>
-                    <TableCell align="center">
-                      <IconButton
-                        color="primary"
-                        component="label"
-                        onClick={() => props.setEditTransaction(transaction)}
-                      >
-                        <EditIcon />
-                      </IconButton>
-                      <IconButton
-                        color="warning"
-                        component="label"
-                        onClick={() => {
-                          remove(transaction._id);
-                        }}
-                      >
-                        <DeleteIcon />
-                      </IconButton>
+                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
+                    Total: ${numToCurrency(transactionsByMonth.totalExpenses)}
                     </TableCell>
                   </TableRow>
-                );
-              }
+
+                  {transactionsByMonth.transactions.map((transaction) => {
+                    if (
+                      !categoryFilter ||
+                      (categoryFilter &&
+                        transaction.category_id == categoryFilter)
+                    ) {
+                      return (
+                        <TableRow
+                          key={transaction._id}
+                          sx={{
+                            "&:last-child td, &:last-child th": { border: 0 },
+                          }}
+                        >
+                          <TableCell align="center">
+                            {"$" + numToCurrency(transaction.amount)}
+                          </TableCell>
+                          <TableCell align="center">
+                            {transaction.description}
+                          </TableCell>
+
+                          <TableCell align="center">
+                            <Grid container>
+                              <Grid item xs={1} />
+                              <Grid item xs={4} align="center">
+                                {getIcon(
+                                  categoryNameById(transaction.category_id)
+                                )}
+                              </Grid>
+                              <Grid item xs={6} align="left">
+                                {categoryNameById(transaction.category_id)}
+                              </Grid>
+                            </Grid>
+                          </TableCell>
+
+                          <TableCell align="center">
+                            {formatDate(transaction.date)}
+                          </TableCell>
+                          <TableCell align="center">
+                            <IconButton
+                              color="primary"
+                              component="label"
+                              onClick={() =>
+                                props.setEditTransaction(transaction)
+                              }
+                            >
+                              <EditIcon />
+                            </IconButton>
+                            <IconButton
+                              color="warning"
+                              component="label"
+                              onClick={() => {
+                                remove(transaction._id);
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          </TableCell>
+                        </TableRow>
+                      );
+                    }
+                  })}
+                </Fragment>
+              );
             })}
           </TableBody>
         </Table>
@@ -169,7 +226,6 @@ export default function Categories(props) {
     </>
   );
 }
-
 
 // import * as React from 'react';
 // import PropTypes from 'prop-types';
