@@ -9,22 +9,22 @@ import { useState } from 'react';
 import Button from '@mui/material/Button';
 
 export default function BasicDatePicker(props) {
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+
+
 
 
 function handleStartDateChange(newDate){
-    setStartDate(newDate);
-    if(endDate){
-        props.filterTransactions(newDate, endDate);
+  props.setStartDate(newDate);
+    if(props.endDate){
+        props.filterTransactions(newDate, props.endDate);
     }
   
 }
 
 function handleEndDateChange(newDate){
-    setEndDate(newDate);
-    if(startDate){
-        props.filterTransactions(startDate, newDate);
+  props.setEndDate(newDate);
+    if(props.startDate){
+        props.filterTransactions(props.startDate, newDate);
     }
   
   
@@ -44,9 +44,9 @@ function plusMinus1Day(date, operator){
 }
 
     function handleReset(){
-        setStartDate(null);
-        setEndDate(null);
-        props.filterTransactions(null, null);
+        props.setStartDate(null);
+        props.setEndDate(null);
+        props.filterTransactions(null, null, props.categoryFilter);
     }
   return (
     // prevent invalid date entries by setting min and max dates
@@ -55,8 +55,8 @@ function plusMinus1Day(date, operator){
               label="Start Date"
               inputFormat="DD/MM/YYYY"
               onChange={handleStartDateChange}
-              value={startDate}
-              maxDate={plusMinus1Day(endDate, "-")}
+              value={props.startDate}
+              maxDate={plusMinus1Day(props.endDate, "-")}
               renderInput={(params) => (
                 <TextField variant="standard" sx={{ marginRight: 2 }} size="small" {...params} />
               )}
@@ -65,8 +65,8 @@ function plusMinus1Day(date, operator){
               label="End Date (excluded)"
               inputFormat="DD/MM/YYYY"
               onChange={handleEndDateChange}
-              value={endDate}
-              minDate={plusMinus1Day(startDate, "+")} //at least 1 day between start and end date
+              value={props.endDate}
+              minDate={plusMinus1Day(props.startDate, "+")} //at least 1 day between start and end date
               renderInput={(params) => (
                 <TextField sx={{marginRight:1}} variant="standard" size="small" {...params} />
               )}

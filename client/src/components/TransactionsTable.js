@@ -101,7 +101,7 @@ export default function Categories(props) {
   function filterCategory(event){
     const category = event.target.value;
     setCategoryFilter(category);
-    props.fetchTransactions(null, null, category); ////////////////////////////////////
+    props.fetchTransactions(startDate, endDate, category); ////////////////////////////////////
     //////////////////////////////////
     ////////////////////////////////////
   }
@@ -131,15 +131,17 @@ export default function Categories(props) {
         </Typography> */}
 
 
-        {/* <div>
-          <CategoryFilter
+        <div>
+          {/* <CategoryFilter
             categories={user.categories}
             filter={categoryFilter}
             setFilter={setCategoryFilter}
-          ></CategoryFilter>
-          <DateFilter filterTransactions={filterTransactions}></DateFilter>
+          ></CategoryFilter> */}
 
-        </div> */}
+          <DateFilter filterTransactions={filterTransactions} 
+          startDate={startDate} setStartDate={setStartDate}
+          endDate={endDate} setEndDate={setEndDate} categoryFilter={categoryFilter}></DateFilter>
+        </div>
 
 
 
