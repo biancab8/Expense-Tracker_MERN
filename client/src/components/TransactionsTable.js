@@ -25,11 +25,25 @@ import DateFilter from "./DateFilter";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import colors from "../utils/colors";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import FilterListIcon from '@mui/icons-material/FilterList'; 
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  InputAdornment,
+  FormHelperText,
+} from "@mui/material";
+import Tooltip from "@mui/material/Tooltip";
+import FilterList from "@mui/icons-material/FilterList";
 
 export default function Categories(props) {
   const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
   const [categoryFilter, setCategoryFilter] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
 
   async function remove(id) {
     if (!window.confirm("Are you sure you want to delete this item?")) {
@@ -53,7 +67,7 @@ export default function Categories(props) {
   async function filterTransactions(startDate, endDate) {
     //calls fetchTransactions in TransactionsTable and provides a start and end date to
     //filter the transactions list
-    await props.fetchTransactions(startDate, endDate);
+    await props.fetchTransactions(startDate, endDate, categoryFilter);
   }
 
   function formatDate(date) {
@@ -79,6 +93,21 @@ export default function Categories(props) {
     return date.toLocaleString('en-US', { month: 'long'});
   }
 
+
+
+
+  ///delete: ////////////////////////////////////////////////////////////////
+
+  function filterCategory(event){
+    const category = event.target.value;
+    setCategoryFilter(category);
+    props.fetchTransactions(null, null, category); ////////////////////////////////////
+    //////////////////////////////////
+    ////////////////////////////////////
+  }
+
+
+
   return (
     <>
       {/* <Box  sx={{ display: "inline-flex", justifyContent: "space-between"}}> */}
@@ -100,29 +129,71 @@ export default function Categories(props) {
         {/* <Typography sx={{ alignSelf:"right", marginTop: 10, marginBottom: 1, marginRight:0,}} variant="string" display="inline">
           <em>Filter by:</em>
         </Typography> */}
-        <div>
+
+
+        {/* <div>
           <CategoryFilter
             categories={user.categories}
             filter={categoryFilter}
             setFilter={setCategoryFilter}
           ></CategoryFilter>
           <DateFilter filterTransactions={filterTransactions}></DateFilter>
-          {/* <Button size="small" sx={{whiteSpace:"break-spaces", maxWidth:"10px", color:"#B5B5B5"}}>Reset Dates</Button> */}
-        </div>
+
+        </div> */}
+
+
+
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Amount</TableCell>
+              <TableCell align="center">   
+            Amount
+            </TableCell>
+
               <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Category</TableCell>
-              {/* <CategoryFilter
-          categories={user.categories}
-          filter={categoryFilter}
-          setFilter={setCategoryFilter}
-        ></CategoryFilter> */}
-              {/* <TableCell align="center"></TableCell> */}
+              <TableCell align="center">Category
+              {/* <Tooltip title="Filter list"> */}
+          {/* <IconButton onClick={() => setFilter(true)}> */}
+<Select
+        size="small"
+        fontSize="5px"
+        labelId="demo-simple-select-autowidth-label"
+        id="demo-simple-select-autowidth"
+        value={categoryFilter}
+        onChange={filterCategory}
+        autoWidth
+        variant="standard"
+        disableUnderline={true}
+        style={{height:"3px",  marginLeft:"8px", fontStyle:"italic", fontSize:"small"}}
+      >
+      <MenuItem value={""}><em>None</em></MenuItem>
+        {user.categories.map((category) => {
+          return (
+            <MenuItem key={category._id} value={category._id}>
+              {category.label}
+            </MenuItem>
+          );
+        })}
+      </Select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          </TableCell>
+
               <TableCell align="center">Date</TableCell>
               <TableCell align="center">Action</TableCell>
             </TableRow>
@@ -157,11 +228,11 @@ export default function Categories(props) {
                   </TableRow>
 
                   {transactionsByMonth.transactions.map((transaction) => {
-                    if (
+                    {/* if (
                       !categoryFilter ||
                       (categoryFilter &&
                         transaction.category_id == categoryFilter)
-                    ) {
+                    ) { */}
                       return (
                         <TableRow
                           key={transaction._id}
@@ -215,7 +286,7 @@ export default function Categories(props) {
                           </TableCell>
                         </TableRow>
                       );
-                    }
+                    {/* } */}
                   })}
                 </Fragment>
               );

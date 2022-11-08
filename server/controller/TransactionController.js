@@ -1,5 +1,5 @@
 //logic for API routes
-
+import mongoose from "mongoose";
 import Transaction from "../models/Transaction.js";
 
 // export const findTransactions = async (req, res) => {
@@ -18,26 +18,32 @@ import Transaction from "../models/Transaction.js";
 export const findTransactions = async (req, res) => {
     let startDate; 
     let endDate; 
+    let category = req.query.category;
     //if filter by date requested, add dates to conditions
     if(req.query.startDate){
         startDate = new Date(req.query.startDate+"T00:00:00"); 
         endDate = new Date(req.query.endDate+"T23:59:59"); 
     }
-
-let conditions = {};
-    // const startDate = new Date(req.params.startDate).setHours(0,0,0); 
-    // const endDate = new Date(req.params.endDate).setHours(23,59,59); 
+    if(category){
+        category = mongoose.Types.ObjectId(category);
+    }
+let dateConditions = {}; 
     if(startDate && endDate){
         // console.log(startDate)
-        conditions = {date: {$gte: startDate, $lte: endDate}};
+        dateConditions = {date: {$gte: startDate, $lte: endDate}};
     }
-    // console.log(conditions)
+    let categoryCondition ={};
+    if(category){
+        categoryCondition = {category_id: category};
+    }
+    console.log(categoryCondition)
     Transaction.aggregate([
         //only look at transactions for this user, and sort all with newest at top
         // conditions,
         {
             $match: {user_id: req.user._id},
-            $match: conditions, //if date range specified, pass in dates
+            $match: dateConditions, //if date range specified, pass in dates
+            $match: categoryCondition, //filter by category id
         },
         
 
@@ -88,12 +94,12 @@ let conditions = {};
 }
 
 
-// export const filterByDate = async (req, res) => {
-//     const startDate = new Date(req.params.startDate).setHours(0,0,0); 
-//     const endDate = new Date(req.params.endDate).setHours(23,59,59); 
+// export const findTransactions = async (req, res) => {
+//     // const startDate = new Date(req.params.startDate).setHours(0,0,0); 
+//     // const endDate = new Date(req.params.endDate).setHours(23,59,59); 
 //     //set hours to start/end of day or it will compare the hours too
-
-//     Transaction.find({user_id: req.user._id, date: {$gte: startDate, $lte: endDate}}, function (err, transactions){
+//     const cat = mongoose.Types.ObjectId('6366f33e435ff024acf18c7e');
+//     Transaction.find({user_id: req.user._id,  category_id: cat }, function (err, transactions){
 //         if(err){
 //             console.err(err);
 //         } else {

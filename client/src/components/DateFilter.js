@@ -46,7 +46,7 @@ function plusMinus1Day(date, operator){
     function handleReset(){
         setStartDate(null);
         setEndDate(null);
-        props.filterTransactions();
+        props.filterTransactions(null, null);
     }
   return (
     // prevent invalid date entries by setting min and max dates

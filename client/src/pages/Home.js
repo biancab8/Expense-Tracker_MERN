@@ -17,16 +17,22 @@ function Home() {
     fetchTransactions();
   }, []);
 
-  async function fetchTransactions(startDate=null, endDate=null) {
+  async function fetchTransactions(startDate=null, endDate=null, category=null) {
     //if start and end dates are provided, only requests entries within that 
     //time frame from the database
     // ///////////////////////////////////////////////////////////
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
     if(startDate && endDate){
-      // apiUrl= apiUrl+`/dateFilter/${startDate.format("YYYY-MM-DD")}/${endDate.format("YYYY-MM-DD")}`
       apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
-console.log(apiUrl)
     }
+    if(category){
+      if(startDate && endDate){
+        apiUrl= apiUrl+`&category=${category}`
+      } else {
+        apiUrl= apiUrl+`?category=${category}`
+      }
+    }
+console.log(apiUrl)
     //////////////////////////////////////////////////////////////
     const token = Cookie.get("token");
     const res = await fetch(apiUrl, {
