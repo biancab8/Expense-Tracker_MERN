@@ -126,6 +126,7 @@ export default function Categories(props) {
         >
           Lists of Transactions
         </Typography>
+        <Button onClick={props.goToChart}>See Chart</Button>
         {/* <Typography sx={{ alignSelf:"right", marginTop: 10, marginBottom: 1, marginRight:0,}} variant="string" display="inline">
           <em>Filter by:</em>
         </Typography> */}

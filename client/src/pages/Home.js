@@ -4,6 +4,9 @@ import TransactionsTable from "../components/TransactionsTable";
 import { Container } from "@mui/system";
 import Cookie from "js-cookie";
 import SortSelect from "../components/CategoryFilter";
+import TransactionChart from "../components/TransactionsChart";
+import { useRef } from "react";
+import { Button } from "@mui/material";
 
 
 function Home() {
@@ -48,6 +51,11 @@ console.log(apiUrl)
     }
   }
 
+  const myRef=useRef(null)
+  function goToChart(){
+    myRef.current.scrollIntoView();
+  }
+
   return (
       <Container >
         <TransactionForm fetchTransactions={fetchTransactions} 
@@ -58,7 +66,15 @@ console.log(apiUrl)
         <TransactionsTable transactionsData={transactionsData} 
         fetchTransactions={fetchTransactions}
           setEditTransaction={setEditTransaction}
+          goToChart={goToChart}
         />
+         <br />
+         <br />
+<div ref={myRef}>
+        <TransactionChart data={transactionsData}>
+        </TransactionChart>
+
+</div>
       </Container>
   );
 }

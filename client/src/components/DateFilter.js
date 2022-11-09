@@ -7,6 +7,7 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
+import { Fragment } from 'react';
 
 export default function BasicDatePicker(props) {
 
@@ -50,6 +51,7 @@ function plusMinus1Day(date, operator){
     }
   return (
     // prevent invalid date entries by setting min and max dates
+   
     <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DesktopDatePicker
               label="Start Date"
@@ -71,10 +73,13 @@ function plusMinus1Day(date, operator){
                 <TextField sx={{marginRight:1}} variant="standard" size="small" {...params} />
               )}
             />
-                   <Button onClick={handleReset} size="small" sx={{whiteSpace:"break-spaces", maxWidth:"10px", color:"#B5B5B5"}}>Reset Dates</Button>
+                   <Button onClick={handleReset} sx={{whiteSpace:"break-spaces"}} variant="text">Reset</Button>
   </LocalizationProvider>
+ 
   )
 }
+
+// color:"#B5B5B5"
 
 
 
