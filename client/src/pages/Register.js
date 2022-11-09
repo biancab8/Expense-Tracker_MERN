@@ -1,15 +1,7 @@
 import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import {Link} from 'react-router-dom';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
+import {Avatar, Button, CssBaseline, TextField, Grid, Box, Typography, Container,} from '@mui/material';
+import {Link, useNavigate} from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { useNavigate } from 'react-router-dom';
 
 export default function Register() {
   const navigate = useNavigate();

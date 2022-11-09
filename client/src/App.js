@@ -1,16 +1,12 @@
-import AppBar from "./features/ui/AppBar";
+import {NavBar} from "./features/ui";
 import { Outlet } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "./features/auth/authSlice.js"
 import { useEffect, useState } from "react";
 import Cookie from "js-cookie";
-import { useNavigate } from "react-router-dom";
 
 function App() {
   const dispatch = useDispatch();
-
-  let navigate = useNavigate();
-  const [verified, setVerified] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const token = Cookie.get("token");
   async function fetchUser() {
@@ -45,7 +41,7 @@ function App() {
 
   return (
     <>
-      <AppBar />
+      <NavBar />
       <Outlet />
     </>
   );

@@ -1,25 +1,13 @@
 import * as React from "react";
 
 import { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
+import {Card, CardContent, Button, Autocomplete, Box, Typography, TextField, InputAdornment} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
-import colors from "../../assets/colors";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  FormControl,
-  InputLabel,
-  OutlinedInput,
-  InputAdornment,
-} from "@mui/material";
+import {colors} from "../../assets";
+import { useSelector } from "react-redux";
 
 const initialForm = {
   amount: "",

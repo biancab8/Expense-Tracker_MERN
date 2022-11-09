@@ -1,44 +1,31 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
+import {
+  Select,
+  MenuItem,
+  Table,
+  Button,
+  Typography,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Box,
+  Grid,
+} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import Cookie from "js-cookie";
 import { useSelector } from "react-redux";
-import Icon from "../../assets/Icon";
-import Box from "@mui/material/Box";
-import { Fragment } from "react";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import SortSelect from "../categories/CategoryFilter";
-import { useState } from "react";
-import CategoryFilter from "../categories/CategoryFilter";
-import DateFilter from "./DateFilter";
-import Container from "@mui/material/Container";
-import Button from "@mui/material/Button";
-import colors from "../../assets/colors";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import FilterListIcon from '@mui/icons-material/FilterList'; 
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  InputAdornment,
-  FormHelperText,
-} from "@mui/material";
-import Tooltip from "@mui/material/Tooltip";
-import FilterList from "@mui/icons-material/FilterList";
+import { Fragment, useState } from "react";
+import { DateFilter } from "./index";
+import { colors} from "../../assets";
+import {CategoryIcon} from "../categories";
 
-export default function Categories(props) {
+export default function TransactionsTable(props) {
   const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
   const [categoryFilter, setCategoryFilter] = useState("");
@@ -87,26 +74,21 @@ export default function Categories(props) {
     return formatter.format(num);
   }
 
-  function numToMonth(num){
+  function numToMonth(num) {
     const date = new Date();
     date.setMonth(num - 1);
-    return date.toLocaleString('en-US', { month: 'long'});
+    return date.toLocaleString("en-US", { month: "long" });
   }
-
-
-
 
   ///delete: ////////////////////////////////////////////////////////////////
 
-  function filterCategory(event){
+  function filterCategory(event) {
     const category = event.target.value;
     setCategoryFilter(category);
     props.fetchTransactions(startDate, endDate, category); ////////////////////////////////////
     //////////////////////////////////
     ////////////////////////////////////
   }
-
-
 
   return (
     <>
@@ -126,11 +108,12 @@ export default function Categories(props) {
         >
           Lists of Transactions
         </Typography>
-        <Button onClick={props.goToChart} sx={{color:colors.textTertiary}} >See Chart</Button>
+        <Button onClick={props.goToChart} sx={{ color: colors.textTertiary }}>
+          See Chart
+        </Button>
         {/* <Typography sx={{ alignSelf:"right", marginTop: 10, marginBottom: 1, marginRight:0,}} variant="string" display="inline">
           <em>Filter by:</em>
         </Typography> */}
-
 
         <div>
           {/* <CategoryFilter
@@ -139,66 +122,59 @@ export default function Categories(props) {
             setFilter={setCategoryFilter}
           ></CategoryFilter> */}
 
-          <DateFilter filterTransactions={filterTransactions} 
-          startDate={startDate} setStartDate={setStartDate}
-          endDate={endDate} setEndDate={setEndDate} categoryFilter={categoryFilter}></DateFilter>
+          <DateFilter
+            filterTransactions={filterTransactions}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            categoryFilter={categoryFilter}
+          ></DateFilter>
         </div>
-
-
-
       </Box>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow sx={{backgroundColor: colors.tableTop}}>
-              <TableCell align="center">   
-            Amount
-            </TableCell>
+            <TableRow sx={{ backgroundColor: colors.tableTop }}>
+              <TableCell align="center">Amount</TableCell>
 
-              <TableCell  align="center">Description</TableCell>
-              <TableCell  align="center">Category
-              {/* <Tooltip title="Filter list"> */}
-          {/* <IconButton onClick={() => setFilter(true)}> */}
-<Select
-        size="small"
-        fontSize="5px"
-        labelId="demo-simple-select-autowidth-label"
-        id="demo-simple-select-autowidth"
-        value={categoryFilter}
-        onChange={filterCategory}
-        autoWidth
-        variant="standard"
-        disableUnderline={true}
-        style={{height:"3px",  marginLeft:"8px", fontStyle:"italic", fontSize:"small"}}
-      >
-      <MenuItem value={""}><em>None</em></MenuItem>
-        {user.categories.map((category) => {
-          return (
-            <MenuItem key={category._id} value={category._id}>
-              {category.label}
-            </MenuItem>
-          );
-        })}
-      </Select>
+              <TableCell align="center">Description</TableCell>
+              <TableCell align="center">
+                Category
+                {/* <Tooltip title="Filter list"> */}
+                {/* <IconButton onClick={() => setFilter(true)}> */}
+                <Select
+                  size="small"
+                  fontSize="5px"
+                  labelId="demo-simple-select-autowidth-label"
+                  id="demo-simple-select-autowidth"
+                  value={categoryFilter}
+                  onChange={filterCategory}
+                  autoWidth
+                  variant="standard"
+                  disableUnderline={true}
+                  style={{
+                    height: "3px",
+                    marginLeft: "8px",
+                    fontStyle: "italic",
+                    fontSize: "small",
+                  }}
+                >
+                  <MenuItem value={""}>
+                    <em>None</em>
+                  </MenuItem>
+                  {user.categories.map((category) => {
+                    return (
+                      <MenuItem key={category._id} value={category._id}>
+                        {category.label}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              </TableCell>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          </TableCell>
-
-              <TableCell  align="center">Date</TableCell>
-              <TableCell  align="center">Action</TableCell>
+              <TableCell align="center">Date</TableCell>
+              <TableCell align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -209,88 +185,123 @@ export default function Categories(props) {
                 <Fragment key={transactionsByMonth.transactions[0]._id}>
                   <TableRow
                     sx={{
-                      "&:last-child td, &:last-child th": { 
-                        border: 0,  },
+                      "&:last-child td, &:last-child th": {
+                        border: 0,
+                      },
                     }}
                   >
-                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
-                      {`${numToMonth(transactionsByMonth._id.month)}, ${transactionsByMonth._id.year}`}
+                    <TableCell
+                      align="center"
+                      sx={{
+                        backgroundColor: colors.tableBackgroundSecondary,
+                        color: colors.textSecondary,
+                      }}
+                    >
+                      {`${numToMonth(transactionsByMonth._id.month)}, ${
+                        transactionsByMonth._id.year
+                      }`}
                     </TableCell>
-                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
-                    
-                    </TableCell>
-                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
-                 
-                    </TableCell>
-                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
-                    
-                    </TableCell>
-                    <TableCell align="center" sx={{backgroundColor: colors.tableBackgroundSecondary, color: colors.textSecondary,}}>
-                    Total: ${numToCurrency(transactionsByMonth.totalExpenses)}
+                    <TableCell
+                      align="center"
+                      sx={{
+                        backgroundColor: colors.tableBackgroundSecondary,
+                        color: colors.textSecondary,
+                      }}
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        backgroundColor: colors.tableBackgroundSecondary,
+                        color: colors.textSecondary,
+                      }}
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        backgroundColor: colors.tableBackgroundSecondary,
+                        color: colors.textSecondary,
+                      }}
+                    ></TableCell>
+                    <TableCell
+                      align="center"
+                      sx={{
+                        backgroundColor: colors.tableBackgroundSecondary,
+                        color: colors.textSecondary,
+                      }}
+                    >
+                      Total: ${numToCurrency(transactionsByMonth.totalExpenses)}
                     </TableCell>
                   </TableRow>
 
                   {transactionsByMonth.transactions.map((transaction) => {
-                    {/* if (
+                    {
+                      /* if (
                       !categoryFilter ||
                       (categoryFilter &&
                         transaction.category_id == categoryFilter)
-                    ) { */}
-                      return (
-                        <TableRow
-                          key={transaction._id}
-                          sx={{
-                            "&:last-child td, &:last-child th": { border: 0 },
-                          }}
-                        >
-                          <TableCell align="center">
-                            {"$" + numToCurrency(transaction.amount)}
-                          </TableCell>
-                          <TableCell align="center">
-                            {transaction.description}
-                          </TableCell>
+                    ) { */
+                    }
+                    return (
+                      <TableRow
+                        key={transaction._id}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
+                      >
+                        <TableCell align="center">
+                          {"$" + numToCurrency(transaction.amount)}
+                        </TableCell>
+                        <TableCell align="center">
+                          {transaction.description}
+                        </TableCell>
 
-                          <TableCell align="center">
-                            <Grid container>
-                              <Grid item xs={1} />
-                              <Grid item xs={4} align="center">
-                              <Icon categoryName={categoryNameById(transaction.category_id)}/>
-                                {/* {getIcon(
+                        <TableCell align="center">
+                          <Grid container>
+                            <Grid item xs={1} />
+                            <Grid item xs={4} align="center">
+                              <CategoryIcon
+                                categoryName={categoryNameById(
+                                  transaction.category_id
+                                )}
+                              />
+                              {/* {getIcon(
                                   categoryNameById(transaction.category_id)
                                 )} */}
-                              </Grid>
-                              <Grid item xs={6} align="left">
-                                {categoryNameById(transaction.category_id)}
-                              </Grid>
                             </Grid>
-                          </TableCell>
+                            <Grid item xs={6} align="left">
+                              {categoryNameById(transaction.category_id)}
+                            </Grid>
+                          </Grid>
+                        </TableCell>
 
-                          <TableCell align="center">
-                            {formatDate(transaction.date)}
-                          </TableCell>
-                          <TableCell align="center">
-                            <IconButton
-                              color="primary"
-                              component="label"
-                              onClick={() =>
-                                props.setEditTransaction(transaction)
-                              }
-                            >
-                              <EditIcon />
-                            </IconButton>
-                            <IconButton
-                              color="warning"
-                              component="label"
-                              onClick={() => {
-                                remove(transaction._id);
-                              }}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    {/* } */}
+                        <TableCell align="center">
+                          {formatDate(transaction.date)}
+                        </TableCell>
+                        <TableCell align="center">
+                          <IconButton
+                            color="primary"
+                            component="label"
+                            onClick={() =>
+                              props.setEditTransaction(transaction)
+                            }
+                          >
+                            <EditIcon />
+                          </IconButton>
+                          <IconButton
+                            color="warning"
+                            component="label"
+                            onClick={() => {
+                              remove(transaction._id);
+                            }}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    );
+                    {
+                      /* } */
+                    }
                   })}
                 </Fragment>
               );

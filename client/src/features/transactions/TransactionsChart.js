@@ -11,13 +11,9 @@ import {
   Tooltip,
   ValueAxis,
   Title,
-  Legend,
 } from "@devexpress/dx-react-chart-material-ui";
-import { Stack } from "@devexpress/dx-react-chart";
-import { styled } from "@mui/material/styles";
-import colors from "../../assets/colors";
+import {colors} from "../../assets";
 import Paper from "@mui/material/Paper";
-import dayjs from "dayjs";
 import * as React from "react";
 
 const data = [

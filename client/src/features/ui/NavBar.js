@@ -1,18 +1,12 @@
 import * as React from "react";
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
+import {AppBar, Box, Toolbar, Typography, Button,} from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../auth/authSlice";
-import colors from "../../assets/colors"
+import {colors} from "../../assets"
 
-export default function ButtonAppBar() {
+export default function NavBar() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

@@ -1,35 +1,12 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Paper, Typography, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import dayjs from "dayjs";
-import Cookie from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
-import CategoryForm from "../features/categories/CategoryForm";
+import {CategoryForm} from "../features/categories";
 import { useState } from "react";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
-
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import PaidIcon from '@mui/icons-material/Paid';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-
-import getIcon from "../assets/Icon";
+import Cookie from "js-cookie";
 
 export default function Categories() {
   const token = Cookie.get("token");

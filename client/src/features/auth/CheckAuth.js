@@ -1,7 +1,5 @@
-
-import { useEffect, useState, useCallback } from "react";
 import { useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 export default function CheckAuth({children}){
     // props.children gives whatever is between the <CheckAuth> opening and </CheckAuth> closing tag. I.e. for:

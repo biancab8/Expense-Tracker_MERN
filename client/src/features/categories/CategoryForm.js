@@ -1,38 +1,19 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Autocomplete from "@mui/material/Autocomplete";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { Card, CardContent, Button, Box, Typography, TextField, } from "@mui/material";
 import Cookie from "js-cookie";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
-
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import ShowChartIcon from '@mui/icons-material/ShowChart';
-import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
-import colors from "../../assets/colors";
+import {colors} from "../../assets";
 
 const initialForm = {
   label: "",
-  icon: {name: "other", default: false},
+  icon: { name: "other", default: false },
 }; //default false -> is not a default category, so it can be deleted by user
 
 export default function CategoryForm(props) {
   const dispatch = useDispatch();
   // let categories = useSelector((state) => state.authReducer.user.categories);
-
 
   const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
@@ -110,17 +91,21 @@ export default function CategoryForm(props) {
   return (
     <Card
       sx={{
-        margin:"auto",
+        margin: "auto",
         minWidth: 275,
         marginTop: 10,
       }}
     >
-      <CardContent >
-        <Typography variant="h6" sx={{marginBottom: 2, }} align="left">
+      <CardContent>
+        <Typography variant="h6" sx={{ marginBottom: 2 }} align="left">
           {props.editCategory._id ? "Edit " : "Add New"} Category
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex",  justifyContent: "space-between"}}>
-          <TextField 
+        <Box
+          component="form"
+          onSubmit={handleSubmit}
+          sx={{ display: "flex", justifyContent: "space-between" }}
+        >
+          <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
             size="small"
@@ -132,7 +117,6 @@ export default function CategoryForm(props) {
             required
             inputProps={{ maxLength: 15 }}
           />
-
 
           {/* <Autocomplete
             value={form.icon}
@@ -152,12 +136,26 @@ export default function CategoryForm(props) {
 
           {/* </LocalizationProvider> */}
           {props.editCategory._id !== undefined && (
-            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonSecondary, color:colors.textPrimary}} >
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                backgroundColor: colors.buttonSecondary,
+                color: colors.textPrimary,
+              }}
+            >
               Edit
             </Button>
           )}
           {props.editCategory._id === undefined && (
-            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonPrimary, color:colors.textPrimary}} >
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                backgroundColor: colors.buttonPrimary,
+                color: colors.textPrimary,
+              }}
+            >
               Submit
             </Button>
           )}
