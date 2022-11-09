@@ -16,7 +16,7 @@ import Cookie from "js-cookie";
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUser } from "../features/auth/authSlice";
-
+import colors from '../assets/colors';
 
 
 export default function Login() {
@@ -91,7 +91,7 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: colors.buttonPrimary, color:colors.textPrimary }}
             >
               Log In
             </Button>

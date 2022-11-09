@@ -8,6 +8,7 @@ import { DesktopDatePicker } from '@mui/x-date-pickers';
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import { Fragment } from 'react';
+import colors from '../../assets/colors';
 
 export default function BasicDatePicker(props) {
 
@@ -73,7 +74,7 @@ function plusMinus1Day(date, operator){
                 <TextField sx={{marginRight:1}} variant="standard" size="small" {...params} />
               )}
             />
-                   <Button onClick={handleReset} sx={{whiteSpace:"break-spaces"}} variant="text">Reset</Button>
+                   <Button onClick={handleReset} sx={{color:colors.textTertiary, whiteSpace:"break-spaces"}}   variant="text">Reset</Button>
   </LocalizationProvider>
  
   )

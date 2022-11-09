@@ -13,18 +13,18 @@ import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import Cookie from "js-cookie";
 import { useSelector } from "react-redux";
-import getIcon from "../utils/getIcon";
+import Icon from "../../assets/Icon";
 import Box from "@mui/material/Box";
 import { Fragment } from "react";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import SortSelect from "./CategoryFilter";
+import SortSelect from "../categories/CategoryFilter";
 import { useState } from "react";
-import CategoryFilter from "./CategoryFilter";
+import CategoryFilter from "../categories/CategoryFilter";
 import DateFilter from "./DateFilter";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
-import colors from "../utils/colors";
+import colors from "../../assets/colors";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import FilterListIcon from '@mui/icons-material/FilterList'; 
 import {
@@ -126,7 +126,7 @@ export default function Categories(props) {
         >
           Lists of Transactions
         </Typography>
-        <Button onClick={props.goToChart}>See Chart</Button>
+        <Button onClick={props.goToChart} sx={{color:colors.textTertiary}} >See Chart</Button>
         {/* <Typography sx={{ alignSelf:"right", marginTop: 10, marginBottom: 1, marginRight:0,}} variant="string" display="inline">
           <em>Filter by:</em>
         </Typography> */}
@@ -150,13 +150,13 @@ export default function Categories(props) {
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
-            <TableRow>
+            <TableRow sx={{backgroundColor: colors.tableTop}}>
               <TableCell align="center">   
             Amount
             </TableCell>
 
-              <TableCell align="center">Description</TableCell>
-              <TableCell align="center">Category
+              <TableCell  align="center">Description</TableCell>
+              <TableCell  align="center">Category
               {/* <Tooltip title="Filter list"> */}
           {/* <IconButton onClick={() => setFilter(true)}> */}
 <Select
@@ -197,8 +197,8 @@ export default function Categories(props) {
 
           </TableCell>
 
-              <TableCell align="center">Date</TableCell>
-              <TableCell align="center">Action</TableCell>
+              <TableCell  align="center">Date</TableCell>
+              <TableCell  align="center">Action</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -254,9 +254,10 @@ export default function Categories(props) {
                             <Grid container>
                               <Grid item xs={1} />
                               <Grid item xs={4} align="center">
-                                {getIcon(
+                              <Icon categoryName={categoryNameById(transaction.category_id)}/>
+                                {/* {getIcon(
                                   categoryNameById(transaction.category_id)
-                                )}
+                                )} */}
                               </Grid>
                               <Grid item xs={6} align="left">
                                 {categoryNameById(transaction.category_id)}

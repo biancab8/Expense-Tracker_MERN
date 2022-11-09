@@ -1,4 +1,4 @@
-import AppBar from "./components/AppBar";
+import AppBar from "./features/ui/AppBar";
 import { Outlet } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "./features/auth/authSlice.js"

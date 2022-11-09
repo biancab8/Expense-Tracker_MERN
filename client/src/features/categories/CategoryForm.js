@@ -12,7 +12,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../features/auth/authSlice";
+import { setUser } from "../auth/authSlice";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
 
@@ -22,7 +22,7 @@ import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ShowChartIcon from '@mui/icons-material/ShowChart';
 import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
-
+import colors from "../../assets/colors";
 
 const initialForm = {
   label: "",
@@ -152,12 +152,12 @@ export default function CategoryForm(props) {
 
           {/* </LocalizationProvider> */}
           {props.editCategory._id !== undefined && (
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonSecondary, color:colors.textPrimary}} >
               Edit
             </Button>
           )}
           {props.editCategory._id === undefined && (
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonPrimary, color:colors.textPrimary}} >
               Submit
             </Button>
           )}

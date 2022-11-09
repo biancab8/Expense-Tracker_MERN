@@ -1,4 +1,5 @@
 import * as React from "react";
+
 import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -11,6 +12,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
+import colors from "../../assets/colors";
 import { useSelector, useDispatch } from "react-redux";
 import {
   FormControl,
@@ -171,12 +173,12 @@ export default function TransactionForm(props) {
             />
           </LocalizationProvider>
           {props.editTransaction.amount !== undefined && (
-            <Button type="submit" variant="secondary">
+            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonSecondary, color:colors.textSecondary}} >
               Edit
             </Button>
           )}
           {props.editTransaction.amount === undefined && (
-            <Button type="submit" variant="contained">
+            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonPrimary, color:colors.textPrimary}} >
               Submit
             </Button>
           )}

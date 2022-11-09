@@ -4,8 +4,8 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Categories from "./pages/Categories";
 import App from "./App";
-import CheckAuth from "./utils/CheckAuth";
-import CheckGuest from "./utils/CheckGuest";
+import CheckAuth from "./features/auth/CheckAuth";
+import CheckGuest from "./features/auth/CheckGuest";
 
 export default createBrowserRouter([
   {

@@ -15,7 +15,7 @@ import dayjs from "dayjs";
 import Cookie from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
-import CategoryForm from "../components/CategoryForm";
+import CategoryForm from "../features/categories/CategoryForm";
 import { useState } from "react";
 import AcUnitIcon from "@mui/icons-material/AcUnit";
 import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
@@ -29,7 +29,7 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import PaidIcon from '@mui/icons-material/Paid';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
-import getIcon from "../utils/getIcon";
+import getIcon from "../assets/Icon";
 
 export default function Categories() {
   const token = Cookie.get("token");

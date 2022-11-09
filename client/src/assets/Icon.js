@@ -11,18 +11,21 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import PaidIcon from '@mui/icons-material/Paid';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
-const icons = {
-    "travel": <WbSunnyIcon/>,
-    "shopping": <ShoppingCartIcon/>,
-    "health": <LocalHospitalIcon/>, 
-    "bills": <ReceiptLongIcon/>, 
-    "leisure": <EmojiEmotionsIcon/>,
-    "other": <AttachMoneyIcon/>,
-  }
 
-function getIcon(name){
-    const categoryName = name.toLowerCase(); 
-    return icons[categoryName]??icons["other"];
+
+const icons = {
+  "travel": <WbSunnyIcon/>,
+  "shopping": <ShoppingCartIcon/>,
+  "health": <LocalHospitalIcon/>, 
+  "bills": <ReceiptLongIcon/>, 
+  "leisure": <EmojiEmotionsIcon/>,
+  "other": <AttachMoneyIcon/>,
 }
 
-  export default getIcon; 
+export default function Icon(props){
+// takes a category name and returns the corresponding icon
+// if none match, return icon for "other"
+  const categoryName = props.categoryName.toLowerCase();
+  const icon = icons[categoryName]; 
+  return icon?icon:icons["other"];
+}

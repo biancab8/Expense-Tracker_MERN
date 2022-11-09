@@ -15,7 +15,7 @@ import {
 } from "@devexpress/dx-react-chart-material-ui";
 import { Stack } from "@devexpress/dx-react-chart";
 import { styled } from "@mui/material/styles";
-
+import colors from "../../assets/colors";
 import Paper from "@mui/material/Paper";
 import dayjs from "dayjs";
 import * as React from "react";
@@ -44,7 +44,7 @@ export default function TransactionChart(props) {
     return monthData;
   });
 
-  console.log(chartData);
+
   return (
     <Paper>
       <Chart data={props.data}>
@@ -52,7 +52,7 @@ export default function TransactionChart(props) {
         <ArgumentScale factory={scaleBand} />
         <ArgumentAxis />
         <ValueAxis />
-        <BarSeries valueField="totalExpenses" argumentField="monthYear" />
+        <BarSeries color={colors.barColor} valueField="totalExpenses" argumentField="monthYear" />
 
         <Animation />
         {/* hover gives amount */}

@@ -9,8 +9,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Link, useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser } from "../features/auth/authSlice";
-import colors from "../utils/colors"
+import { removeUser } from "../auth/authSlice";
+import colors from "../../assets/colors"
 
 export default function ButtonAppBar() {
   const dispatch = useDispatch();

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import TransactionForm from "../components/TransactionForm";
-import TransactionsTable from "../components/TransactionsTable";
+import TransactionForm from "../features/transactions/TransactionForm";
+import TransactionsTable from "../features/transactions/TransactionsTable";
 import { Container } from "@mui/system";
 import Cookie from "js-cookie";
-import SortSelect from "../components/CategoryFilter";
-import TransactionChart from "../components/TransactionsChart";
+import SortSelect from "../features/categories/CategoryFilter";
+import TransactionChart from "../features/transactions/TransactionsChart";
 import { useRef } from "react";
 import { Button } from "@mui/material";
 
