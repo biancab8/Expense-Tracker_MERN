@@ -2,6 +2,7 @@ import * as React from 'react';
 import {Avatar, Button, CssBaseline, TextField, Grid, Box, Typography, Container,} from '@mui/material';
 import {Link, useNavigate} from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { colors } from '../assets';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -98,7 +99,9 @@ export default function Register() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundColor: colors.buttonPrimary, color:colors.textPrimary, "&:hover": {
+            backgroundColor: `${colors.buttonPrimaryHover} !important`
+          } }}
             >
               Register
             </Button>

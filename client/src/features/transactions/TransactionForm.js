@@ -8,6 +8,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
 import {colors} from "../../assets";
 import { useSelector } from "react-redux";
+import { ButtonPrimary, ButtonSecondary } from "../ui";
 
 const initialForm = {
   amount: "",
@@ -161,17 +162,22 @@ export default function TransactionForm(props) {
             />
           </LocalizationProvider>
           {props.editTransaction.amount !== undefined && (
-            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonSecondary, color:colors.textSecondary}} >
-              Edit
-            </Button>
+            <ButtonSecondary text="Edit"></ButtonSecondary>
           )}
           {props.editTransaction.amount === undefined && (
-            <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonPrimary, color:colors.textPrimary}} >
-              Submit
-            </Button>
+            <ButtonPrimary text="Submit"></ButtonPrimary>
           )}
         </Box>
       </CardContent>
     </Card>
   );
 }
+
+{/* <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonPrimary, color:colors.textPrimary, "&:hover": {
+backgroundColor: `${colors.buttonPrimaryHover} !important`
+}}} >
+Submit
+</Button> */}
+{/* <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonSecondary, color:colors.textSecondary}} >
+  Edit
+</Button> */}

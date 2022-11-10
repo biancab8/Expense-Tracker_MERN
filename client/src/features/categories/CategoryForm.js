@@ -5,6 +5,7 @@ import Cookie from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";
 import {colors} from "../../assets";
+import { ButtonPrimary, ButtonSecondary } from "../ui";
 
 const initialForm = {
   label: "",
@@ -13,7 +14,6 @@ const initialForm = {
 
 export default function CategoryForm(props) {
   const dispatch = useDispatch();
-  // let categories = useSelector((state) => state.authReducer.user.categories);
 
   const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
@@ -75,19 +75,6 @@ export default function CategoryForm(props) {
     return res;
   }
 
-  // function getCategoryNameById() {
-  //   // return categories.find((category) => category._id === form.category_id) ?? ""
-  //   //categories is DB array with name + ids
-  // }
-
-  // function getIcon() {
-  //   //takes the icon name and returns the corresponding material UI component
-  //   if (false) {
-  //     return <AcUnitIcon />;
-  //   }
-  //   return <AirplanemodeActiveIcon />;
-  // }
-
   return (
     <Card
       sx={{
@@ -117,50 +104,25 @@ export default function CategoryForm(props) {
             required
             inputProps={{ maxLength: 15 }}
           />
-
-          {/* <Autocomplete
-            value={form.icon}
-            onChange={(event, newValue) => {
-              setForm({ ...form, icon: newValue }); //mongo automatically creates an _id field for each member of an array
-            }}
-            id="icons"
-            options={icons}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            sx={{ width: 200, marginRight: 5 }}
-            // defaultValue={[]}
-            renderInput={(params) => (
-              <TextField {...params} size="small" label="Icon" required />
-              
-            )}
-          /> */}
-
-          {/* </LocalizationProvider> */}
           {props.editCategory._id !== undefined && (
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                backgroundColor: colors.buttonSecondary,
-                color: colors.textPrimary,
-              }}
-            >
-              Edit
-            </Button>
+            <ButtonSecondary text="Edit"/>
           )}
           {props.editCategory._id === undefined && (
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                backgroundColor: colors.buttonPrimary,
-                color: colors.textPrimary,
-              }}
-            >
-              Submit
-            </Button>
+            <ButtonPrimary text="Submit"/>
           )}
         </Box>
       </CardContent>
     </Card>
   );
 }
+
+            // <Button
+            //   type="submit"
+            //   variant="contained"
+            //   sx={{
+            //     backgroundColor: colors.buttonSecondary,
+            //     color: colors.textPrimary,
+            //   }}
+            // >
+            //   Edit
+            // </Button>

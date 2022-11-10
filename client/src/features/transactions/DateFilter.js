@@ -1,10 +1,12 @@
 import * as React from 'react';
 
-import {TextField, Button} from '@mui/material';
+import {TextField, Button, Box} from '@mui/material';
+import { Fragment } from 'react';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DesktopDatePicker } from '@mui/x-date-pickers';
 import {colors} from '../../assets';
+import { ButtonTertiary } from '../ui';
 
 export default function DateFilter(props) {
 
@@ -48,9 +50,12 @@ function plusMinus1Day(date, operator){
     }
   return (
     // prevent invalid date entries by setting min and max dates
-   
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
+
+    <LocalizationProvider dateAdapter={AdapterDayjs} >
+    <Box sx={{display:"inline-flex", marginRight: "23px", marginBottom: "1px"}}>
+
             <DesktopDatePicker
+          
               label="Start Date"
               inputFormat="DD/MM/YYYY"
               onChange={handleStartDateChange}
@@ -61,7 +66,8 @@ function plusMinus1Day(date, operator){
               )}
             />
                         <DesktopDatePicker
-              label="End Date (excluded)"
+                      
+              label="End Date"
               inputFormat="DD/MM/YYYY"
               onChange={handleEndDateChange}
               value={props.endDate}
@@ -70,12 +76,14 @@ function plusMinus1Day(date, operator){
                 <TextField sx={{marginRight:1}} variant="standard" size="small" {...params} />
               )}
             />
-                   <Button onClick={handleReset} sx={{color:colors.textTertiary, whiteSpace:"break-spaces"}}   variant="text">Reset</Button>
+    </Box>
+            <ButtonTertiary handleClick={handleReset} text="RESET"/>
   </LocalizationProvider>
- 
-  )
+
+ )
 }
 
+{/* <Button onClick={handleReset} sx={{color:colors.textTertiary, whiteSpace:"break-spaces"}}   variant="text">Reset</Button> */}
 // color:"#B5B5B5"
 
 

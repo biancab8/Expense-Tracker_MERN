@@ -7,7 +7,7 @@ import Cookie from "js-cookie";
 import { useDispatch } from 'react-redux';
 import { setUser } from "../features/auth/authSlice";
 import colors from '../assets/colors';
-
+import { ButtonPrimary, ButtonSecondary } from '../features/ui';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -81,10 +81,15 @@ export default function Login() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: colors.buttonPrimary, color:colors.textPrimary }}
+              sx={{ mt: 3, mb: 2, backgroundColor: colors.buttonPrimary, color:colors.textPrimary, "&:hover": {
+            backgroundColor: `${colors.buttonPrimaryHover} !important`
+          } }}
             >
               Log In
             </Button>
+
+
+
             <Grid container>
               <Grid item>
                 <Link to="/register" variant="body2">

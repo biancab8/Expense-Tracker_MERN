@@ -42,7 +42,7 @@ export default function TransactionChart(props) {
 
 
   return (
-    <Paper>
+    <Paper sx={{marginTop: "70px"}}>
       <Chart data={props.data}>
         <Title text="Monthly Expenses ($)" />
         <ArgumentScale factory={scaleBand} />

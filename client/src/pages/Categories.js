@@ -7,6 +7,8 @@ import { setUser } from "../features/auth/authSlice";
 import {CategoryForm} from "../features/categories";
 import { useState } from "react";
 import Cookie from "js-cookie";
+import { TableHeaderCell, TableInnerCell } from "../features/ui";
+
 
 export default function Categories() {
   const token = Cookie.get("token");
@@ -58,9 +60,12 @@ export default function Categories() {
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Label</TableCell>
+              {/* <TableCell align="center">Label</TableCell> */}
+              <TableHeaderCell text="Label"/>
+              <TableHeaderCell text="Action"/>
+              {/* <TableHeaderCell text="Label"/> */}
               {/* <TableCell align="center">Icon</TableCell> */}
-              <TableCell align="center">Action</TableCell>
+              {/* <TableCell align="center">Action</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>

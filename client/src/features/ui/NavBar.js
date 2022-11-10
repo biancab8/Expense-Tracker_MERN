@@ -21,8 +21,9 @@ export default function NavBar() {
   }
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{backgroundColor: colors.tableBackgroundPrimary, color: colors.textSecondary,}}>
+    // <Box sx={{ flexGrow: 1 }}>
+      <AppBar position="static" sx={{backgroundColor: colors.tableBackgroundPrimary, color: colors.textSecondary, }}> 
+      {/* display: "inline-flex" */}
         <Toolbar>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/" className="text-white">
@@ -51,6 +52,6 @@ export default function NavBar() {
           )}
         </Toolbar>
       </AppBar>
-    </Box>
+    // </Box>
   );
 }

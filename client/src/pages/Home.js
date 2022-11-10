@@ -52,7 +52,7 @@ console.log(apiUrl)
   }
 
   return (
-      <Container >
+      <Container sx={{minWidth: "750px"}}>
         <TransactionForm fetchTransactions={fetchTransactions} 
           editTransaction={editTransaction}
           setEditTransaction={setEditTransaction}
