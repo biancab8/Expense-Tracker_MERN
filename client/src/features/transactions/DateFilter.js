@@ -1,14 +1,14 @@
+//date input fields for start and end date and reset button
 import * as React from "react";
 
-import { TextField, Button, Box } from "@mui/material";
-import { Fragment } from "react";
+import { TextField, Box } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
-import { colors } from "../../assets";
 import { ButtonTertiary } from "../ui";
 
 export default function DateFilter(props) {
+
   function handleStartDateChange(newDate) {
     props.setStartDate(newDate);
     if (props.endDate) {
@@ -25,25 +25,25 @@ export default function DateFilter(props) {
 
   function plusMinus1Day(date, operator) {
     //takes a date, adds or subtracts 1 day, and returns the new date
+    //-> use to add 1 day to end date 
     if (!date) {
       return null;
     }
     let newDate = new Date(date);
     if (operator === "+") {
       return newDate.setDate(new Date(date).getDate() + 1);
-    } else {
+    } else { 
       return newDate.setDate(new Date(date).getDate() - 1);
     }
   }
 
   function handleReset() {
+    //reset input form
     props.setStartDate(null);
     props.setEndDate(null);
     props.filterTransactions(null, null, props.categoryFilter);
   }
   return (
-    // prevent invalid date entries by setting min and max dates
-
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box
         sx={{
@@ -57,7 +57,7 @@ export default function DateFilter(props) {
           inputFormat="DD/MM/YYYY"
           onChange={handleStartDateChange}
           value={props.startDate}
-          maxDate={plusMinus1Day(props.endDate, "-")}
+          maxDate={plusMinus1Day(props.endDate, "-")} //at least 1 day between start and end date
           renderInput={(params) => (
             <TextField
               variant="standard"

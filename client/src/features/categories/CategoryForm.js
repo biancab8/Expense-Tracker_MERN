@@ -1,3 +1,4 @@
+//form where user can add or edit a category
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Card, CardContent, Box, Typography, TextField, } from "@mui/material";
@@ -11,6 +12,7 @@ const initialForm = {
   icon: { name: "other", default: false },
 }; //default false -> is not a default category, so it can be deleted by user
 
+
 export default function CategoryForm(props) {
   const dispatch = useDispatch();
   const token = Cookie.get("token");
@@ -20,13 +22,14 @@ export default function CategoryForm(props) {
     if (props.editCategory._id !== undefined) {
       setForm(props.editCategory);
     }
-  }, [props.editCategory._id]); //run whenever this var changes/is updated
+  }, [props.editCategory._id]); 
 
   function handleChange(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
   }
 
   async function handleSubmit(event) {
+    //add or update category API call 
     event.preventDefault();
     let res;
     if (props.editCategory._id === undefined) {
@@ -36,9 +39,8 @@ export default function CategoryForm(props) {
     }
     if (res.ok) {
       const { user } = await res.json();
-      //if editing, reset the editCategory to {}
       if (props.editCategory) {
-        props.setEditCategory({});
+        props.setEditCategory({}); //if editing, reset the editCategory to {}
       }
       //reset form and update store with updated user data
       setForm(initialForm);

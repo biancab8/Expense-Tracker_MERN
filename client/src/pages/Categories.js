@@ -7,7 +7,7 @@ import { setUser } from "../features/auth/authSlice";
 import {CategoryForm} from "../features/categories";
 import { useState } from "react";
 import Cookie from "js-cookie";
-import { TableHeaderCell, TableInnerCell } from "../features/ui";
+import { TableHeaderCell } from "../features/ui";
 
 
 export default function Categories() {
@@ -17,6 +17,7 @@ export default function Categories() {
   const [editCategory, setEditCategory] = useState({});
 
   async function remove(id) {
+    //delete category
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
@@ -37,7 +38,6 @@ export default function Categories() {
   }
 
 
-
   return (
     <Container align="center" sx={{ width:'32%', minWidth: 450}}>
       <CategoryForm
@@ -47,16 +47,12 @@ export default function Categories() {
       <Typography  align="left" sx={{ marginTop: 10,  marginBottom:1}} variant="h6">
         Custom Categories
       </Typography>
-      <TableContainer component={Paper} > {/*sx={{width:'70%'}}*/}
+      <TableContainer component={Paper} > 
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              {/* <TableCell align="center">Label</TableCell> */}
               <TableHeaderCell text="Label"/>
               <TableHeaderCell text="Action"/>
-              {/* <TableHeaderCell text="Label"/> */}
-              {/* <TableCell align="center">Icon</TableCell> */}
-              {/* <TableCell align="center">Action</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -68,7 +64,6 @@ export default function Categories() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center">{category.label}</TableCell>
-                  {/* <TableCell align="center">{icons[category.icon.name]}</TableCell> */}
                   <TableCell align="center">
                     <IconButton
                       color="primary"

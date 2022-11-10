@@ -55,7 +55,7 @@ export default function TransactionsTable(props) {
   }
 
   async function filterTransactions(startDate, endDate) {
-    //filter transactions list items based on start and end date
+    //filter transactions list by selected date range
     await props.fetchTransactions(startDate, endDate, categoryFilter);
   }
 

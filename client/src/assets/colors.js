@@ -1,5 +1,3 @@
-
-
 const colors = {
     // table colors
     tableBackgroundPrimary: "#014ca0",

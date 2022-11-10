@@ -7,7 +7,6 @@ import Cookie from "js-cookie";
 import { useDispatch } from 'react-redux';
 import { setUser } from "../features/auth/authSlice";
 import colors from '../assets/colors';
-import { ButtonPrimary, ButtonSecondary } from '../features/ui';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -77,9 +76,6 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
-
-{/* <ButtonPrimary type="submit" text="Login"/> */}
-
             <Button
               type="submit"
               fullWidth

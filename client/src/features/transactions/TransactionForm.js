@@ -1,7 +1,7 @@
 import * as React from "react";
 
 import { useState, useEffect } from "react";
-import {Card, CardContent, Button, Autocomplete, Box, Typography, TextField, InputAdornment} from "@mui/material";
+import {Card, CardContent, Autocomplete, Box, Typography, TextField, InputAdornment} from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
@@ -25,7 +25,7 @@ export default function TransactionForm(props) {
     if (props.editTransaction.amount !== undefined) {
       setForm(props.editTransaction);
     }
-  }, [props.editTransaction.amount]); //run whenever this var changes/is updated
+  }, [props.editTransaction.amount]); 
 
   function handleChange(event) {
     setForm({ ...form, [event.target.name]: event.target.value });
@@ -36,6 +36,7 @@ export default function TransactionForm(props) {
   }
 
   async function handleSubmit(event) {
+    //add or update transaction API call
     event.preventDefault();
     let res;
     if (props.editTransaction.amount === undefined) {
@@ -78,10 +79,10 @@ export default function TransactionForm(props) {
   }
 
   function getCategoryNameById() {
+    //return category name
     return (
       categories.find((category) => category._id === form.category_id) ?? ""
     );
-    //categories is DB array with name + ids
   }
 
   return (
@@ -113,7 +114,6 @@ export default function TransactionForm(props) {
               ),
             }}
           />
-
           <TextField
             onChange={handleChange}
             sx={{ marginRight: 5 }}
@@ -130,7 +130,6 @@ export default function TransactionForm(props) {
             <DesktopDatePicker
               label="Transaction Date"
               inputFormat="DD/MM/YYYY"
-              //   value={value}
               onChange={handleDateChange}
               value={form.date}
               renderInput={(params) => (

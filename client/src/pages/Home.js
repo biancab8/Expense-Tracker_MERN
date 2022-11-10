@@ -5,8 +5,6 @@ import Cookie from "js-cookie";
 
 
 function Home() {
-
-  //for the transactions to be rendered on the page
   const [transactionsData, setTransactionsData] = useState([]);
   const [editTransaction, setEditTransaction] = useState({}); 
 
@@ -16,9 +14,8 @@ function Home() {
   }, []);
 
   async function fetchTransactions(startDate=null, endDate=null, category=null) {
-    //if start and end dates are provided, only requests entries within that 
+    //if start and end dates and/or category are provided, only requests entries within that 
     //time frame from the database
-    // ///////////////////////////////////////////////////////////
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
     if(startDate && endDate){
       apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
@@ -30,8 +27,6 @@ function Home() {
         apiUrl= apiUrl+`?category=${category}`
       }
     }
-console.log(apiUrl)
-    //////////////////////////////////////////////////////////////
     const token = Cookie.get("token");
     const res = await fetch(apiUrl, {
       method: "GET",
@@ -40,20 +35,19 @@ console.log(apiUrl)
       }
     });
     if(res.ok){
-      //read received data
-      const { data } = await res.json(); //parse entire json, returns a promise
+      const { data } = await res.json(); 
       setTransactionsData(data);
     }
   }
 
   const myRef=useRef(null)
   function goToChart(){
+    //jump to chart component
     myRef.current.scrollIntoView();
   }
 
   return (
       <Container > 
-      {/* sx={{minWidth: "750px"}} */}
         <TransactionForm fetchTransactions={fetchTransactions} 
           editTransaction={editTransaction}
           setEditTransaction={setEditTransaction}
@@ -69,7 +63,6 @@ console.log(apiUrl)
 <div ref={myRef}>
         <TransactionChart data={transactionsData}>
         </TransactionChart>
-
 </div>
       </Container>
   );

@@ -15,13 +15,13 @@ export default function NavBar() {
   );
 
   function logout() {
+    //delete token from cookies
     Cookie.remove("token");
     dispatch(removeUser());
     navigate("/login");
   }
 
   return (
-    // <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{backgroundColor: colors.tableBackgroundPrimary, color: colors.textSecondary, }}> 
       {/* display: "inline-flex" */}
         <Toolbar>
@@ -52,6 +52,5 @@ export default function NavBar() {
           )}
         </Toolbar>
       </AppBar>
-    // </Box>
   );
 }

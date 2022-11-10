@@ -1,3 +1,4 @@
+//filter icon + dropdown list of categories to choose from
 import { Select, MenuItem } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import React from "react";
