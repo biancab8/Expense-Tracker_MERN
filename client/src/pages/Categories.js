@@ -14,16 +14,6 @@ export default function Categories() {
   const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
   const dispatch = useDispatch();
-
-  // const icons = {
-  //   "travel": <WbSunnyIcon/>,
-  //   "shopping": <ShoppingCartIcon/>,
-  //   "health": <LocalHospitalIcon/>, 
-  //   "bills": <ReceiptLongIcon/>, 
-  //   "leisure": <EmojiEmotionsIcon/>,
-  //   "other": <AttachMoneyIcon/>,
-  // }
-  //to populate the category form with data of the state to be edited
   const [editCategory, setEditCategory] = useState({});
 
   async function remove(id) {
@@ -45,6 +35,7 @@ export default function Categories() {
       }
     }
   }
+
 
 
   return (

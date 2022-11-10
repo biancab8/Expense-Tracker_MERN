@@ -2,26 +2,14 @@
 import mongoose from "mongoose";
 import Transaction from "../models/Transaction.js";
 
-// export const findTransactions = async (req, res) => {
-//     Transaction.find({user_id: req.user._id}, function (err, transactions){
-//         if(err){
-//             console.err(err);
-//         } else {
-//             //won't actually be sent back before rest of function finished. (bc not saying return res.json())
-
-//             res.json({data: transactions});
-//         }
-//     }).sort({date: "descending", createdAt: "descending"})
-//     //also sort by createdAt so that same date but more recently created will be at top
-// }
-
 export const findTransactions = async (req, res) => {
-  let startDate = req.query.startDate; 
+  let startDate = req.query.startDate;
   let endDate = req.query.endDate;
   let category = req.query.category;
   let dateConditions = {};
-  let categoryCondition = { };
-  //if filter by date requested, add dates to conditions
+  let categoryCondition = {};
+
+  //if filter by date or category requests, add those to conditions:
   if (startDate && endDate) {
     startDate = new Date(req.query.startDate + "T00:00:00");
     endDate = new Date(req.query.endDate + "T23:59:59");
@@ -32,28 +20,22 @@ export const findTransactions = async (req, res) => {
     categoryCondition = { category_id: category };
   }
 
-//   console.log(categoryCondition)
-//   console.log(dateConditions)
   Transaction.aggregate(
     [
-      //only look at transactions for this user, and sort all with newest at top
-      // conditions,
       {
-        $match: {user_id: req.user._id}, 
-        
-    },
-    {
-    $match: categoryCondition, //filter by category id
-    },
-    {
-        $match: dateConditions, //if date range specified, pass in dates
-    }, 
-    {
+        $match: { user_id: req.user._id },
+      },
+      {
+        $match: categoryCondition, //filter by category id
+      },
+      {
+        $match: dateConditions, //if date range specified, filter by date range
+      },
+      {
         $sort: { date: -1, createdAt: -1 },
         //also sort by createdAt so that same date but more recently created will be at top
         //descending
       },
-
       {
         //STAGE 1 -> CREATE GROUPS
         //group by month/year -> creates 1 document per month+year
@@ -79,7 +61,6 @@ export const findTransactions = async (req, res) => {
       {
         //STAGE 2 -> WORK ON THE GROUP LEVEL, ie sort the groups not the individual transactions
         //sort the groups by their _id which is the year+month
-        // { $sort: { _id: 1}},
         $sort: { _id: -1 }, //descending ie newest at top
       },
     ],
@@ -92,21 +73,6 @@ export const findTransactions = async (req, res) => {
     }
   );
 };
-
-// export const findTransactions = async (req, res) => {
-//     // const startDate = new Date(req.params.startDate).setHours(0,0,0);
-//     // const endDate = new Date(req.params.endDate).setHours(23,59,59);
-//     //set hours to start/end of day or it will compare the hours too
-//     const cat = mongoose.Types.ObjectId('6366f33e435ff024acf18c7e');
-//     Transaction.find({user_id: req.user._id,  category_id: cat }, function (err, transactions){
-//         if(err){
-//             console.err(err);
-//         } else {
-//             res.json({data: transactions});
-//         }
-//     }).sort({date: "descending", createdAt: "descending"})
-//     //also sort by createdAt so that same date but more recently created will be at top
-// }
 
 export const createTransaction = async (req, res) => {
   const { amount, description, date, category_id } = req.body;

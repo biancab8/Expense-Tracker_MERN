@@ -77,6 +77,9 @@ export default function Login() {
               id="password"
               autoComplete="current-password"
             />
+
+{/* <ButtonPrimary type="submit" text="Login"/> */}
+
             <Button
               type="submit"
               fullWidth
@@ -87,9 +90,6 @@ export default function Login() {
             >
               Log In
             </Button>
-
-
-
             <Grid container>
               <Grid item>
                 <Link to="/register" variant="body2">

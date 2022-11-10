@@ -1,9 +1,14 @@
 import * as React from "react";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import dayjs from "dayjs";
+import Cookie from "js-cookie";
+import { useSelector } from "react-redux";
+import { Fragment, useState } from "react";
+import { DateFilter } from "./index";
+import { CategoryFilter, CategoryIcon } from "../categories";
 import {
-  Select,
-  MenuItem,
   Table,
-  Button,
   Typography,
   TableBody,
   TableContainer,
@@ -14,17 +19,12 @@ import {
   Box,
   Grid,
 } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteIcon from "@mui/icons-material/Delete";
-import dayjs from "dayjs";
-import Cookie from "js-cookie";
-import { useSelector } from "react-redux";
-import { Fragment, useState } from "react";
-import { DateFilter } from "./index";
-import { colors } from "../../assets";
-import { CategoryIcon } from "../categories";
-import "../../index";
-import { TableHeaderCell, TableInnerCell, TableSummaryCell, ButtonTertiary } from "../ui";
+import {
+  TableHeaderCell,
+  TableInnerCell,
+  TableSummaryCell,
+  ButtonTertiary,
+} from "../ui";
 
 
 export default function TransactionsTable(props) {
@@ -35,6 +35,7 @@ export default function TransactionsTable(props) {
   const [endDate, setEndDate] = useState(null);
 
   async function remove(id) {
+    //delete transaction
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
@@ -54,35 +55,33 @@ export default function TransactionsTable(props) {
   }
 
   async function filterTransactions(startDate, endDate) {
-    //calls fetchTransactions in TransactionsTable and provides a start and end date to
-    //filter the transactions list
+    //filter transactions list items based on start and end date
     await props.fetchTransactions(startDate, endDate, categoryFilter);
   }
 
-  function formatDate(date) {
-    return dayjs(date).format("MMM DD, YYYY");
-  }
-
   function categoryNameById(id) {
-    //get category array (w/ names + ids) from user from the store, then compare id with those to get the name
+    //compare id with those in user's categories list. If match, return name, else 'NA'
     const category = user.categories.find((category) => category._id === id);
     return category ? category.label : "NA";
   }
 
   function numToCurrency(num) {
+    //format num to currency with 2 decimal places
     const formatter = new Intl.NumberFormat("en-US", {
-      maximumFractionDigits: 2, //max nr of minor digits
+      maximumFractionDigits: 2, //max nr of decimals
     });
     return formatter.format(num);
   }
 
   function numToMonth(num) {
+    //numerical month to month name
     const date = new Date();
-    date.setMonth(num - 1);
+    date.setMonth(num - 1); //0=jan
     return date.toLocaleString("en-US", { month: "long" });
   }
 
   function filterCategory(event) {
+    //filter transactions list by selected cateogry
     const category = event.target.value;
     setCategoryFilter(category);
     props.fetchTransactions(startDate, endDate, category);
@@ -90,7 +89,7 @@ export default function TransactionsTable(props) {
 
   return (
     <>
-      {/* <Box  sx={{ display: "inline-flex", justifyContent: "space-between"}}> */}
+    {/* heading & date filter */}
       <Box
         sx={{
           display: "flex",
@@ -100,16 +99,11 @@ export default function TransactionsTable(props) {
           marginTop: 9,
         }}
       >
-      <div>
-        <Typography
-          sx={{ marginRight: 3}}
-          variant="h6"
-          display="inline"
-        >
-          Lists of Transactions
-        </Typography>
-
-        <ButtonTertiary handleClick={props.goToChart} text="SEE CHART"/>
+        <div>
+          <Typography sx={{ marginRight: 3 }} variant="h6" display="inline">
+            Lists of Transactions
+          </Typography>
+          <ButtonTertiary handleClick={props.goToChart} text="SEE CHART" />
         </div>
         <div>
           <DateFilter
@@ -122,6 +116,8 @@ export default function TransactionsTable(props) {
           ></DateFilter>
         </div>
       </Box>
+
+      {/* table */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -130,37 +126,8 @@ export default function TransactionsTable(props) {
               <TableHeaderCell text="Description" />
               <TableHeaderCell
                 text="Category"
-                //inner cell = filter
-                nestedCell=
-                <Select
-                  size="small"
-                  fontSize="5px"
-                  labelId="demo-simple-select-autowidth-label"
-                  id="demo-simple-select-autowidth"
-                  value={categoryFilter}
-                  onChange={filterCategory}
-                  autoWidth
-                  variant="standard"
-                  disableUnderline={true}
-                  style={{
-                    height: "3px",
-                    marginLeft: "8px",
-                    fontStyle: "italic",
-                    fontSize: "small",
-                    color: "#f0f3ff"
-                  }}
-                >
-                  <MenuItem value={""}>
-                    <em>None</em>
-                  </MenuItem>
-                  {user.categories.map((category) => {
-                    return (
-                      <MenuItem key={category._id} value={category._id}>
-                        {category.label}
-                      </MenuItem>
-                    );
-                  })}
-                </Select>
+                // nested cell = category filter
+                nestedCell = <CategoryFilter filterCategory={filterCategory} categoryFilter={categoryFilter} user={user}/>
               ></TableHeaderCell>
               <TableHeaderCell text="Date" />
               <TableHeaderCell text="Action" />
@@ -169,7 +136,7 @@ export default function TransactionsTable(props) {
           <TableBody>
             {/* transactionsData = transactions grouped by month+year */}
             {/* each group has own list of transactions for that month */}
-            {props.transactionsData.map((transactionsByMonth) => {
+            {props.transactionsData.map((transactionsByMonth) => {  //for each group
               return (
                 <Fragment key={transactionsByMonth.transactions[0]._id}>
                   <TableRow
@@ -193,7 +160,7 @@ export default function TransactionsTable(props) {
                       )}`}
                     />
                   </TableRow>
-                  {transactionsByMonth.transactions.map((transaction) => {
+                  {transactionsByMonth.transactions.map((transaction) => { //for each transaction
                     return (
                       <TableRow
                         key={transaction._id}
@@ -222,7 +189,9 @@ export default function TransactionsTable(props) {
                             </Grid>
                           </Grid>
                         ></TableInnerCell>
-                        <TableInnerCell text={formatDate(transaction.date)} />
+                        <TableInnerCell
+                          text={dayjs(transaction.date).format("MMM DD, YYYY")}
+                        />
                         <TableInnerCell
                           text=""
                           nestedCell=<div>

@@ -6,7 +6,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
-import {colors} from "../../assets";
 import { useSelector } from "react-redux";
 import { ButtonPrimary, ButtonSecondary } from "../ui";
 
@@ -19,7 +18,6 @@ const initialForm = {
 
 export default function TransactionForm(props) {
   let categories = useSelector((state) => state.authReducer.user.categories);
-
   const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
 
@@ -102,7 +100,6 @@ export default function TransactionForm(props) {
             onChange={handleChange}
             sx={{ marginRight: 5 }}
             size="small"
-            // id="outlined-basic"
             id="outlined-start-adornment"
             label="Amount"
             variant="outlined"
@@ -173,11 +170,3 @@ export default function TransactionForm(props) {
   );
 }
 
-{/* <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonPrimary, color:colors.textPrimary, "&:hover": {
-backgroundColor: `${colors.buttonPrimaryHover} !important`
-}}} >
-Submit
-</Button> */}
-{/* <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonSecondary, color:colors.textSecondary}} >
-  Edit
-</Button> */}

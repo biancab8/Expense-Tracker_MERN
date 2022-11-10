@@ -14,7 +14,6 @@ const categories = [
 
   export const registerUser = (req, res) => {
     //get data from req
-    // console.log(req.body)
     const {email, firstName, lastName, password} = req.body;
     //check if use already has an account 
     User.findOne({email: email}, async function(err, foundUser){
@@ -65,5 +64,4 @@ export const loginUser = (req, res) => {
             console.log("User credentials not found.")
         }
     })
-    //check if password matches
 }

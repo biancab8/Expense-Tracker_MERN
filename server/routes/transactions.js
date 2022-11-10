@@ -5,21 +5,14 @@ import Transaction from "../models/Transaction.js";
 import passport from "passport";
 import * as TransactionController from "../controller/TransactionController.js";
 
-//init router instance
 const router = Router();
 
 //handle get requests to /transactions/
+
 router.get("/", TransactionController.findTransactions)
-
-// router.get("/dateFilter/:startDate/:endDate", TransactionController.filterByDate);
-
 router.post("/", TransactionController.createTransaction);
-
-
 router.delete("/:id", TransactionController.deleteTransaction)
-
-//handle update requests to /transactions
-router.patch("/:id", TransactionController.updateTransaction)
+router.patch("/:id", TransactionController.updateTransaction) //update
 
 
 export default router;

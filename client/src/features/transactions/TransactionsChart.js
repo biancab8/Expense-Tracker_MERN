@@ -32,8 +32,9 @@ export default function TransactionChart(props) {
     date.setMonth(num - 1);
     return date.toLocaleString("en-US", { month: "long" });
   }
+
   //create data for chart: add monthYear field for each month
-  const chartData = props.data.map((monthData) => {
+  props.data.map((monthData) => {
     monthData.monthYear = `${numToMonth(monthData._id.month)} ${
       monthData._id.year
     }`;
@@ -49,9 +50,8 @@ export default function TransactionChart(props) {
         <ArgumentAxis />
         <ValueAxis />
         <BarSeries color={colors.barColor} valueField="totalExpenses" argumentField="monthYear" />
-
         <Animation />
-        {/* hover gives amount */}
+        {/* hover gives amount: */}
         <EventTracker />
         <Tooltip location="edge"
         />
