@@ -1,15 +1,11 @@
-import { useEffect, useState } from "react";
-import TransactionForm from "../components/TransactionForm";
-import TransactionsTable from "../components/TransactionsTable";
+import { useEffect, useState, useRef } from "react";
+import {TransactionForm, TransactionsTable, TransactionChart} from "../features/transactions";
 import { Container } from "@mui/system";
 import Cookie from "js-cookie";
-import SortSelect from "../components/CategoryFilter";
 
 
 function Home() {
-
-  //for the transactions to be rendered on the page
-  const [transactions, setTransactions] = useState([]);
+  const [transactionsData, setTransactionsData] = useState([]);
   const [editTransaction, setEditTransaction] = useState({}); 
 
 
@@ -17,15 +13,20 @@ function Home() {
     fetchTransactions();
   }, []);
 
-  async function fetchTransactions(startDate=null, endDate=null) {
-    //if start and end dates are provided, only requests entries within that 
+  async function fetchTransactions(startDate=null, endDate=null, category=null) {
+    //if start and end dates and/or category are provided, only requests entries within that 
     //time frame from the database
-    // ///////////////////////////////////////////////////////////
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
     if(startDate && endDate){
-      apiUrl= apiUrl+`/dateFilter/${startDate.format("YYYY-MM-DD")}/${endDate.format("YYYY-MM-DD")}`
+      apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
     }
-    //////////////////////////////////////////////////////////////
+    if(category){
+      if(startDate && endDate){
+        apiUrl= apiUrl+`&category=${category}`
+      } else {
+        apiUrl= apiUrl+`?category=${category}`
+      }
+    }
     const token = Cookie.get("token");
     const res = await fetch(apiUrl, {
       method: "GET",
@@ -34,23 +35,35 @@ function Home() {
       }
     });
     if(res.ok){
-      //read received data
-      const { data } = await res.json(); //parse entire json, returns a promise
-      setTransactions(data);
+      const { data } = await res.json(); 
+      setTransactionsData(data);
     }
   }
 
+  const myRef=useRef(null)
+  function goToChart(){
+    //jump to chart component
+    myRef.current.scrollIntoView();
+  }
+
   return (
-      <Container >
+      <Container > 
         <TransactionForm fetchTransactions={fetchTransactions} 
           editTransaction={editTransaction}
           setEditTransaction={setEditTransaction}
         />
         <br />
-        <TransactionsTable transactions={transactions} 
+        <TransactionsTable transactionsData={transactionsData} 
         fetchTransactions={fetchTransactions}
           setEditTransaction={setEditTransaction}
+          goToChart={goToChart}
         />
+         <br />
+         <br />
+<div ref={myRef}>
+        <TransactionChart data={transactionsData}>
+        </TransactionChart>
+</div>
       </Container>
   );
 }

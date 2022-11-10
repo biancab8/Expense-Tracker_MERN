@@ -1,53 +1,23 @@
 import * as React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Container from "@mui/material/Container";
-import Paper from "@mui/material/Paper";
-import { Typography } from "@mui/material";
+import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Paper, Typography, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import IconButton from "@mui/material/IconButton";
-import dayjs from "dayjs";
-import Cookie from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
-import CategoryForm from "../components/CategoryForm";
+import {CategoryForm} from "../features/categories";
 import { useState } from "react";
-import AcUnitIcon from "@mui/icons-material/AcUnit";
-import AirplanemodeActiveIcon from "@mui/icons-material/AirplanemodeActive";
+import Cookie from "js-cookie";
+import { TableHeaderCell } from "../features/ui";
 
-import WbSunnyIcon from '@mui/icons-material/WbSunny';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
-import SportsGymnasticsIcon from '@mui/icons-material/SportsGymnastics';
-import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import PaidIcon from '@mui/icons-material/Paid';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
-
-import getIcon from "../utils/getIcon";
 
 export default function Categories() {
   const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
   const dispatch = useDispatch();
-
-  // const icons = {
-  //   "travel": <WbSunnyIcon/>,
-  //   "shopping": <ShoppingCartIcon/>,
-  //   "health": <LocalHospitalIcon/>, 
-  //   "bills": <ReceiptLongIcon/>, 
-  //   "leisure": <EmojiEmotionsIcon/>,
-  //   "other": <AttachMoneyIcon/>,
-  // }
-  //to populate the category form with data of the state to be edited
   const [editCategory, setEditCategory] = useState({});
 
   async function remove(id) {
+    //delete category
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
@@ -77,13 +47,12 @@ export default function Categories() {
       <Typography  align="left" sx={{ marginTop: 10,  marginBottom:1}} variant="h6">
         Custom Categories
       </Typography>
-      <TableContainer component={Paper} > {/*sx={{width:'70%'}}*/}
+      <TableContainer component={Paper} > 
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell align="center">Label</TableCell>
-              {/* <TableCell align="center">Icon</TableCell> */}
-              <TableCell align="center">Action</TableCell>
+              <TableHeaderCell text="Label"/>
+              <TableHeaderCell text="Action"/>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -95,7 +64,6 @@ export default function Categories() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center">{category.label}</TableCell>
-                  {/* <TableCell align="center">{icons[category.icon.name]}</TableCell> */}
                   <TableCell align="center">
                     <IconButton
                       color="primary"
