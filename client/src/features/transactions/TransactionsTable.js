@@ -104,9 +104,9 @@ export default function TransactionsTable(props) {
           <Typography sx={{ marginRight: 3 }} variant="h6" display="inline">
             Lists of Transactions
           </Typography>
-          <ButtonTertiary handleClick={props.goToChart} text="SEE CHART" />
+          {props.transactionsData.length>0&&<ButtonTertiary handleClick={props.goToChart} text="SEE CHART" />}
         </div>
-        <div>
+        <div> 
           <DateFilter
             filterTransactions={filterTransactions}
             startDate={startDate}
