@@ -8,6 +8,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import Cookie from "js-cookie";
 import { useSelector } from "react-redux";
 import { ButtonPrimary, ButtonSecondary } from "../ui";
+import { transactionsAPI } from "../../api";
 
 const initialForm = {
   amount: "",
@@ -18,7 +19,6 @@ const initialForm = {
 
 export default function TransactionForm(props) {
   let categories = useSelector((state) => state.authReducer.user.categories);
-  const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
@@ -40,42 +40,15 @@ export default function TransactionForm(props) {
     event.preventDefault();
     let res;
     if (props.editTransaction.amount === undefined) {
-      res = await addTransaction();
+      res = await transactionsAPI.addTransaction(form);
     } else {
-      res = await updateTransaction();
+      res = await transactionsAPI.updateTransaction(form, props.editTransaction._id);
     }
     if (res.ok) {
       setForm(initialForm);
       props.setEditTransaction({});
-      props.fetchTransactions();
+      transactionsAPI.fetchTransactions();
     }
-  }
-
-  async function addTransaction() {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return res;
-  }
-
-  async function updateTransaction() {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/transactions/${props.editTransaction._id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(form),
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return res;
   }
 
   function getCategoryNameById() {

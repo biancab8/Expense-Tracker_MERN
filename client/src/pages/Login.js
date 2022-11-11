@@ -7,6 +7,8 @@ import Cookie from "js-cookie";
 import { useDispatch } from 'react-redux';
 import { setUser } from "../features/auth/authSlice";
 import colors from '../assets/colors';
+import { authAPI } from '../api';
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -20,13 +22,7 @@ export default function Login() {
       email: data.get('email'),
       password: data.get('password'),
     }
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/login`, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "content-type": "application/json",
-      }
-    });
+    const res = await authAPI.login(formData);
     if(res.ok){
       //save JWT in Cookie
       const {token, user} = await res.json();

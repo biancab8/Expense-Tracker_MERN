@@ -2,12 +2,10 @@ import * as React from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
-import Cookie from "js-cookie";
 import { useSelector } from "react-redux";
 import { Fragment, useState } from "react";
 import { DateFilter } from "./index";
 import { CategoryFilter, CategoryIcon } from "../categories";
-import {Loading} from "../ui";
 import {
   Table,
   Typography,
@@ -25,11 +23,12 @@ import {
   TableInnerCell,
   TableSummaryCell,
   ButtonTertiary,
+  Loading,
 } from "../ui";
+import { transactionsAPI } from "../../api";
 
 
 export default function TransactionsTable(props) {
-  const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
   const [categoryFilter, setCategoryFilter] = useState("");
   const [startDate, setStartDate] = useState(null);
@@ -40,15 +39,7 @@ export default function TransactionsTable(props) {
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/transactions/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await transactionsAPI.deleteTransaction(id);
       if (res.ok) {
         await props.fetchTransactions();
       }
@@ -63,7 +54,7 @@ export default function TransactionsTable(props) {
   function categoryNameById(id) {
     //compare id with those in user's categories list. If match, return name, else 'NA'
     const category = user.categories.find((category) => category._id === id);
-    return category ? category.label : "NA";
+    return category ? category.label : "Other";
   }
 
   function numToCurrency(num) {
