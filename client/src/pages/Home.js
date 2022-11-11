@@ -7,7 +7,7 @@ import Cookie from "js-cookie";
 function Home() {
   const [transactionsData, setTransactionsData] = useState([]);
   const [editTransaction, setEditTransaction] = useState({}); 
-
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     fetchTransactions();
@@ -16,6 +16,7 @@ function Home() {
   async function fetchTransactions(startDate=null, endDate=null, category=null) {
     //if start and end dates and/or category are provided, only requests entries within that 
     //time frame from the database
+    setLoading(true);
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
     if(startDate && endDate){
       apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
@@ -37,6 +38,7 @@ function Home() {
     if(res.ok){
       const { data } = await res.json(); 
       setTransactionsData(data);
+      setLoading(false);
     }
   }
 
@@ -53,7 +55,7 @@ function Home() {
           setEditTransaction={setEditTransaction}
         />
         <br />
-        <TransactionsTable transactionsData={transactionsData} 
+        <TransactionsTable loading={loading} transactionsData={transactionsData} 
         fetchTransactions={fetchTransactions}
           setEditTransaction={setEditTransaction}
           goToChart={goToChart}
@@ -61,8 +63,10 @@ function Home() {
          <br />
          <br />
 <div ref={myRef}>
+        {transactionsData.length>0&&
         <TransactionChart data={transactionsData}>
         </TransactionChart>
+        }
 </div>
       </Container>
   );

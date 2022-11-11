@@ -9,6 +9,7 @@ import TableInnerCell from "./table/TableInnerCell";
 import TableSummaryCell from "./table/TableSummaryCell";
 import ButtonPrimary from "./buttons/ButtonPrimary";
 import ButtonSecondary from "./buttons/ButtonSecondary";
+import Loading from "./Loading";
 import ButtonTertiary from "./buttons/ButtonTertiary";
 
 export {
@@ -18,5 +19,6 @@ export {
   TableSummaryCell,
   ButtonPrimary,
   ButtonSecondary,
+  Loading,
   ButtonTertiary,
 };

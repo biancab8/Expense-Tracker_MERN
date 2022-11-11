@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { Fragment, useState } from "react";
 import { DateFilter } from "./index";
 import { CategoryFilter, CategoryIcon } from "../categories";
+import {Loading} from "../ui";
 import {
   Table,
   Typography,
@@ -116,7 +117,6 @@ export default function TransactionsTable(props) {
           ></DateFilter>
         </div>
       </Box>
-
       {/* table */}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -134,6 +134,7 @@ export default function TransactionsTable(props) {
             </TableRow>
           </TableHead>
           <TableBody>
+
             {/* transactionsData = transactions grouped by month+year */}
             {/* each group has own list of transactions for that month */}
             {props.transactionsData.map((transactionsByMonth) => {  //for each group
@@ -162,6 +163,7 @@ export default function TransactionsTable(props) {
                   </TableRow>
                   {transactionsByMonth.transactions.map((transaction) => { //for each transaction
                     return (
+                      
                       <TableRow
                         key={transaction._id}
                         sx={{
@@ -218,12 +220,16 @@ export default function TransactionsTable(props) {
                       </TableRow>
                     );
                   })}
+            
                 </Fragment>
               );
             })}
           </TableBody>
         </Table>
+        {props.loading&&<Loading/>}
+        {props.transactionsData.length<=0&&<Box align="center" padding="20px">{"No entries."}</Box>}
       </TableContainer>
+      
     </>
   );
 }

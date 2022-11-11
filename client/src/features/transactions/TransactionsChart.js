@@ -38,7 +38,7 @@ export default function TransactionChart(props) {
         <ArgumentScale factory={scaleBand} />
         <ArgumentAxis />
         <ValueAxis />
-        <BarSeries color={colors.barColor} valueField="totalExpenses" argumentField="monthYear" />
+        <BarSeries  color={colors.barColor} valueField="totalExpenses" argumentField="monthYear" />
         <Animation />
         {/* hover gives amount: */}
         <EventTracker />

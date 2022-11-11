@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Container, Paper, Typography, IconButton} from "@mui/material";
+import {Table, TableBody, TableCell, Box, TableContainer, TableHead, TableRow, Container, Paper, Typography, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";

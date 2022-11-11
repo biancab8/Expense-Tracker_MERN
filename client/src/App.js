@@ -3,6 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setUser } from "./features/auth/authSlice.js";
 import { useEffect, useState } from "react";
+import {Loading} from "./features/ui"
 import Cookie from "js-cookie";
 
 function App() {
@@ -29,7 +30,7 @@ function App() {
   }, []);
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Loading/>;
   }
 
   return (
