@@ -6,6 +6,7 @@ import Cookie from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";
 import { ButtonPrimary, ButtonSecondary } from "../ui";
+import { categoriesAPI } from "../../api";
 
 const initialForm = {
   label: "",
@@ -33,9 +34,9 @@ export default function CategoryForm(props) {
     event.preventDefault();
     let res;
     if (props.editCategory._id === undefined) {
-      res = await addCategory();
+      res = await categoriesAPI.addCategory(form);
     } else {
-      res = await updateCategory();
+      res = await categoriesAPI.updateCategory(props.editCategory._id, form);
     }
     if (res.ok) {
       const { user } = await res.json();
@@ -46,33 +47,6 @@ export default function CategoryForm(props) {
       setForm(initialForm);
       dispatch(setUser(user));
     }
-  }
-
-  async function addCategory() {
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    return res;
-  }
-
-  async function updateCategory() {
-    const res = await fetch(
-      `${process.env.REACT_APP_API_URL}/categories/${props.editCategory._id}`,
-      {
-        method: "PATCH",
-        body: JSON.stringify(form),
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    return res;
   }
 
   return (

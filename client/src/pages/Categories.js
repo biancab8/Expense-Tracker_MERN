@@ -6,12 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
 import {CategoryForm} from "../features/categories";
 import { useState } from "react";
-import Cookie from "js-cookie";
 import { TableHeaderCell } from "../features/ui";
-
+import { categoriesAPI } from "../api";
 
 export default function Categories() {
-  const token = Cookie.get("token");
   const user = useSelector((state) => state.authReducer.user);
   const dispatch = useDispatch();
   const [editCategory, setEditCategory] = useState({});
@@ -21,22 +19,13 @@ export default function Categories() {
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
-      const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/categories/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const res = await categoriesAPI.deleteCategory(id);
       if (res.ok) {
         const { user } = await res.json();
         dispatch(setUser(user)); //update user in store so that page refreshes
       }
     }
   }
-
 
   return (
     <Container align="center" sx={{ width:'32%', minWidth: 450}}>

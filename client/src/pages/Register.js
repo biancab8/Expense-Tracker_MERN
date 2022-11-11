@@ -3,6 +3,7 @@ import {Avatar, Button, CssBaseline, TextField, Grid, Box, Typography, Container
 import {Link, useNavigate} from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { colors } from '../assets';
+import { authAPI } from '../api';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -16,21 +17,13 @@ export default function Register() {
       email: data.get('email'),
       password: data.get('password')
     }
-    const res = await fetch(`${process.env.REACT_APP_API_URL}/auth/register`, {
-      method: "POST",
-      body: JSON.stringify(formData),
-      headers: {
-        "content-type": "application/json"
-      }
-    })
+    const res = await authAPI.register(formData);
     if(res.ok){
       console.log("successfully added user to db");
       navigate("/login")
     } else {
       console.log("Could not add user to DB. Error");
     }
-
-
   };
 
   return (
