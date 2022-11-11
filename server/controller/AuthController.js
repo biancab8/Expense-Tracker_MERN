@@ -3,11 +3,12 @@ import bcrypt  from "bcrypt"
 import jwt from "jsonwebtoken";
 
 const categories = [
-    { label: "Travel", icon: {name: "travel", default: true} },
-    { label: "Shopping", icon: {name: "shopping", default: true} },
-    { label: "Health", icon: {name: "health", default: true }},
-    { label: "Bills", icon: {name: "bills", default: true }},
-    { label: "Leisure", icon: {name: "leisure", default: true}},
+    { label: "Travel", icon: {name: "travel", default: false} },
+    { label: "Shopping", icon: {name: "shopping", default: false} },
+    { label: "Health", icon: {name: "health", default: false }},
+    { label: "Leisure", icon: {name: "leisure", default: false}},
+    { label: "Groceries", icon: {name: "groceries", default: false}},
+    { label: "Bills", icon: {name: "bills", default: false }},
     { label: "Other", icon: {name: "other", default: true}},
   ];
 

@@ -56,8 +56,10 @@ export default function Categories() {
             </TableRow>
           </TableHead>
           <TableBody>
+
               {user.categories.map((category) => {
-                if(!category.icon.default){ //only allow non-default categories to be deleted/changed, so don't show those here
+                
+                {/* if(!category.icon.default){ //only allow non-default categories to be deleted/changed, so don't show those here */}
                   return (
                 <TableRow
                   key={category._id}
@@ -65,6 +67,9 @@ export default function Categories() {
                 >
                   <TableCell align="center">{category.label}</TableCell>
                   <TableCell align="center">
+                  {/* only show edit/del button for categories !== "other" */}
+                  {!category.icon.default?
+                  <>
                     <IconButton
                       color="primary"
                       component="label"
@@ -81,10 +86,12 @@ export default function Categories() {
                     >
                       <DeleteIcon />
                     </IconButton>
+                  </>
+                    :<div><em>{"(default)"}</em></div>}
                   </TableCell>
                 </TableRow>
                 
-              )}})
+              ) })
               }
 
           </TableBody>
