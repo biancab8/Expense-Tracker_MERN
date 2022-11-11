@@ -2,7 +2,6 @@
 import * as React from "react";
 import { useState, useEffect } from "react";
 import { Card, CardContent, Box, Typography, TextField, } from "@mui/material";
-import Cookie from "js-cookie";
 import { useDispatch } from "react-redux";
 import { setUser } from "../auth/authSlice";
 import { ButtonPrimary, ButtonSecondary } from "../ui";
@@ -16,7 +15,6 @@ const initialForm = {
 
 export default function CategoryForm(props) {
   const dispatch = useDispatch();
-  const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
 
   useEffect(() => {

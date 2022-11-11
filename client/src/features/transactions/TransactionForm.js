@@ -5,7 +5,6 @@ import {Card, CardContent, Autocomplete, Box, Typography, TextField, InputAdornm
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-import Cookie from "js-cookie";
 import { useSelector } from "react-redux";
 import { ButtonPrimary, ButtonSecondary } from "../ui";
 import { transactionsAPI } from "../../api";
@@ -47,7 +46,7 @@ export default function TransactionForm(props) {
     if (res.ok) {
       setForm(initialForm);
       props.setEditTransaction({});
-      transactionsAPI.fetchTransactions();
+      await props.fetchTransactions();
     }
   }
 

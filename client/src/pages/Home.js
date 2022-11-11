@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import {TransactionForm, TransactionsTable, TransactionChart} from "../features/transactions";
 import { Container } from "@mui/system";
-import Cookie from "js-cookie";
 import { transactionsAPI } from "../api";
 
 function Home() {

@@ -72,11 +72,11 @@ export default function TransactionsTable(props) {
     return date.toLocaleString("en-US", { month: "long" });
   }
 
-  function filterCategory(event) {
+  async function filterCategory(event) {
     //filter transactions list by selected cateogry
     const category = event.target.value;
     setCategoryFilter(category);
-    props.fetchTransactions(startDate, endDate, category);
+    await props.fetchTransactions(startDate, endDate, category);
   }
 
   return (
