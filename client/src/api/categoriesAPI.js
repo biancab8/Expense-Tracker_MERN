@@ -1,7 +1,5 @@
 import Cookie from "js-cookie";
 
-
-
 export async function addCategory(data) {
   const token = Cookie.get("token");
     const res = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {

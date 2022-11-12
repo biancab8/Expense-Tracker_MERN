@@ -8,15 +8,15 @@ import Cookie from "js-cookie";
 const token=Cookie.get("token")
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
 
   async function fetchUser() {
     const res = await userAPI.fetchUser();
     // //user is authorized
     if (res.ok) {
-      const user = await res.json();
-      dispatch(setUser(user));
+      // const user = await res.json();
+      // dispatch(setUser(user));
     }
     setIsLoading(false);
   }
