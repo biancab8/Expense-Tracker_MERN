@@ -1,8 +1,9 @@
 import Cookie from "js-cookie";
 
-const token = Cookie.get("token");
+
 
 export async function addCategory(data) {
+  const token = Cookie.get("token");
     const res = await fetch(`${process.env.REACT_APP_API_URL}/categories`, {
       method: "POST",
       body: JSON.stringify(data),
@@ -16,6 +17,7 @@ export async function addCategory(data) {
 
 
  export async function updateCategory(id, newData) {
+  const token = Cookie.get("token");
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/categories/${id}`,
       {
@@ -32,6 +34,7 @@ export async function addCategory(data) {
 
 
   export async function deleteCategory(id){
+    const token = Cookie.get("token");
     const res = await fetch(
         `${process.env.REACT_APP_API_URL}/categories/${id}`,
         {

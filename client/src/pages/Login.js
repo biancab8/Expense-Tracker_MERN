@@ -4,7 +4,7 @@ import {Avatar, Button, CssBaseline, TextField, Grid, Box, Typography, Container
 import {Link, useNavigate} from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Cookie from "js-cookie";
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from "../features/auth/authSlice";
 import colors from '../assets/colors';
 import { authAPI } from '../api';
@@ -23,9 +23,10 @@ export default function Login() {
       password: data.get('password'),
     }
     const res = await authAPI.login(formData);
+
     if(res.ok){
-      //save JWT in Cookie
       const {token, user} = await res.json();
+      //save JWT in Cookie
       Cookie.set("token", token)
       dispatch(setUser(user));
       //redirect user to homepage

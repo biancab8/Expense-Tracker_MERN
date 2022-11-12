@@ -1,8 +1,7 @@
 import Cookie from "js-cookie";
 
-const token = Cookie.get("token");
-
 export async function addTransaction(data) {
+  const token = Cookie.get("token");
     const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions`, {
       method: "POST",
       body: JSON.stringify(data),
@@ -15,6 +14,7 @@ export async function addTransaction(data) {
   }
 
 export async function updateTransaction(data, id) {
+  const token = Cookie.get("token");
     const res = await fetch(
       `${process.env.REACT_APP_API_URL}/transactions/${id}`,
       {
@@ -30,6 +30,7 @@ export async function updateTransaction(data, id) {
   }
 
 export async function deleteTransaction(id){
+  const token = Cookie.get("token");
     const res = await fetch(
     `${process.env.REACT_APP_API_URL}/transactions/${id}`,
     {
@@ -43,6 +44,7 @@ export async function deleteTransaction(id){
 }
 
 export async function fetchTransactions(startDate=null, endDate=null, category=null) {
+  const token = Cookie.get("token");
     //if start and end dates and/or category are provided, only requests entries within that 
     //time frame from the database
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;

@@ -2,6 +2,8 @@ import { useEffect, useState, useRef } from "react";
 import {TransactionForm, TransactionsTable, TransactionChart} from "../features/transactions";
 import { Container } from "@mui/system";
 import { transactionsAPI } from "../api";
+import { fetchTransactions } from "../api/transactionsAPI";
+
 
 function Home() {
   const [transactionsData, setTransactionsData] = useState([]);
@@ -35,7 +37,6 @@ function Home() {
           setEditTransaction={setEditTransaction}
         />
         <br />
-        {console.log(transactionsData)}
         <TransactionsTable loading={loading} transactionsData={transactionsData} 
         fetchTransactions={fetchTransactions}
           setEditTransaction={setEditTransaction}
