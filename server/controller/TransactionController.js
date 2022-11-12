@@ -2,6 +2,12 @@
 import mongoose from "mongoose";
 import Transaction from "../models/Transaction.js";
 
+  function numToMonth(num) {
+    const date = new Date();
+    date.setMonth(num - 1);
+    return date.toLocaleString("en-US", { month: "long" });
+  }
+
 export const findTransactions = async (req, res) => {
   let startDate = req.query.startDate;
   let endDate = req.query.endDate;
@@ -38,9 +44,17 @@ export const findTransactions = async (req, res) => {
       },
       {
         //STAGE 1 -> CREATE GROUPS
-        //group by month/year -> creates 1 document per month+year
+        //group by month/year -> creates 1 document per (month+year)
         $group: {
-          _id: { year: { $year: "$date" }, month: { $month: "$date" } },
+          _id:  
+          
+          {$concat: [{
+            $let: {
+              vars: {
+                monthsInString: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+              },
+              in: {$arrayElemAt: ['$$monthsInString',  {$month: "$date"}]
+            },}}," ", {$toString: {$year: "$date"}}  ]},
           //now looks like this: {"data":[{"_id":{"year":2022,"month":11}},{"_id":{"year":2022,"month":10}}]}
           //for each group, create a list with all of its transactions
           transactions: {
@@ -68,6 +82,8 @@ export const findTransactions = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
+        console.log("--------------------------------------------------------------")
+        console.log(groupedTransactions)
         res.json({ data: groupedTransactions });
       }
     }
