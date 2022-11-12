@@ -54,7 +54,7 @@ export default function TransactionsTable(props) {
   function categoryNameById(id) {
     //compare id with those in user's categories list. If match, return name, else 'NA'
     const category = user.categories.find((category) => category._id === id);
-    return category ? category.label : "Other";
+    return category ? category.icon.name : "Other";
   }
 
   function numToCurrency(num) {
@@ -109,8 +109,9 @@ export default function TransactionsTable(props) {
         </div>
       </Box>
       {/* table */}
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <TableContainer component={Paper}> 
+      {/* sx={{ minWidth: 650 }} */}
+        <Table  aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableHeaderCell text="Amount" />

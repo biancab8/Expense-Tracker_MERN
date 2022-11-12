@@ -1,5 +1,5 @@
 import * as React from "react";
-import {Table, TableBody, TableCell, Box, TableContainer, TableHead, TableRow, Container, Paper, Typography, IconButton} from "@mui/material";
+import {Table, TableBody, TableCell, Box, TableContainer, Grid, TableHead, TableRow, Container, Paper, Typography, IconButton} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,6 +8,8 @@ import {CategoryForm} from "../features/categories";
 import { useState } from "react";
 import { TableHeaderCell } from "../features/ui";
 import { categoriesAPI } from "../api";
+import { CategoryIcon } from "../features/categories";
+
 
 export default function Categories() {
   const user = useSelector((state) => state.authReducer.user);
@@ -28,7 +30,8 @@ export default function Categories() {
   }
 
   return (
-    <Container align="center" sx={{ width:'32%', minWidth: 450}}>
+    <Container align="center" sx={{ width:'45%', minWidth: 450}}>
+                 
       <CategoryForm
         editCategory={editCategory}
         setEditCategory={setEditCategory}
@@ -41,6 +44,7 @@ export default function Categories() {
           <TableHead>
             <TableRow>
               <TableHeaderCell text="Label"/>
+              <TableHeaderCell text="Icon"/>
               <TableHeaderCell text="Action"/>
             </TableRow>
           </TableHead>
@@ -55,6 +59,13 @@ export default function Categories() {
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center">{category.label}</TableCell>
+
+
+                  <TableCell align="center"><CategoryIcon
+                                categoryName={category.icon.name}
+                              /></TableCell>
+
+
                   <TableCell align="center">
                   {/* only show edit/del button for categories !== "other" */}
                   {!category.icon.default?

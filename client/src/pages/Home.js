@@ -35,6 +35,7 @@ function Home() {
           setEditTransaction={setEditTransaction}
         />
         <br />
+        {console.log(transactionsData)}
         <TransactionsTable loading={loading} transactionsData={transactionsData} 
         fetchTransactions={fetchTransactions}
           setEditTransaction={setEditTransaction}
