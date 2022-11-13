@@ -19,6 +19,8 @@ import colors from "../assets/colors";
 import { authAPI } from "../api";
 import { useState } from "react";
 import { ErrorMessage } from "../features/ui";
+import { primaryButtonTheme } from "../features/ui/buttons/ButtonPrimary";
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -65,7 +67,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Log in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}> 
           <TextField
             margin="normal"
             required
@@ -87,17 +89,14 @@ export default function Login() {
             autoComplete="current-password"
           />
           <Button
+            theme={primaryButtonTheme}
             type="submit"
             fullWidth
             variant="contained"
             sx={{
-              mt: 3,
+              mt: 2,
               mb: 2,
-              backgroundColor: colors.buttonPrimary,
               color: colors.textPrimary,
-              "&:hover": {
-                backgroundColor: `${colors.buttonPrimaryHover} !important`,
-              },
             }}
           >
             Log In

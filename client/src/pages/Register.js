@@ -6,6 +6,7 @@ import { colors } from '../assets';
 import { authAPI } from '../api';
 import { useState } from 'react';
 import { ErrorMessage } from "../features/ui";
+import { primaryButtonTheme } from "../features/ui/buttons/ButtonPrimary";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ export default function Register() {
           <Typography component="h1" variant="h5">
             Register
           </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -97,12 +98,11 @@ export default function Register() {
               </Grid>
             </Grid>
             <Button
+              theme = {primaryButtonTheme}
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2, backgroundColor: colors.buttonPrimary, color:colors.textPrimary, "&:hover": {
-            backgroundColor: `${colors.buttonPrimaryHover} !important`
-          } }}
+              sx={{ mt: 3, mb: 2, color:colors.textPrimary, }}
             >
               Register
             </Button>

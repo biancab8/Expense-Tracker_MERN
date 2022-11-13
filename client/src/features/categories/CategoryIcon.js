@@ -12,7 +12,7 @@ export const icons = [
   { label: "health", icon: <LocalHospitalIcon />},
   { label: "bills", icon: <ReceiptLongIcon />},
   { label: "leisure", icon: <EmojiEmotionsIcon />},
-  // { label: "food", icon: <LunchDiningIcon />},
+  { label: "food", icon: <LunchDiningIcon />},
   { label: "other", icon: <AttachMoneyIcon />},
 ];
 

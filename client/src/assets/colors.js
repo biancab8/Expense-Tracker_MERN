@@ -6,7 +6,7 @@ const colors = {
 
     //text colors
     textPrimary: "#002855",
-    textSecondary: "white",
+    textSecondary: "#FFFFFF",
     textTertiary: "#002855", //"014ca0",
 
     //button colors

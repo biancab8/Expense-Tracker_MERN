@@ -1,13 +1,19 @@
-import { Button } from "@mui/material"
-import { colors } from "../../../assets"
+import { Button, createTheme } from "@mui/material";
+import { colors } from "../../../assets";
 
-export default function ButtonPrimary(props){
-    return (
-        <Button type="submit" variant="contained" sx={{backgroundColor: colors.buttonPrimary, color:colors.textPrimary, "&:hover": {
-            backgroundColor: `${colors.buttonPrimaryHover} !important`
-          }}} >
-                    {props.text}
-                  </Button>
-    )
+export const primaryButtonTheme = createTheme({
+  palette: {
+    primary: {
+      main: colors.buttonPrimary,
+      dark: colors.buttonPrimaryHover,
+    },
+  },
+});
+
+export default function ButtonPrimary(props) {
+  return (
+    <Button type="submit" variant="contained" theme={primaryButtonTheme}>
+      {props.text}
+    </Button>
+  );
 }
-
