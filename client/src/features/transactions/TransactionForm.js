@@ -8,6 +8,7 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { useSelector } from "react-redux";
 import { ButtonPrimary, ButtonSecondary } from "../ui";
 import { transactionsAPI } from "../../api";
+import { CategoryIcon } from "../categories";
 
 const initialForm = {
   amount: "",

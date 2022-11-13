@@ -2,10 +2,32 @@
 import mongoose from "mongoose";
 import Transaction from "../models/Transaction.js";
 
+export const createTransaction = async (req, res) => {
+  const { amount, description, date, category_id } = req.body;
+  const transaction = new Transaction({
+    amount: amount,
+    description: description,
+    date: date,
+    user_id: req.user._id,
+    category_id: category_id,
+  });
+  await transaction.save();
+  res.json({ message: "Successfully added transaction to DB" });
+};
+
+export const deleteTransaction = async (req, res) => {
+  await Transaction.deleteOne({ _id: req.params.id });
+  res.json({ mesage: "success" });
+};
+
+export const updateTransaction = async (req, res) => {
+  await Transaction.updateOne({ _id: req.params.id }, { $set: req.body });
+  res.json({ message: "success" });
+};
 
 export const findTransactions = async (req, res) => {
-  let {startDate, endDate, category} = req.query;
-  
+  let { startDate, endDate, category } = req.query;
+
   //if filter by date or category requested, add those conditions:
   let dateConditions = {};
   if (startDate && endDate) {
@@ -20,14 +42,33 @@ export const findTransactions = async (req, res) => {
   }
 
   // sub queries
-  const monthDateQuery = {$concat: [{
-    $let: {
-      vars: {
-        monthsInString: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  const monthDateQuery = {
+    $concat: [
+      {
+        $let: {
+          vars: {
+            monthsInString: [
+              "January",
+              "February",
+              "March",
+              "April",
+              "May",
+              "June",
+              "July",
+              "August",
+              "September",
+              "October",
+              "November",
+              "December",
+            ],
+          },
+          in: { $arrayElemAt: ["$$monthsInString", { $month: "$date" }] },
+        },
       },
-      in: {$arrayElemAt: ['$$monthsInString',  {$month: "$date"}]
-    },}}," ", {$toString: {$year: "$date"}}  ]}
-
+      " ",
+      { $toString: { $year: "$date" } },
+    ],
+  };
 
   Transaction.aggregate(
     [
@@ -48,7 +89,7 @@ export const findTransactions = async (req, res) => {
         //STAGE 1 -> CREATE GROUPS
         //group by month/year -> creates 1 document per (month+year)
         $group: {
-          _id: monthDateQuery,   //now looks like this: {"data":[{"_id":{"November 2022"},...]
+          _id: monthDateQuery, //now looks like this: {"data":[{"_id":{"November 2022"},...]
           //for each group, create a list with all of its transactions
           transactions: {
             $push: {
@@ -78,27 +119,4 @@ export const findTransactions = async (req, res) => {
       }
     }
   );
-};
-
-export const createTransaction = async (req, res) => {
-  const { amount, description, date, category_id } = req.body;
-  const transaction = new Transaction({
-    amount: amount,
-    description: description,
-    date: date,
-    user_id: req.user._id,
-    category_id: category_id,
-  });
-  await transaction.save();
-  res.json({ message: "Successfully added transaction to DB" });
-};
-
-export const deleteTransaction = async (req, res) => {
-  await Transaction.deleteOne({ _id: req.params.id });
-  res.json({ mesage: "success" });
-};
-
-export const updateTransaction = async (req, res) => {
-  await Transaction.updateOne({ _id: req.params.id }, { $set: req.body });
-  res.json({ message: "success" });
 };
