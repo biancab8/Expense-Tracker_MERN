@@ -18,7 +18,7 @@ function App() {
     // //user is authorized
     if (res.ok) {
       
-      const user = await res.json();
+      // const user = await res.json();
       // dispatch(setUser(user));
     }
     setIsLoading(false);
