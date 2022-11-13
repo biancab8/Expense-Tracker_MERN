@@ -140,9 +140,7 @@ export default function TransactionsTable(props) {
                     }}
                   >
                     <TableSummaryCell
-                      text={`${numToMonth(transactionsByMonth._id.month)} ${
-                        transactionsByMonth._id.year
-                      }`}
+                      text={transactionsByMonth._id}
                     />
                     <TableSummaryCell />
                     <TableSummaryCell />

@@ -62,6 +62,7 @@ export const findTransactions = async (req, res) => {
               amount: "$amount",
               description: "$description",
               date: "$date",
+              // date: {$concat: [ {$toString: {$dayOfMonth: "$date"}}, " ", {$toString: {$month: "$date"}}, " ", {$toString: {$year: "$date"}}]},
               type: "$type",
               _id: "$_id",
               user_id: "$user_id",

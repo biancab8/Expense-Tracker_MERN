@@ -8,29 +8,23 @@ import Cookie from "js-cookie";
 const token=Cookie.get("token")
 
 function App() {
-  console.log(useSelector((state) => state.authReducer.user)); 
-  const dispatch = useDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
 
-  async function fetchUser() {
-    // setIsLoading(true);
-    const res = await userAPI.fetchUser();
-    // //user is authorized
-    if (res.ok) {
-      
-      // const user = await res.json();
-      // dispatch(setUser(user));
-    }
-    setIsLoading(false);
-  }
+  // async function fetchUser() {
+  //   const res = await userAPI.fetchUser();
+  //   // //user is authorized
+  //   if (res.ok) {
+  //   }
+  //   setIsLoading(false);
+  // }
 
-  useEffect(() => {
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   fetchUser();
+  // }, []);
 
-  if (isLoading) {
-    return <Loading/>;
-  }
+  // if (isLoading) {
+  //   return <Loading/>;
+  // }
 
   return (
     <>

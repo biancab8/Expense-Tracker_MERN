@@ -12,7 +12,8 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   // <React.StrictMode>
   <Provider store={store}>
-  <PersistGate loading={null} persistor={persistor}>
+  {/* persist auth reducer to browser's local storage -> not deleted on refresh */}
+  <PersistGate loading={null} persistor={persistor}> 
       <RouterProvider router={router} />
   </PersistGate>
     </Provider>
