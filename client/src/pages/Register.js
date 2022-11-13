@@ -4,9 +4,13 @@ import {Link, useNavigate} from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { colors } from '../assets';
 import { authAPI } from '../api';
+import { useState } from 'react';
+import { ErrorMessage } from "../features/ui";
 
 export default function Register() {
   const navigate = useNavigate();
+  const [errorMsg, setErrorMsg] = useState("");
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -17,12 +21,16 @@ export default function Register() {
       email: data.get('email'),
       password: data.get('password')
     }
-    const res = await authAPI.register(formData);
+    try {
+          const res = await authAPI.register(formData);
     if(res.ok){
-      console.log("successfully added user to db");
       navigate("/login")
     } else {
-      console.log("Could not add user to DB. Error");
+      const {message} = await res.json();
+      setErrorMsg(message);
+    }
+    } catch {
+      setErrorMsg("Something went wrong. Please try again later.")
     }
   };
 
@@ -98,6 +106,7 @@ export default function Register() {
             >
               Register
             </Button>
+            {errorMsg.length > 0 && <ErrorMessage msg={errorMsg}/>}
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link to="/login" variant="body2">

@@ -19,9 +19,9 @@ const categories = [
     //check if use already has an account 
     User.findOne({email: email}, async function(err, foundUser){
         if(err){
-            console.err("Could not check if user exists. Error: " + err);
+            res.json({message: "Something went wrong. Please try again later."})
         } else if (foundUser){
-            res.status(409).json({message: "User already exists."}); //409 = conflict
+            res.status(409).json({message: "An account with this email already exists."}); //409 = conflict
         } else {
             //hash the password with bcrypt
             const saltRounds = 10;
@@ -47,11 +47,11 @@ export const loginUser = (req, res) => {
     //check if user exists
     User.findOne({email: email}, async function(err, foundUser){
         if(err){
-            console.err("Could not check if user exists. Error: " + err);
+            res.json({message: "Something went wrong. Please try again later."})
         } else if(foundUser){
             const matched = await bcrypt.compare(password, foundUser.password);
             if(!matched){
-                res.status(406).json({message: "Incorret email or password."});
+                res.status(401).json({message: "Incorrect email or password."});
             } else{ //paswords match
                 //create JWT JSON Web Token
                 const payload ={
@@ -62,7 +62,7 @@ export const loginUser = (req, res) => {
                 res.json({message: "successfully logged in", token: token, user:foundUser})
             }
         } else {
-            console.log("User credentials not found.")
+            res.status(401).json({message: "Incorrect email or password."});
         }
     })
 }

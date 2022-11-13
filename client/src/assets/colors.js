@@ -20,6 +20,9 @@ const colors = {
     //chart colors
     barColor: "#8BFDC6",
 
+    //other
+    error: "#fad3d6"
+
 }
 
 export default colors; 
