@@ -1,6 +1,7 @@
 import TransactionForm from "./TransactionForm";
-import TransactionChart from "./TransactionsChart";
+import TransactionsBarGraph from "./TransactionsBarGraph";
+import TransactionsPieChart from "./TransactionsPieChart";
 import TransactionsTable from "./TransactionsTable";
 import DateFilter from "./DateFilter";
 
-export { TransactionForm, TransactionChart, TransactionsTable, DateFilter};
+export { TransactionForm, TransactionsBarGraph, TransactionsPieChart, TransactionsTable, DateFilter};

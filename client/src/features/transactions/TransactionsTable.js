@@ -31,8 +31,7 @@ import { transactionsAPI } from "../../api";
 export default function TransactionsTable(props) {
   const user = useSelector((state) => state.authReducer.user);
   const [categoryFilter, setCategoryFilter] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
+
 
   async function remove(id) {
     //delete transaction
@@ -46,16 +45,18 @@ export default function TransactionsTable(props) {
     }
   }
 
-  async function filterTransactions(startDate, endDate) {
+  async function filterTransactions(startDate=null, endDate=null) {
     //filter transactions list by selected date range
+    console.log("in table")
+    console.log(endDate)
     await props.fetchTransactions(startDate, endDate, categoryFilter);
   }
 
-  function categoryNameById(id) {
-    //compare id with those in user's categories list. If match, return name, else 'NA'
-    const category = user.categories.find((category) => category._id === id);
-    return category ? category.icon.name : "Other";
-  }
+  // function categoryNameById(id) {
+  //   //compare id with those in user's categories list. If match, return name, else 'NA'
+  //   const category = user.categories.find((category) => category._id === id);
+  //   return category ? category.icon.name : "Other";
+  // }
 
   function numToCurrency(num) {
     //format num to currency with 2 decimal places
@@ -76,7 +77,7 @@ export default function TransactionsTable(props) {
     //filter transactions list by selected cateogry
     const category = event.target.value;
     setCategoryFilter(category);
-    await props.fetchTransactions(startDate, endDate, category);
+    await props.fetchTransactions(category);
   }
 
   return (
@@ -95,15 +96,15 @@ export default function TransactionsTable(props) {
           <Typography sx={{ marginRight: 3 }} variant="h6" display="inline">
             Lists of Transactions
           </Typography>
-          {props.transactionsData.length>0&&<ButtonTertiary handleClick={props.goToChart} text="SEE CHART" />}
+          {props.transactionsData.length>0&&<ButtonTertiary handleClick={props.goToChart} text="SEE CHARTS" />}
         </div>
         <div> 
           <DateFilter
             filterTransactions={filterTransactions}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
+            startDate={props.startDate}
+            setStartDate={props.setStartDate}
+            endDate={props.endDate}
+            setEndDate={props.setEndDate}
             categoryFilter={categoryFilter}
           ></DateFilter>
         </div>
@@ -171,13 +172,13 @@ export default function TransactionsTable(props) {
                             <Grid item xs={1} />
                             <Grid item xs={4} align="center">
                               <CategoryIcon
-                                categoryName={categoryNameById(
+                                categoryName={props.categoryIconById(
                                   transaction.category_id
                                 )}
                               />
                             </Grid>
                             <Grid item xs={6} align="left">
-                              {categoryNameById(transaction.category_id)}
+                              {props.categoryNameById(transaction.category_id)}
                             </Grid>
                           </Grid>
                         ></TableInnerCell>

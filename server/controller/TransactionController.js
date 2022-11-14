@@ -25,6 +25,8 @@ export const updateTransaction = async (req, res) => {
   res.json({ message: "success" });
 };
 
+
+
 export const findTransactions = async (req, res) => {
   let { startDate, endDate, category } = req.query;
 
@@ -116,6 +118,56 @@ export const findTransactions = async (req, res) => {
         console.log(err);
       } else {
         res.json({ data: groupedTransactions });
+      }
+    }
+  );
+};
+
+// export const getCategories = async(req, res) => {
+//   User.findOne(
+//     {_id: req.user._id},
+
+//      function(err, user){
+//       if(err){
+// console.log("err")
+//       } else {
+//         console.log(user.categories)
+//         res.json({categories: user.categories});
+//       }
+//     })
+// }
+
+export const getTransactionsByCategory = async (req, res) => {
+  //get total per category (for dates requested if applicable)
+  let { startDate, endDate } = req.query;
+  //if filter by date or category requested, add those conditions:
+  let dateConditions = {};
+  if (startDate && endDate) {
+    startDate = new Date(req.query.startDate + "T00:00:00");
+    endDate = new Date(req.query.endDate + "T23:59:59");
+    dateConditions = { date: { $gte: startDate, $lte: endDate } };
+  }
+  Transaction.aggregate(
+    [
+      {
+        $match: { user_id: req.user._id },
+      },
+      {
+        $match: dateConditions, //if date range specified, filter by date range
+      },
+      {
+        $group: {
+          _id: "$category_id",
+          totalExpenses: { $sum: "$amount" },
+        },
+      },
+    ],
+    function (err, transactionsByCategory) {
+      if (err) {
+        console.log("err");
+      } else {
+        // console.log(transactionsByCategory);
+        res.json({ transactions: transactionsByCategory });
       }
     }
   );

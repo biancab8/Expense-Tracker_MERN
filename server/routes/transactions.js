@@ -13,6 +13,6 @@ router.get("/", TransactionController.findTransactions)
 router.post("/", TransactionController.createTransaction);
 router.delete("/:id", TransactionController.deleteTransaction)
 router.patch("/:id", TransactionController.updateTransaction) //update
-
+router.get("/categories", TransactionController.getTransactionsByCategory);
 
 export default router;

@@ -39,7 +39,7 @@ export default function NavBar() {
           </Typography>
           {isAuthenticated && (
             <Link to="/categories" className="text-white">
-              <Button color="inherit">Edit Categories</Button>
+              <Button sx={{marginRight: "20px"}} color="inherit">Categories</Button>
             </Link>
           )}
           {isAuthenticated && (

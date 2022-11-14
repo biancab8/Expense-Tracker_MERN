@@ -13,10 +13,10 @@ import {
   Title,
 } from "@devexpress/dx-react-chart-material-ui";
 import {colors} from "../../assets";
-import Paper from "@mui/material/Paper";
+import {Paper, Typography} from "@mui/material";
 import * as React from "react";
 
-export default function TransactionChart(props) {
+export default function TransactionsBarGraph(props) {
   // function numToMonth(num) {
   //   const date = new Date();
   //   date.setMonth(num - 1);
@@ -37,9 +37,13 @@ export default function TransactionChart(props) {
   // });
 
   return (
-    <Paper sx={{marginTop: "70px"}}>
+    <>
+    <Typography variant="h6" sx={{marginTop: "70px", marginBottom: 2}}>
+        Transactions by Month:
+        </Typography>
+    <Paper sx={{paddingTop: "15px"}}>
       <Chart data={props.data}>
-        <Title text="Monthly Expenses ($)" />
+        {/* <Title text="Monthly Expenses ($)" /> */}
         <ArgumentScale factory={scaleBand} />
         <ArgumentAxis />
         <ValueAxis />
@@ -51,6 +55,7 @@ export default function TransactionChart(props) {
         />
       </Chart>
     </Paper>
+    </>
   );
 }
 

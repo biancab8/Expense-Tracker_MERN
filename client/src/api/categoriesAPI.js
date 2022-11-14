@@ -44,3 +44,4 @@ export async function addCategory(data) {
       );
       return res; 
   }
+
