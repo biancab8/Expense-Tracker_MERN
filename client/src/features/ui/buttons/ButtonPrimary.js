@@ -12,7 +12,7 @@ export const primaryButtonTheme = createTheme({
 
 export default function ButtonPrimary(props) {
   return (
-    <Button type="submit" variant="contained" theme={primaryButtonTheme}>
+    <Button type="submit" variant="contained" disabled={props.disabled} theme={primaryButtonTheme} sx={{maxHeight: "40px"}}>
       {props.text}
     </Button>
   );

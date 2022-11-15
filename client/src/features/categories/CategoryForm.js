@@ -55,11 +55,11 @@ export default function CategoryForm(props) {
     <Card
       sx={{
         margin: "auto",
-        minWidth: 275,
+        // minWidth: 275,
         marginTop: 10,
       }}
     >
-      <CardContent >
+      <CardContent>
         <Typography variant="h6" sx={{ marginBottom: 2 }} align="left">
           {props.editCategory._id ? "Edit " : "Add New"} Category
         </Typography>
@@ -70,7 +70,7 @@ export default function CategoryForm(props) {
         >
           <TextField
             onChange={handleChange}
-            // sx={{ marginRight: 1 }}
+            sx={{ marginRight: 1 }}
             size="small"
             id="outlined-basic"
             label="Category"
@@ -78,7 +78,7 @@ export default function CategoryForm(props) {
             value={form.label}
             name="label"
             required
-            inputProps={{ maxLength: 20 }}
+            inputProps={{ maxLength: 18 }}
           />
           {/* <FormControl> */}
           {/* <InputLabel id="icon-label">Icon</InputLabel> */}
@@ -97,14 +97,14 @@ export default function CategoryForm(props) {
       required
       // aria-label="asdf"
         // style={{
-        //   // height: "3px",
-        //   // marginLeft: "1px",
-        //   // fontStyle: "italic",
-        //   // fontSize: "small",
-        //   // minWidth: 85,
+          // height: "3px",
+          // marginLeft: "10px",
+          // fontStyle: "italic",
+          // fontSize: "small",
+          // minWidth: 85,
         // }}
       // sx={{ ".MuiSelect-select": {paddingBottom:0, minWidth:"35px", height: "33px", minHeight: "33px"}}}
-      sx={{".MuiSelect-select": {paddingBottom:0}, ".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {minHeight: "40px", minWidth: "85px"},}}
+      sx={{".MuiSelect-select": {paddingBottom:0}, marginRight: 1,".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {minHeight: "40px", minWidth: "85px"},}}
     >
 {/* use icons from CategoryIcon, not form DB -> just showing all available icons, not all categories */}
       {icons.map((icon) => {

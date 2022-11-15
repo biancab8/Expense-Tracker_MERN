@@ -25,10 +25,11 @@ export default function Home() {
   const [editTransaction, setEditTransaction] = useState({});
   const chartRef=useRef();
   
-
+  
   useEffect(() => {
     //get all transactions 
     const fetchData = async () => {
+      setLoading(true);
       const res = await transactionsAPI.getTransactionsByMonth(
         filter.startDate,
         filter.endDate,
@@ -39,10 +40,11 @@ export default function Home() {
         setTransactionsData(data);
       }
       setUpdateTransactions(false);
+      setLoading(false);
     };
     //get expense totals per month 
     const getTotalsByCategory = async () => {
-      const res = await transactionsAPI.getExpensesByCategory(
+      const res = await transactionsAPI.getTotalExpensesByCategory(
       filter.startDate,
       filter.endDate
     );
@@ -56,10 +58,8 @@ export default function Home() {
     }
     }
     //call functions
-    setLoading(true);
     fetchData();
     getTotalsByCategory();
-    setLoading(false);
     console.log("use effect");
   }, [filter, updateTransactions]);
 
@@ -140,7 +140,7 @@ export default function Home() {
 
 
   return (
-    <Container>
+    <Container maxWidth="lg" sx={{width: "80%",  minWidth: 700 }}>
       <TransactionForm
         editTransaction={editTransaction}
         setEditTransaction={setEditTransaction}

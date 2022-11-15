@@ -129,7 +129,6 @@ export default function TransactionsTable(props) {
             {props.transactionsData.map((transactionsByMonth) => {  //for each group
               return (
                 <Fragment key={transactionsByMonth.transactions[0]._id}>
-                {console.log(transactionsByMonth)}
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": {
@@ -150,7 +149,9 @@ export default function TransactionsTable(props) {
                     />
                   </TableRow>
                   {transactionsByMonth.transactions.map((transaction) => { //for each transaction
+                  {/* console.log(transaction) */}
                   const category = props.getCategoryById(transaction.category_id)
+                  {/* console.log(category) */}
                     return (
                       
                       <TableRow
@@ -215,7 +216,7 @@ export default function TransactionsTable(props) {
           </TableBody>
         </Table>
         {props.loading&&<Loading/>}
-        {props.transactionsData.length<=0&&<Box align="center" padding="20px">{"No entries."}</Box>}
+        {props.transactionsData.length<=0&&!props.loading&&<Box align="center" padding="20px">{"No entries."}</Box>}
       </TableContainer>
       
     </>

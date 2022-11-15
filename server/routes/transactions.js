@@ -12,7 +12,8 @@ const router = Router();
 router.get("/", TransactionController.findTransactions)
 router.post("/", TransactionController.createTransaction);
 router.delete("/:id", TransactionController.deleteTransaction)
-router.patch("/:id", TransactionController.updateTransaction); //update
-router.get("/categoryTotals", TransactionController.getExpensesByCategory);
+router.patch("/:id", TransactionController.updateTransaction); 
+router.patch("/byCategory/:oldId/:newId", TransactionController.updateTransactionsbyCategory); 
+router.get("/categoryTotals", TransactionController.getTotalExpensesByCategory);
 
 export default router;

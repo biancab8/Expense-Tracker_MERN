@@ -7,7 +7,7 @@ import { setUser } from "../features/auth/authSlice";
 import {CategoryForm} from "../features/categories";
 import { useState } from "react";
 import { TableHeaderCell } from "../features/ui";
-import { categoriesAPI } from "../api";
+import { categoriesAPI, transactionsAPI } from "../api";
 import { CategoryIcon } from "../features/categories";
 
 
@@ -16,8 +16,11 @@ export default function Categories() {
   const dispatch = useDispatch();
   const [editCategory, setEditCategory] = useState({});
 
+
+
+
   async function remove(id) {
-    //delete category
+    //delete category from user's category array
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
@@ -26,11 +29,32 @@ export default function Categories() {
         const { user } = await res.json();
         dispatch(setUser(user)); //update user in store so that page refreshes
       }
+      //add the default category "other" to each transaction that used the deleted category
+      const newId = getDefaultCategory();
+      // console.log("is still this id")
+      // console.log(newId)
+      const result = await transactionsAPI.updateTransactionsbyCategory(id, newId); 
+      if (result.ok){
+      // const resu{
+        // console.log("ok")
+    } else {
+      console.log("err")
+    }
     }
   }
 
+  function getDefaultCategory() {
+    //compare id with those in user's categories list. If match, return name, else 'NA'
+    const category = user.categories.find((category) => category.icon.default === true);
+    console.log("should be this id")
+    console.log(category._id)
+    return category._id;
+    // return category ? {label: category.label, iconName: category.icon.name} : {label: "Other", iconName: "other"};
+  }
+
+
   return (
-    <Container align="center" sx={{ width:'45%', minWidth: 450}}>
+    <Container align="center" maxWidth="sm" sx={{width: "45%",  minWidth: 450 }}>
                  
       <CategoryForm
         editCategory={editCategory}

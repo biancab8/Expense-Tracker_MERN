@@ -20,6 +20,7 @@ const initialForm = {
 export default function TransactionForm(props) {
   let categories = useSelector((state) => state.authReducer.user.categories);
   const [form, setForm] = useState(initialForm);
+  const [error, setError] = useState({err: false, msg: ""});
 
   useEffect(() => {
     if (props.editTransaction.amount !== undefined) {
@@ -28,8 +29,16 @@ export default function TransactionForm(props) {
   }, [props.editTransaction]); 
 
   function handleChange(event) {
-    console.log({ ...form, [event.target.name]: event.target.value })
-    setForm({ ...form, [event.target.name]: event.target.value });
+    let value = event.target.value;  
+    if(event.target.id === "amount" ){
+      if(value < 0){
+        // value = 0;
+        setError({err: true, msg: "Amount cannot be less than zero."})
+      } else {
+      setError({err: false, msg:""})
+    }
+  }
+    setForm({ ...form, [event.target.name]: value });
   }
 
   function handleDateChange(newDate) {
@@ -63,26 +72,28 @@ export default function TransactionForm(props) {
   return (
     <Card
       sx={{
-        minWidth: 275,
+        // minWidth: 275,
         marginTop: 10,
       }}
     >
-      <CardContent>
+      <CardContent >
         <Typography variant="h6" sx={{marginBottom: 2}}>
           {props.editTransaction.amount ? "Edit " : "Add New"} Transaction
         </Typography>
         <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
           <TextField
             onChange={handleChange}
-            sx={{ marginRight: 5 }}
+            sx={{ marginRight: 4 }}
             size="small"
-            id="outlined-start-adornment"
+            id="amount"
             label="Amount"
             variant="outlined"
             value={form.amount}
             name="amount"
             type="number"
             required
+            error={error.err}
+            helperText={error.msg}
             InputProps={{
               startAdornment: (
                 <InputAdornment position="start">$</InputAdornment>
@@ -91,9 +102,9 @@ export default function TransactionForm(props) {
           />
           <TextField
             onChange={handleChange}
-            sx={{ marginRight: 5 }}
+            sx={{ marginRight: 4 }}
             size="small"
-            id="outlined-basic"
+            id="description"
             label="Description"
             inputProps={{ maxLength: 35 }}
             variant="outlined"
@@ -108,7 +119,7 @@ export default function TransactionForm(props) {
               onChange={handleDateChange}
               value={form.date}
               renderInput={(params) => (
-                <TextField sx={{ marginRight: 5 }} size="small" {...params} />
+                <TextField sx={{ marginRight: 4 }} size="small" {...params} />
               )}
             />
 
@@ -121,7 +132,7 @@ export default function TransactionForm(props) {
               id="categories-dropdown"
               options={categories}
               isOptionEqualToValue={(option, value) => option.id === value.id}
-              sx={{ width: 200, marginRight: 5 }}
+              sx={{ width: 200, marginRight: 4 }}
               // renderOption: Autocomplete uses the category label as a key. If user enters 2 categories with same name, will give error due to identical keys. Using option._id which refers to category._id overwrites the key and makes it unique no matter what
               // renderOption={(props, option) => (
               //   <Box component="li" {...props} key={option._id}>
@@ -137,7 +148,7 @@ export default function TransactionForm(props) {
             <ButtonSecondary text="Edit"></ButtonSecondary>
           )}
           {props.editTransaction.amount === undefined && (
-            <ButtonPrimary text="Submit"></ButtonPrimary>
+            <ButtonPrimary text="Submit" disabled={error.err}></ButtonPrimary>
           )}
         </Box>
       </CardContent>

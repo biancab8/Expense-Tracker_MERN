@@ -117,7 +117,7 @@ export const findTransactions = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(groupedTransactions)
+        // console.log(groupedTransactions)
         res.json({ data: groupedTransactions });
       }
     }
@@ -138,7 +138,27 @@ export const findTransactions = async (req, res) => {
 //     })
 // }
 
-export const getExpensesByCategory = async (req, res) => {
+
+export const updateTransactionsbyCategory = async (req, res) => {
+  const oldCategoryId = req.params.oldId;  
+  const newCategoryId = req.params.newId;
+  Transaction.updateMany({user_id: req.user._id, category_id: oldCategoryId}, 
+  {category_id: newCategoryId},
+  {new: true},
+  function(err, updatedTransactions){
+    if (err){
+      console.log(err)
+    } else {
+      // console.log("-----------------------------")
+      // console.log(newCategoryId)
+      // console.log(updatedTransactions)
+      res.json({message: "Successfully updated the transactions."})
+    }
+  }  )
+};
+
+
+export const getTotalExpensesByCategory = async (req, res) => {
   //get total per category (for dates requested if applicable)
   let { startDate, endDate } = req.query;
   //if filter by date or category requested, add those conditions:
@@ -167,7 +187,7 @@ export const getExpensesByCategory = async (req, res) => {
       if (err) {
         console.log("err");
       } else {
-        console.log(categoryTotals);
+        // console.log(categoryTotals);
         res.json({ categoryTotals: categoryTotals });
       }
     }

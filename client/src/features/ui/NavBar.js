@@ -29,10 +29,10 @@ export default function NavBar() {
   }
 
   return (
-      <AppBar position="static" sx={{backgroundColor: colors.tableBackgroundPrimary, color: colors.textSecondary, }}> 
+      <AppBar position="static" sx={{backgroundColor: colors.tableBackgroundPrimary, color: colors.textSecondary}}> 
       {/* display: "inline-flex" */}
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+        <Toolbar >
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1, }}>
             <Link to="/" className="text-white">
               Expense Tracker
             </Link>

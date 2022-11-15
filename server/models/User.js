@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
     email: {type: String, required: ["Email is required"]}, 
     password: {type: String, required: ["Password is required"]},
     categories: [{label: String, icon: {name: String, default: Boolean}}], //true if default category i.e. cannot delete
+    //each category has id by default 
 }, {
     timestamps: true
 })

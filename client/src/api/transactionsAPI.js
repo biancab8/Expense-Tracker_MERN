@@ -29,6 +29,24 @@ export async function updateTransaction(data, id) {
     return res;
   }
 
+
+export async function updateTransactionsbyCategory(oldId, newId){
+  const token = Cookie.get("token");
+  const res = await fetch(`${process.env.REACT_APP_API_URL}/transactions/byCategory/${oldId}/${newId}`, 
+  {
+        method: "PATCH",
+        headers: {
+          "content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+  });
+
+  return res; 
+}
+
+
+
+
 export async function deleteTransaction(id){
   const token = Cookie.get("token");
     const res = await fetch(
@@ -74,7 +92,7 @@ export async function getTransactionsByMonth(startDate=null, endDate=null, categ
 
 
   
-  export async function getExpensesByCategory(startDate=null, endDate=null){
+  export async function getTotalExpensesByCategory(startDate=null, endDate=null){
     //get total expenses per category
     const token = Cookie.get("token");
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions/categoryTotals`;
