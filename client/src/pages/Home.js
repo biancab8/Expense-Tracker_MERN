@@ -19,15 +19,16 @@ export default function Home() {
     category: null,
   });
   const [transactionsData, setTransactionsData] = useState([]);
+  const [expensesByCategory, setExpensesByCategory] = useState([])
   const [updateTransactions, setUpdateTransactions] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editTransaction, setEditTransaction] = useState({});
-  // const myRef=[];
+  const chartRef=useRef();
   
 
   useEffect(() => {
+    //get all transactions 
     const fetchData = async () => {
-      setLoading(true);
       const res = await transactionsAPI.getTransactionsByMonth(
         filter.startDate,
         filter.endDate,
@@ -37,10 +38,28 @@ export default function Home() {
         const { data } = await res.json();
         setTransactionsData(data);
       }
-      setLoading(false);
       setUpdateTransactions(false);
     };
+    //get expense totals per month 
+    const getTotalsByCategory = async () => {
+      const res = await transactionsAPI.getExpensesByCategory(
+      filter.startDate,
+      filter.endDate
+    );
+    if (res.ok) {
+      let { categoryTotals } = await res.json();
+      categoryTotals = categoryTotals.map((category) => {
+        category.name = (getCategoryById(category._id)).label;
+        return category;
+      });
+      setExpensesByCategory(categoryTotals);
+    }
+    }
+    //call functions
+    setLoading(true);
     fetchData();
+    getTotalsByCategory();
+    setLoading(false);
     console.log("use effect");
   }, [filter, updateTransactions]);
 
@@ -77,21 +96,15 @@ export default function Home() {
   //   }
   // }
 
-  // async function getTransactionsByCategory(startDate = null, endDate = null) {
-  //   const res = await transactionsAPI.getTransactionsByCategory(
-  //     startDate,
-  //     endDate
-  //   );
-  //   if (res.ok) {
-  //     let { transactions } = await res.json();
-  //     const data = transactions.map((category) => {
-  //       category.name = categoryNameById(category._id);
-  //       return category;
-  //     });
-  //     setTransactionsByCategory(data);
-  //   }
-  // }
+  // const getExpensesByCategory = async () => {
 
+  // }
+  function scrollToTarget(target){
+    if(target === "chart"){
+      chartRef.current.scrollIntoView({behavior: "smooth"})  
+    }
+  }
+  
   function getCategoryById(id) {
     //compare id with those in user's categories list. If match, return name, else 'NA'
     const category = user.categories.find((category) => category._id === id);
@@ -125,6 +138,7 @@ export default function Home() {
   //   myRef[idx].scrollIntoView();
   // }
 
+
   return (
     <Container>
       <TransactionForm
@@ -142,20 +156,20 @@ export default function Home() {
         getCategoryById={getCategoryById}
         setUpdateTransactions={setUpdateTransactions}
         setEditTransaction={setEditTransaction}
-        // scrollToRef={scrollToRef}
+        scrollToTarget={scrollToTarget}
       />
       <br />
       <br />
-      <div >
+      <div ref={chartRef}>
         {transactionsData.length > 0 && (
           <Fragment>
             <TransactionsBarGraph
               data={transactionsData}
             ></TransactionsBarGraph>
-            {/* <TransactionsPieChart
-              data={transactionsByCategory}
-              categoryNameById={categoryNameById}
-            ></TransactionsPieChart> */}
+            {}
+            <TransactionsPieChart
+              data={expensesByCategory}
+            ></TransactionsPieChart>
           </Fragment>
         )}
       </div>

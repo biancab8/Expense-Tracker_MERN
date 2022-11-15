@@ -64,8 +64,8 @@ export const findTransactions = async (req, res) => {
               "December",
             ],
           },
-          in: { $arrayElemAt: ["$$monthsInString", { $month: "$date" }] },
-        },
+          in: { $arrayElemAt: ["$$monthsInString", {$subtract: [{ $month: "$date" }, 1]}] },
+        }, //minus 1 for idx starting at 0
       },
       " ",
       { $toString: { $year: "$date" } },
@@ -117,6 +117,7 @@ export const findTransactions = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
+        console.log(groupedTransactions)
         res.json({ data: groupedTransactions });
       }
     }
@@ -137,7 +138,7 @@ export const findTransactions = async (req, res) => {
 //     })
 // }
 
-export const getTransactionsByCategory = async (req, res) => {
+export const getExpensesByCategory = async (req, res) => {
   //get total per category (for dates requested if applicable)
   let { startDate, endDate } = req.query;
   //if filter by date or category requested, add those conditions:
@@ -162,12 +163,12 @@ export const getTransactionsByCategory = async (req, res) => {
         },
       },
     ],
-    function (err, transactionsByCategory) {
+    function (err, categoryTotals) {
       if (err) {
         console.log("err");
       } else {
-        // console.log(transactionsByCategory);
-        res.json({ transactions: transactionsByCategory });
+        console.log(categoryTotals);
+        res.json({ categoryTotals: categoryTotals });
       }
     }
   );

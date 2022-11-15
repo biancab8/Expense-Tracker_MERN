@@ -96,7 +96,7 @@ export default function TransactionsTable(props) {
           <Typography sx={{ marginRight: 3 }} variant="h6" display="inline">
             Lists of Transactions
           </Typography>
-          {props.transactionsData.length>0&&<ButtonTertiary handleClick={props.goToChart} text="SEE CHARTS" />}
+          {props.transactionsData.length>0&&<ButtonTertiary handleClick={() => props.scrollToTarget("chart")} text="SEE CHARTS" />}
         </div>
         <div> 
           <DateFilter
@@ -129,6 +129,7 @@ export default function TransactionsTable(props) {
             {props.transactionsData.map((transactionsByMonth) => {  //for each group
               return (
                 <Fragment key={transactionsByMonth.transactions[0]._id}>
+                {console.log(transactionsByMonth)}
                   <TableRow
                     sx={{
                       "&:last-child td, &:last-child th": {
@@ -187,7 +188,8 @@ export default function TransactionsTable(props) {
                               color="primary"
                               component="label"
                               onClick={() => 
-                                {props.setEditTransaction(transaction)}
+                                {props.setEditTransaction(transaction);
+                                window.scrollTo({top: 0, behavior: "smooth"})}
                               }
                             >
                               <EditIcon />

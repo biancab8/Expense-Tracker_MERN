@@ -74,14 +74,15 @@ export async function getTransactionsByMonth(startDate=null, endDate=null, categ
 
 
   
-  export async function getTransactionsByCategory(startDate=null, endDate=null,){
+  export async function getExpensesByCategory(startDate=null, endDate=null){
+    //get total expenses per category
     const token = Cookie.get("token");
-    let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
+    let apiUrl = `${process.env.REACT_APP_API_URL}/transactions/categoryTotals`;
     if(startDate && endDate){
       apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
     }
     const res = await fetch(
-        `${process.env.REACT_APP_API_URL}/transactions/categories`,
+        apiUrl,
         {
           method: "GET",
           headers: {
