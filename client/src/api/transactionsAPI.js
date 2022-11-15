@@ -47,10 +47,10 @@ export async function getTransactionsByMonth(startDate=null, endDate=null, categ
   const token = Cookie.get("token");
     //if start and end dates and/or category are provided, only requests entries within that 
     //time frame from the database
-    console.log("in trans api")
+    // console.log("in trans api")
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
-    console.log(startDate)
-    console.log(endDate)
+    // console.log(startDate)
+    // console.log(endDate)
     if(startDate && endDate){
       apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
     }
@@ -61,7 +61,7 @@ export async function getTransactionsByMonth(startDate=null, endDate=null, categ
         apiUrl= apiUrl+`?category=${category}`
       }
     }
-    console.log(apiUrl)
+    // console.log(apiUrl)
     const res = await fetch(apiUrl, {
       method: "GET",
       headers: {

@@ -25,9 +25,10 @@ export default function TransactionForm(props) {
     if (props.editTransaction.amount !== undefined) {
       setForm(props.editTransaction);
     }
-  }, [props.editTransaction.amount]); 
+  }, [props.editTransaction]); 
 
   function handleChange(event) {
+    console.log({ ...form, [event.target.name]: event.target.value })
     setForm({ ...form, [event.target.name]: event.target.value });
   }
 
@@ -42,12 +43,13 @@ export default function TransactionForm(props) {
     if (props.editTransaction.amount === undefined) {
       res = await transactionsAPI.addTransaction(form);
     } else {
+      // console.log(props.editTransaction)
       res = await transactionsAPI.updateTransaction(form, props.editTransaction._id);
     }
     if (res.ok) {
       setForm(initialForm);
       props.setEditTransaction({});
-      await props.fetchTransactions();
+      props.setUpdateTransactions(true);
     }
   }
 
@@ -111,8 +113,9 @@ export default function TransactionForm(props) {
             />
 
             <Autocomplete
-              value={getCategoryNameById()}
+              value={!form.category_id?"":(props.getCategoryById(form.category_id)).label}
               onChange={(event, newValue) => {
+                console.log(newValue)
                 setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
               }}
               id="categories-dropdown"
@@ -120,11 +123,11 @@ export default function TransactionForm(props) {
               isOptionEqualToValue={(option, value) => option.id === value.id}
               sx={{ width: 200, marginRight: 5 }}
               // renderOption: Autocomplete uses the category label as a key. If user enters 2 categories with same name, will give error due to identical keys. Using option._id which refers to category._id overwrites the key and makes it unique no matter what
-              renderOption={(props, option) => (
-                <Box component="li" {...props} key={option._id}>
-                  {option.label}
-                </Box>
-              )}
+              // renderOption={(props, option) => (
+              //   <Box component="li" {...props} key={option._id}>
+              //     {option.label}
+              //   </Box>
+              // )}
               renderInput={(params) => (
                 <TextField {...params} size="small" label="Category" required />
               )}

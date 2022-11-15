@@ -2,15 +2,21 @@
 import { Select, MenuItem } from "@mui/material";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import React from "react";
+import { useState } from "react";
 
 export default function CategoryFilter(props) {
+  const [categoryFilter, setCategoryFilter] = useState("");
+
   return (
     <Select
       size="small"
       IconComponent={FilterListIcon}
       fontSize="5px"
-      value={props.categoryFilter}
-      onChange={props.filterCategory}
+      value={categoryFilter}
+      onChange={(event) => {
+        const category = event.target.value; 
+        setCategoryFilter(category); 
+        props.setFilter({...props.filter, category: category})}}
       autoWidth
       variant="standard"
       disableUnderline={true}

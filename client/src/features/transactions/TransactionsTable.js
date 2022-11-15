@@ -30,7 +30,7 @@ import { transactionsAPI } from "../../api";
 
 export default function TransactionsTable(props) {
   const user = useSelector((state) => state.authReducer.user);
-  const [categoryFilter, setCategoryFilter] = useState("");
+  // const [categoryFilter, setCategoryFilter] = useState("");
 
 
   async function remove(id) {
@@ -40,17 +40,17 @@ export default function TransactionsTable(props) {
     } else {
       const res = await transactionsAPI.deleteTransaction(id);
       if (res.ok) {
-        await props.fetchTransactions();
+        props.setUpdateTransactions(true);
       }
     }
   }
 
-  async function filterTransactions(startDate=null, endDate=null) {
-    //filter transactions list by selected date range
-    console.log("in table")
-    console.log(endDate)
-    await props.fetchTransactions(startDate, endDate, categoryFilter);
-  }
+  // async function filterTransactions(startDate=null) {
+  //   //filter transactions list by selected date range
+  //   console.log("in table")
+  //   console.log(props.endDate)
+  //   await props.fetchTransactions(props.startDate, props.endDate, categoryFilter);
+  // }
 
   // function categoryNameById(id) {
   //   //compare id with those in user's categories list. If match, return name, else 'NA'
@@ -73,12 +73,12 @@ export default function TransactionsTable(props) {
     return date.toLocaleString("en-US", { month: "long" });
   }
 
-  async function filterCategory(event) {
-    //filter transactions list by selected cateogry
-    const category = event.target.value;
-    setCategoryFilter(category);
-    await props.fetchTransactions(category);
-  }
+  // async function filterCategory(event) {
+  //   //filter transactions list by selected cateogry
+  //   const category = event.target.value;
+  //   setCategoryFilter(category);
+  //   await props.fetchTransactions(category);
+  // }
 
   return (
     <>
@@ -100,12 +100,8 @@ export default function TransactionsTable(props) {
         </div>
         <div> 
           <DateFilter
-            filterTransactions={filterTransactions}
-            startDate={props.startDate}
-            setStartDate={props.setStartDate}
-            endDate={props.endDate}
-            setEndDate={props.setEndDate}
-            categoryFilter={categoryFilter}
+            filter={props.filter}
+            setFilter={props.setFilter}
           ></DateFilter>
         </div>
       </Box>
@@ -120,7 +116,7 @@ export default function TransactionsTable(props) {
               <TableHeaderCell
                 text="Category"
                 // nested cell = category filter
-                nestedCell = <CategoryFilter filterCategory={filterCategory} categoryFilter={categoryFilter} user={user}/>
+                nestedCell = <CategoryFilter filter={props.filter} setFilter={props.setFilter} user={user}/>
               ></TableHeaderCell>
               <TableHeaderCell text="Date" />
               <TableHeaderCell text="Action" />
@@ -153,6 +149,7 @@ export default function TransactionsTable(props) {
                     />
                   </TableRow>
                   {transactionsByMonth.transactions.map((transaction) => { //for each transaction
+                  const category = props.getCategoryById(transaction.category_id)
                     return (
                       
                       <TableRow
@@ -172,13 +169,11 @@ export default function TransactionsTable(props) {
                             <Grid item xs={1} />
                             <Grid item xs={4} align="center">
                               <CategoryIcon
-                                categoryName={props.categoryIconById(
-                                  transaction.category_id
-                                )}
+                                categoryName={category.iconName}
                               />
                             </Grid>
                             <Grid item xs={6} align="left">
-                              {props.categoryNameById(transaction.category_id)}
+                              {category.label}
                             </Grid>
                           </Grid>
                         ></TableInnerCell>
@@ -191,8 +186,8 @@ export default function TransactionsTable(props) {
                             <IconButton
                               color="primary"
                               component="label"
-                              onClick={() =>
-                                props.setEditTransaction(transaction)
+                              onClick={() => 
+                                {props.setEditTransaction(transaction)}
                               }
                             >
                               <EditIcon />
