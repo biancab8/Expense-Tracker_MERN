@@ -13,6 +13,7 @@ export default function ButtonTertiary(props) {
         "&:hover": {
           backgroundColor: `${colors.buttonTertiaryHover} !important`,
         },
+        maxHeight: "40px",
       }}
       variant="text"
     >

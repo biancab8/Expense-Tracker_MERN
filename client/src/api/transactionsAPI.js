@@ -99,6 +99,8 @@ export async function getTransactionsByMonth(startDate=null, endDate=null, categ
     if(startDate && endDate){
       apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
     }
+    console.log(startDate)
+    console.log(endDate)
     const res = await fetch(
         apiUrl,
         {

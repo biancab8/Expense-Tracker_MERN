@@ -145,7 +145,7 @@ export default function TransactionForm(props) {
             />
           </LocalizationProvider>
           {props.editTransaction.amount !== undefined && (
-            <ButtonSecondary text="Edit"></ButtonSecondary>
+            <ButtonSecondary text="Edit" disabled={error.err}></ButtonSecondary>
           )}
           {props.editTransaction.amount === undefined && (
             <ButtonPrimary text="Submit" disabled={error.err}></ButtonPrimary>

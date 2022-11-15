@@ -19,15 +19,14 @@ export default function Home() {
     category: null,
   });
   const [transactionsData, setTransactionsData] = useState([]);
-  const [expensesByCategory, setExpensesByCategory] = useState([])
+  const [expensesByCategory, setExpensesByCategory] = useState([]);
   const [updateTransactions, setUpdateTransactions] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editTransaction, setEditTransaction] = useState({});
-  const chartRef=useRef();
-  
-  
+  const chartRef = useRef();
+
   useEffect(() => {
-    //get all transactions 
+    //get all transactions
     const fetchData = async () => {
       setLoading(true);
       const res = await transactionsAPI.getTransactionsByMonth(
@@ -42,21 +41,21 @@ export default function Home() {
       setUpdateTransactions(false);
       setLoading(false);
     };
-    //get expense totals per month 
+    //get expense totals per month
     const getTotalsByCategory = async () => {
       const res = await transactionsAPI.getTotalExpensesByCategory(
-      filter.startDate,
-      filter.endDate
-    );
-    if (res.ok) {
-      let { categoryTotals } = await res.json();
-      categoryTotals = categoryTotals.map((category) => {
-        category.name = (getCategoryById(category._id)).label;
-        return category;
-      });
-      setExpensesByCategory(categoryTotals);
-    }
-    }
+        filter.startDate,
+        filter.endDate
+      );
+      if (res.ok) {
+        let { categoryTotals } = await res.json();
+        categoryTotals = categoryTotals.map((category) => {
+          category.name = getCategoryById(category._id).label;
+          return category;
+        });
+        setExpensesByCategory(categoryTotals);
+      }
+    };
     //call functions
     fetchData();
     getTotalsByCategory();
@@ -64,7 +63,6 @@ export default function Home() {
   }, [filter, updateTransactions]);
 
   // const [transactionsByCategory, setTransactionsByCategory] = useState([]);
-
 
   // async function fetchTransactions(
   //   startDate=null,
@@ -99,16 +97,18 @@ export default function Home() {
   // const getExpensesByCategory = async () => {
 
   // }
-  function scrollToTarget(target){
-    if(target === "chart"){
-      chartRef.current.scrollIntoView({behavior: "smooth"})  
+  function scrollToTarget(target) {
+    if (target === "chart") {
+      chartRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }
-  
+
   function getCategoryById(id) {
     //compare id with those in user's categories list. If match, return name, else 'NA'
     const category = user.categories.find((category) => category._id === id);
-    return category ? {label: category.label, iconName: category.icon.name} : {label: "Other", iconName: "other"};
+    return category
+      ? { label: category.label, iconName: category.icon.name }
+      : { label: "Other", iconName: "other" };
   }
 
   // function categoryIconById(id) {
@@ -122,25 +122,24 @@ export default function Home() {
   //   //jump to component
   //   switch(target){
   //     case "charts":
-  //       return chartRef.current.scrollIntoView; 
+  //       return chartRef.current.scrollIntoView;
   //     case "form":
-  //       return formRef.current.scrollIntoView;  
+  //       return formRef.current.scrollIntoView;
   //   }
   // }
 
   // function scrollToRef(target){
   //   let idx;
   //   if(target === "form"){
-  //     idx=0;  
+  //     idx=0;
   //   } else if(target === "chart"){
   //     idx=1;
   //   }
   //   myRef[idx].scrollIntoView();
   // }
 
-
   return (
-    <Container maxWidth="lg" sx={{width: "80%",  minWidth: 700 }}>
+    <Container maxWidth="lg" sx={{ width: "90%", minWidth: 700 }}>
       <TransactionForm
         editTransaction={editTransaction}
         setEditTransaction={setEditTransaction}
@@ -166,10 +165,11 @@ export default function Home() {
             <TransactionsBarGraph
               data={transactionsData}
             ></TransactionsBarGraph>
-            {}
-            <TransactionsPieChart
-              data={expensesByCategory}
-            ></TransactionsPieChart>
+            {filter.category ? null : (
+              <TransactionsPieChart
+                data={expensesByCategory}
+              ></TransactionsPieChart>
+            )}
           </Fragment>
         )}
       </div>
