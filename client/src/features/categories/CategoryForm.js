@@ -16,8 +16,11 @@ const initialForm = {
 
 
 export default function CategoryForm(props) {
+  const user = useSelector((state) => state.authReducer.user);
   const dispatch = useDispatch();
   const [form, setForm] = useState(initialForm);
+  const [error, setError] = useState({err: false, msg: ""})
+
   // const categories = useSelector((state) => state.authReducer.user.categories);
 
   useEffect(() => {
@@ -27,12 +30,19 @@ export default function CategoryForm(props) {
   }, [props.editCategory._id]); 
 
   function handleChange(event) {
+    setError({err: false, msg: ""})
     setForm({ ...form, [event.target.name]: event.target.value });
   }
 
   async function handleSubmit(event) {
-    //add or update category API call 
     event.preventDefault();
+    //check if category already exists
+    const duplicate = user.categories.find((category) => (category.label).toLowerCase() === (form.label).toLowerCase());
+    if(duplicate){
+      setError({err: true, msg: "A category with name alreayd exists."})
+      return; 
+    } 
+    //add/edit cateory
     let res;
     if (props.editCategory._id === undefined) {
       res = await categoriesAPI.addCategory(form);
@@ -78,6 +88,8 @@ export default function CategoryForm(props) {
             value={form.label}
             name="label"
             required
+            error={error.err}
+            helperText={error.msg}
             inputProps={{ maxLength: 18 }}
           />
           {/* <FormControl> */}
@@ -118,10 +130,10 @@ export default function CategoryForm(props) {
     </TextField>
 {/* // </FormControl> */}
           {props.editCategory._id !== undefined && (
-            <ButtonSecondary  text="Edit"/>
+            <ButtonSecondary disabled={error.err} text="Edit"/>
           )}
           {props.editCategory._id === undefined && (
-            <ButtonPrimary text="Submit"/>
+            <ButtonPrimary disabled={error.err} text="Submit"/>
           )}
         </Box>
       </CardContent>
