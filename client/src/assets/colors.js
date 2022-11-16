@@ -1,7 +1,7 @@
 const colors = {
     // table colors
-    tableBackgroundPrimary: "#014ca0",
-    tableBackgroundSecondary: "#f0f3ff",
+    tableBackgroundPrimary: "#002855",//"#014ca0",
+    tableBackgroundSecondary: "#b0c4de1c",//"#dedede",//"#e6eeff",//"#f0f3ff",
     tableHeader: "#002855",
 
     //text colors
@@ -34,3 +34,8 @@ export default colors;
 // dark purple 3c096c
 // green light 8cff98
 // gray 8d99ae
+
+/* 203b65 */
+/* background: linear-gradient(to bottom,#ffffff 18%,#5000ff40); */
+
+/* background: linear-gradient(to bottom,#ffffff 18%,#5000ff14); */

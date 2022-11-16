@@ -1,7 +1,8 @@
-html{
+body{
     background-color: #f5f5f5;
-    background: -webkit-linear-gradient(top,#eeeeee 18%,#10464a40);
-    background: linear-gradient(to bottom,#eeeeee 18%,#10464a40);
+    background: linear-gradient(to bottom,#ffffff 18%,#5000ff14);
+    /* background: -webkit-linear-gradient(top,#eeeeee 18%,#10464a40); */
+    /* background: linear-gradient(to bottom,#eeeeee 18%,#10464a40); */
     height: 100%;
     width: 100%;
     padding: 0;
@@ -9,6 +10,10 @@ html{
     background-attachment: fixed;
     /* width: 100vw; */
 }
+
+/* body{
+    background-color: transparent;
+} */
 
 .text-white{
     color: white;
