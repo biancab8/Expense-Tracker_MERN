@@ -54,7 +54,7 @@ export default function Categories() {
 
 
   return (
-    <Container align="center" maxWidth="sm" sx={{width: "45%",  minWidth: 450 }}>
+    <Container align="center" maxWidth="sm" sx={{width: "45%",  minWidth: 450, paddingBottom: "80px" }}>
                  
       <CategoryForm
         editCategory={editCategory}

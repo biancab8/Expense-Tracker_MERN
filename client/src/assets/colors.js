@@ -19,6 +19,7 @@ const colors = {
 
     //chart colors
     barColor: "#8BFDC6",
+    chartBackground: "#b0c4de1c", //"#fbfbfb",// "#b0c4de1c",
 
     //other
     error: "#fad3d6"

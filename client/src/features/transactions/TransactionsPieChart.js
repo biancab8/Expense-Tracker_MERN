@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { getDatePickerToolbarUtilityClass } from "@mui/x-date-pickers/DatePicker/datePickerToolbarClasses";
 import { useSelector } from "react-redux";
 import { sliderClasses, Typography } from "@mui/material";
+import { colors } from "../../assets";
 
 
 export default function TransactionsPieChart(props) {
@@ -27,13 +28,13 @@ export default function TransactionsPieChart(props) {
 
   return (
     <>
-    <Typography variant="h6" sx={{marginBottom: 2, marginTop: "80px"}}>
+    <Typography variant="h6" sx={{marginBottom:3, marginTop: "80px"}}>
         Transactions by Category:
         </Typography>
-    <Paper sx={{marginBottom: "70px"}}>
+    <Paper >
     {/* {console.log("asdfasdfasdf")}
     {console.log(data)} */}
-      <Chart data={props.data}>
+      <Chart data={props.data} sx={{ "#center-axis-container": {background:colors.chartBackground}}}>
         <PieSeries valueField="totalExpenses" argumentField="name"/>
         <ArgumentScale factory={scaleBand} />
         {/* <Title text="by Category ($)" /> */}

@@ -139,7 +139,7 @@ export default function Home() {
   // }
 
   return (
-    <Container maxWidth="lg" sx={{ width: "90%", minWidth: 700 }}>
+    <Container maxWidth="lg" sx={{ width: "90%", minWidth: 700, paddingBottom: "80px" }}>
       <TransactionForm
         editTransaction={editTransaction}
         setEditTransaction={setEditTransaction}
