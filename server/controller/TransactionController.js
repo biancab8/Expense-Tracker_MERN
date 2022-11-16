@@ -1,6 +1,6 @@
 //logic for API routes
 import mongoose from "mongoose";
-import Transaction from "../models/Transaction.js";
+import Transaction from "../models/transaction.js";
 
 export const createTransaction = async (req, res) => {
   const { amount, description, date, category_id } = req.body;

@@ -1,13 +1,20 @@
 import User from "../models/User.js";
 import pkg from "passport-jwt";
+import * as dotenv from "dotenv";
+
+
 const JwtStrategy = pkg.Strategy;
 const ExtractJwt = pkg.ExtractJwt;
+dotenv.config(); 
 
-let opts = {};
 //extract token from the header of the http request
 //store token and secret in opts: 
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = process.env.JWT_SECRET;
+const jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+const secretOrKey = process.env.JWT_SECRET;;
+const opts = {
+  jwtFromRequest: jwtFromRequest, 
+  secretOrKey: secretOrKey,
+}
 
 export default (passport) => {
   passport.use(
