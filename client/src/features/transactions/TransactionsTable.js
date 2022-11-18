@@ -26,12 +26,11 @@ import {
   Loading,
 } from "../ui";
 import { transactionsAPI } from "../../api";
-
+import "../../style/index.css";
 
 export default function TransactionsTable(props) {
   const user = useSelector((state) => state.authReducer.user);
   // const [categoryFilter, setCategoryFilter] = useState("");
-
 
   async function remove(id) {
     //delete transaction
@@ -82,33 +81,42 @@ export default function TransactionsTable(props) {
 
   return (
     <>
-    {/* heading & date filter */}
+      {/* heading & date filter */}
       <Box
-        sx={{
-          display: "flex",
-          alignItems: "flex-end",
-          justifyContent: "space-between",
-          marginBottom: 1,
-          marginTop: 9,
-        }}
+        // sx={{
+        //   display: "flex",
+        //   // alignItems: "flex-end",
+        //   // justifyContent: "space-between",
+        //   // marginBottom: 1,
+        //   // marginTop: 9,
+        //   flexDirection: "row"
+        // }}
       >
+      <div className="transactionsTableHeader">
         <div>
-          <Typography sx={{ marginRight: 3 }} variant="h6" display="inline">
+          <Typography sx={{ marginRight: 1 }} variant="h6" display="inline">
             Lists of Transactions
           </Typography>
-          {props.transactionsData.length>0&&<ButtonTertiary handleClick={() => props.scrollToTarget("chart")} text="SEE CHARTS" />}
+          {props.transactionsData.length > 0 && (
+            <ButtonTertiary
+              handleClick={() => props.scrollToTarget("chart")}
+              text="SEE CHARTS"
+            />
+          )}
         </div>
-        <div> 
+        <div>
           <DateFilter
             filter={props.filter}
             setFilter={props.setFilter}
+           
           ></DateFilter>
         </div>
+      </div>
       </Box>
       {/* table */}
-      <TableContainer component={Paper}> 
-      {/* sx={{ minWidth: 650 }} */}
-        <Table  aria-label="simple table">
+      <TableContainer component={Paper} >
+        {/* sx={{ minWidth: 650 }} */}
+        <Table aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableHeaderCell text="Amount" />
@@ -116,29 +124,31 @@ export default function TransactionsTable(props) {
               <TableHeaderCell
                 text="Category"
                 // nested cell = category filter
-                nestedCell = <CategoryFilter filter={props.filter} setFilter={props.setFilter} user={user}/>
+                nestedCell=<CategoryFilter
+                  filter={props.filter}
+                  setFilter={props.setFilter}
+                  user={user}
+                />
               ></TableHeaderCell>
               <TableHeaderCell text="Date" />
               <TableHeaderCell text="Action" />
             </TableRow>
           </TableHead>
           <TableBody>
-
             {/* transactionsData = transactions grouped by month+year */}
             {/* each group has own list of transactions for that month */}
-            {props.transactionsData.map((transactionsByMonth) => {  //for each group
+            {props.transactionsData.map((transactionsByMonth) => {
+              //for each group
               return (
                 <Fragment key={transactionsByMonth.transactions[0]._id}>
                   <TableRow
-                    sx={{
-                      "&:last-child td, &:last-child th": {
-                        border: 0,
-                      },
-                    }}
+                  // sx={{
+                  //   "&:last-child td, &:last-child th": {
+                  //     border: 0,
+                  //   },
+                  // }}
                   >
-                    <TableSummaryCell
-                      text={transactionsByMonth._id}
-                    />
+                    <TableSummaryCell text={transactionsByMonth._id} />
                     <TableSummaryCell />
                     <TableSummaryCell />
                     <TableSummaryCell />
@@ -148,20 +158,30 @@ export default function TransactionsTable(props) {
                       )}`}
                     />
                   </TableRow>
-                  {transactionsByMonth.transactions.map((transaction) => { //for each transaction
-                  {/* console.log(transaction) */}
-                  const category = props.getCategoryById(transaction.category_id)
-                  {/* console.log(category) */}
+                  {transactionsByMonth.transactions.map((transaction) => {
+                    //for each transaction
+                    {
+                      /* console.log(transaction) */
+                    }
+                    const category = props.getCategoryById(
+                      transaction.category_id
+                    );
+                    {
+                      /* console.log(category) */
+                    }
                     return (
-                      
                       <TableRow
                         key={transaction._id}
-                        sx={{
-                          "&:last-child td, &:last-child th": { border: 0 },
-                        }}
+                        // width="100%"
+                        // sx={{display: "flex",
+                        // justifyContent: "space-between", alignItems: "stretch"}}
+                        // sx={{
+                        //   "&:last-child td, &:last-child th": { border: 0 },
+                        // }}
                       >
                         <TableInnerCell
                           text={"$" + numToCurrency(transaction.amount)}
+                          
                         />
                         <TableInnerCell text={transaction.description} />
                         {/* icon + category name nested in 1 outer cell */}
@@ -169,16 +189,17 @@ export default function TransactionsTable(props) {
                           text=""
                           nestedCell=<Grid container>
                             <Grid item xs={1} />
-                            <Grid item xs={4} align="center">
-                              <CategoryIcon
-                                categoryName={category.iconName}
-                              />
+                            <Grid item xs={4} 
+                            marginLeft="6px" 
+                            align="center">
+                              <CategoryIcon categoryName={category.iconName} />
                             </Grid>
                             <Grid item xs={6} align="left">
                               {category.label}
                             </Grid>
                           </Grid>
                         ></TableInnerCell>
+
                         <TableInnerCell
                           text={dayjs(transaction.date).format("MMM DD, YYYY")}
                         />
@@ -188,10 +209,10 @@ export default function TransactionsTable(props) {
                             <IconButton
                               color="primary"
                               component="label"
-                              onClick={() => 
-                                {props.setEditTransaction(transaction);
-                                window.scrollTo({top: 0, behavior: "smooth"})}
-                              }
+                              onClick={() => {
+                                props.setEditTransaction(transaction);
+                                window.scrollTo({ top: 0, behavior: "smooth" });
+                              }}
                             >
                               <EditIcon />
                             </IconButton>
@@ -206,19 +227,22 @@ export default function TransactionsTable(props) {
                             </IconButton>
                           </div>
                         />
+                 
                       </TableRow>
                     );
                   })}
-            
                 </Fragment>
               );
             })}
           </TableBody>
         </Table>
-        {props.loading&&<Loading/>}
-        {props.transactionsData.length<=0&&!props.loading&&<Box align="center" padding="20px">{"No entries."}</Box>}
+        {props.loading && <Loading />}
+        {props.transactionsData.length <= 0 && !props.loading && (
+          <Box align="center" padding="20px">
+            {"No entries."}
+          </Box>
+        )}
       </TableContainer>
-      
     </>
   );
 }

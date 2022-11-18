@@ -5,8 +5,11 @@ export default function TableInnerCell(props) {
   return !props.nestedCell ? (
     <TableCell align="center">{props.text}</TableCell>
   ) : (
-    <TableCell align="center">
+
+
+    <TableCell align="center" >
       {props.text} {props.nestedCell}
     </TableCell>
+
   );
 }

@@ -7,6 +7,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { ButtonTertiary } from "../ui";
 import { useState } from "react";
+import "../../style/index.css"
 
 export default function DateFilter(props) {
   const [startDate, setStartDate] = useState(null);
@@ -54,10 +55,15 @@ export default function DateFilter(props) {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Box 
+      className="dateFilter"
         sx={{
-          display: "inline-flex",
-          marginRight: "23px",
+          // display: "flex",
+          // marginRight: "23px",
           marginBottom: "1px",
+          marginLeft: "0",
+          // justifyContent: "flex-end",
+          // width: "100%",
+          // flexDirection: "row"
         }}
       >
         <DesktopDatePicker
@@ -69,7 +75,7 @@ export default function DateFilter(props) {
           renderInput={(params) => (
             <TextField
               variant="standard"
-              sx={{ marginRight: 2 }}
+              sx={{ marginRight: 2, maxWidth: "35%" }}
               size="small"
               {...params}
             />
@@ -83,15 +89,15 @@ export default function DateFilter(props) {
           minDate={plusMinus1Day(startDate, "+")} //at least 1 day between start and end date
           renderInput={(params) => (
             <TextField
-              sx={{ marginRight: 1 }}
+              sx={{ marginRight: 2, maxWidth: "35%" }}
               variant="standard"
               size="small"
               {...params}
             />
           )}
         />
-      </Box>
       <ButtonTertiary handleClick={handleReset} disabled={disabled} text="RESET" />
+      </Box>
     </LocalizationProvider>
   );
 }

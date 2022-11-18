@@ -9,7 +9,9 @@ import { Container } from "@mui/system";
 import { transactionsAPI } from "../api";
 import { fetchTransactions } from "../api/transactionsAPI";
 import { useSelector } from "react-redux";
-import { Fragment } from "react";
+import { Fragment, } from "react";
+import { Grid } from "@mui/material";
+import "../style/index.css";
 
 export default function Home() {
   const user = useSelector((state) => state.authReducer.user);
@@ -138,8 +140,11 @@ export default function Home() {
   //   myRef[idx].scrollIntoView();
   // }
 
+
   return (
-    <Container maxWidth="lg" sx={{ width: "90%", minWidth: 700, paddingBottom: "80px" }}>
+    // <Grid>
+    <Container  maxWidth="lg" sx={{ width: {xxs: "98%", md: "90%"}, paddingBottom: "80px" }} >
+    {/* minWidth: 700, */}
       <TransactionForm
         editTransaction={editTransaction}
         setEditTransaction={setEditTransaction}
@@ -174,5 +179,6 @@ export default function Home() {
         )}
       </div>
     </Container>
+    // </Grid>
   );
 }
