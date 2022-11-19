@@ -54,7 +54,7 @@ export default function Categories() {
 
 
   return (
-    <Container align="center" maxWidth="sm" sx={{width: "45%",  minWidth: 450, paddingBottom: "80px" }}>
+    <Container align="center" maxWidth="sm" sx={{width: {xxs: "98%", md: "45%"}, paddingBottom: "80px" }}>
                  
       <CategoryForm
         editCategory={editCategory}
@@ -80,7 +80,7 @@ export default function Categories() {
                   return (
                 <TableRow
                   key={category._id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  // sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell align="center">{category.label}</TableCell>
 

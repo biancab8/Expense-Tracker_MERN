@@ -80,7 +80,7 @@ export default function CategoryForm(props) {
         >
           <TextField
             onChange={handleChange}
-            sx={{ marginRight: 1 }}
+            sx={{ marginRight: 1, maxWidth: "45%" }}
             size="small"
             id="outlined-basic"
             label="Category"
@@ -116,7 +116,7 @@ export default function CategoryForm(props) {
           // minWidth: 85,
         // }}
       // sx={{ ".MuiSelect-select": {paddingBottom:0, minWidth:"35px", height: "33px", minHeight: "33px"}}}
-      sx={{".MuiSelect-select": {paddingBottom:0}, marginRight: 1,".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {minHeight: "40px", minWidth: "85px"},}}
+      sx={{".MuiSelect-select": {paddingBottom:0}, marginRight: 1,".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {minHeight: "40px", minWidth: "80px"},}}
     >
 {/* use icons from CategoryIcon, not form DB -> just showing all available icons, not all categories */}
       {icons.map((icon) => {
