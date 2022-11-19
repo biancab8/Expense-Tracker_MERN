@@ -11,7 +11,6 @@ export default function CategoryFilter(props) {
     <Select
       size="small"
       IconComponent={FilterListIcon}
-      fontSize="5px"
       value={categoryFilter}
       onChange={(event) => {
         const category = event.target.value; 
@@ -27,7 +26,7 @@ export default function CategoryFilter(props) {
           fontSize: "small",
 
         }}
-      sx={{ color: "white !important", ".MuiSvgIcon-root": { color: "white" },  paddingRight: "5px"}}
+      sx={{ color: "white !important", ".MuiSvgIcon-root": { color: "white"}, ".MuiInputBase-input": {paddingRight: "0 !important"}, paddingRight: "5px"}}
     >
       <MenuItem value={""}>
         <em>None</em>
