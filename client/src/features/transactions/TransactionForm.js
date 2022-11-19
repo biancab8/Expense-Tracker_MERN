@@ -138,7 +138,7 @@ export default function TransactionForm(props) {
               onChange={handleDateChange}
               value={form.date}
               renderInput={(params) => (
-                <TextField sx={{ display: "inline",  }} size="small" {...params} fullWidth/>
+                <TextField sx={{ display: "inline", paddingTop: "10px"}} size="small" {...params} fullWidth/>
               )}
             />
         </div>
