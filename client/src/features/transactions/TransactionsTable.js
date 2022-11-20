@@ -8,6 +8,7 @@ import { DateFilter } from "./index";
 import { CategoryFilter, CategoryIcon } from "../categories";
 import {
   Table,
+  TableCell,
   Typography,
   TableBody,
   TableContainer,
@@ -17,6 +18,7 @@ import {
   IconButton,
   Box,
   Grid,
+  TextField,
 } from "@mui/material";
 import {
   TableHeaderCell,
@@ -26,6 +28,7 @@ import {
   Loading,
 } from "../ui";
 import { transactionsAPI } from "../../api";
+import { colors } from "../../assets";
 import "../../style/index.css";
 
 export default function TransactionsTable(props) {
@@ -79,8 +82,11 @@ export default function TransactionsTable(props) {
   //   await props.fetchTransactions(category);
   // }
 
+  let total = 0;
+
   return (
     <>
+     
       {/* heading & date filter */}
       <Box
         // sx={{
@@ -148,18 +154,19 @@ export default function TransactionsTable(props) {
                   //   },
                   // }}
                   >
-                    <TableSummaryCell text={transactionsByMonth._id} />
-                    <TableSummaryCell />
-                    <TableSummaryCell />
-                    <TableSummaryCell />
+                    <TableSummaryCell text={transactionsByMonth._id} span={2} align="left" />
+                    <TableSummaryCell span={1} />
                     <TableSummaryCell
-                      text={`Total: $${numToCurrency(
+                      span={2}
+                      align="right"
+                      text={`$${numToCurrency(
                         transactionsByMonth.totalExpenses
                       )}`}
                     />
                   </TableRow>
                   {transactionsByMonth.transactions.map((transaction) => {
                     //for each transaction
+                    total = total + transaction.amount;
                     {
                       /* console.log(transaction) */
                     }
@@ -234,6 +241,19 @@ export default function TransactionsTable(props) {
                 </Fragment>
               );
             })}
+
+
+{/* grand total */}
+<TableRow>
+
+                  <TableCell variant="head" align="right" colSpan={5} sx={{
+        color: colors.textPrimary, fontWeight:"bold", fontSize: {xs: "0.75rem", md: "0.875rem"}, whiteSpace: "pre-wrap", wordBreak: "keep-all", textDecoration: "underline 2px double"
+      }}>
+                    {`Total: $${numToCurrency(
+                        total
+                      )}`}
+                  </TableCell>
+</TableRow>
           </TableBody>
         </Table>
         {props.loading && <Loading />}

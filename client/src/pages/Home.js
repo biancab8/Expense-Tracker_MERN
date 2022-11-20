@@ -113,6 +113,7 @@ export default function Home() {
       : { label: "Other", iconName: "other" };
   }
 
+
   // function categoryIconById(id) {
   //   //compare id with those in user's categories list. If match, return name, else 'NA'
   //   const category = user.categories.find((category) => category._id === id);

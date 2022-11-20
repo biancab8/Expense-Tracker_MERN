@@ -66,6 +66,8 @@ export async function getTransactionsByMonth(startDate=null, endDate=null, categ
     //if start and end dates and/or category are provided, only requests entries within that 
     //time frame from the database
     // console.log("in trans api")
+    console.log("here")
+    console.log(category)
     let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
     // console.log(startDate)
     // console.log(endDate)
@@ -99,8 +101,6 @@ export async function getTransactionsByMonth(startDate=null, endDate=null, categ
     if(startDate && endDate){
       apiUrl= apiUrl+`?startDate=${startDate.format("YYYY-MM-DD")}&endDate=${endDate.format("YYYY-MM-DD")}`
     }
-    console.log(startDate)
-    console.log(endDate)
     const res = await fetch(
         apiUrl,
         {

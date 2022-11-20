@@ -11,7 +11,8 @@ export default function CategoryFilter(props) {
     <Select
       size="small"
       IconComponent={FilterListIcon}
-      value={categoryFilter}
+      // value={categoryFilter}
+      value=""
       onChange={(event) => {
         const category = event.target.value; 
         setCategoryFilter(category); 
@@ -28,7 +29,7 @@ export default function CategoryFilter(props) {
         }}
       sx={{ color: "white !important", ".MuiSvgIcon-root": { color: "white"}, ".MuiInputBase-input": {paddingRight: "0 !important"}, paddingRight: "5px"}}
     >
-      <MenuItem value={""}>
+      <MenuItem value={null}>
         <em>None</em>
       </MenuItem>
       {props.user.categories.map((category) => {
