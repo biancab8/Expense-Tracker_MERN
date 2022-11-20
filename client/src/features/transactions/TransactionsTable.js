@@ -247,7 +247,7 @@ export default function TransactionsTable(props) {
 <TableRow>
 
                   <TableCell variant="head" align="right" colSpan={5} sx={{
-        color: colors.textPrimary, fontWeight:"bold", fontSize: {xs: "0.75rem", md: "0.875rem"}, whiteSpace: "pre-wrap", wordBreak: "keep-all", textDecoration: "underline 2px double"
+        color: colors.textPrimary, fontWeight:"bold", fontSize: {xs: "0.75rem", md: "0.875rem"}, whiteSpace: "pre-wrap", wordBreak: "keep-all", textDecoration: "underline 2px double", textUnderlineOffset: "6px"
       }}>
                     {`Total: $${numToCurrency(
                         total
