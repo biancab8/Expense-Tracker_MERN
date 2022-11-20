@@ -25,6 +25,7 @@ import { transactionsAPI } from "../../api";
 import { CategoryIcon } from "../categories";
 import { cutOffSmall } from "../../assets/constants";
 import "../../style/index.css";
+import { colors } from "../../assets";
 
 const initialForm = {
   amount: "",
@@ -35,7 +36,7 @@ const initialForm = {
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
-  return <IconButton {...other} />;
+  return <IconButton sx={{backgroundColor: colors.tableBackgroundSecondary}} {...other} />;
 })(({ theme, expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
   // marginLeft: "auto",
