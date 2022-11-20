@@ -1,10 +1,8 @@
 import * as React from "react";
-
 import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
-  Grid,
   Autocomplete,
   Box,
   Typography,
@@ -22,8 +20,6 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { useSelector } from "react-redux";
 import { ButtonPrimary, ButtonSecondary } from "../ui";
 import { transactionsAPI } from "../../api";
-import { CategoryIcon } from "../categories";
-import { cutOffSmall } from "../../assets/constants";
 import "../../style/index.css";
 import { colors } from "../../assets";
 
@@ -36,10 +32,14 @@ const initialForm = {
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
-  return <IconButton sx={{backgroundColor: colors.tableBackgroundSecondary}} {...other} />;
+  return (
+    <IconButton
+      sx={{ backgroundColor: colors.tableBackgroundSecondary }}
+      {...other}
+    />
+  );
 })(({ theme, expand }) => ({
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  // marginLeft: "auto",
   align: "right",
   transition: theme.transitions.create("transform", {
     duration: theme.transitions.duration.shortest,
@@ -62,7 +62,6 @@ export default function TransactionForm(props) {
     let value = event.target.value;
     if (event.target.id === "amount") {
       if (value < 0) {
-        // value = 0;
         setError({ err: true, msg: "Amount cannot be less than zero." });
       } else {
         setError({ err: false, msg: "" });
@@ -82,7 +81,6 @@ export default function TransactionForm(props) {
     if (props.editTransaction.amount === undefined) {
       res = await transactionsAPI.addTransaction(form);
     } else {
-      // console.log(props.editTransaction)
       res = await transactionsAPI.updateTransaction(
         form,
         props.editTransaction._id
@@ -99,27 +97,24 @@ export default function TransactionForm(props) {
     setExpanded(!expanded);
   };
 
-  // function getCategoryNameById() {
-  //   //return category name
-  //   return (
-  //     categories.find((category) => category._id === form.category_id) ?? ""
-  //   );
-  // }
-
   return (
     <Card
       sx={{
-        // minWidth: 275,
         marginTop: 10,
       }}
     >
       <CardContent>
-        {/* goes here -------------------------------------------- */}
-
-        <CardActions disableSpacing sx={{display: "flex", justifyContent: "space-between", ".MuiCardContent-root": {paddingBottom: "16px"}}}>
-        <Typography variant="h6" sx={{ marginBottom: 0 }}>
-          {props.editTransaction.amount ? "Edit " : "Add New"} Transaction
-        </Typography>
+        <CardActions
+          disableSpacing
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            ".MuiCardContent-root": { paddingBottom: "16px" },
+          }}
+        >
+          <Typography variant="h6" sx={{ marginBottom: 0 }}>
+            {props.editTransaction.amount ? "Edit " : "Add New"} Transaction
+          </Typography>
 
           <ExpandMore
             expand={expanded}
@@ -133,13 +128,10 @@ export default function TransactionForm(props) {
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
             <Box component="form" onSubmit={handleSubmit}>
-              {/* sx={{ display: "flex", flexDirection: { xs: "column", md: "row"} , justifyContent: "space-between"}}> */}
               <div className="transactionForm">
-                {/* <div className="formInputGroup">  */}
                 <div className="transactionFormInput">
                   <TextField
                     onChange={handleChange}
-                    // sx={{ marginRight: 4, }}
                     size="small"
                     id="amount"
                     label="Amount"
@@ -147,7 +139,6 @@ export default function TransactionForm(props) {
                     value={form.amount}
                     name="amount"
                     type="number"
-                    // className="transactionFormInput"
                     required
                     error={error.err}
                     helperText={error.msg}
@@ -162,11 +153,9 @@ export default function TransactionForm(props) {
                 <div className="transactionFormInput">
                   <TextField
                     onChange={handleChange}
-                    // sx={{ marginRight: 4, }}
                     size="small"
                     id="description"
                     label="Description"
-                    // className="transactionFormInput"
                     inputProps={{ maxLength: 35 }}
                     variant="outlined"
                     value={form.description}
@@ -175,8 +164,6 @@ export default function TransactionForm(props) {
                     fullWidth
                   />
                 </div>
-                {/* </div> */}
-                {/* <div className="formInputGroup">  */}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <div className="transactionFormInput">
                     <DesktopDatePicker
@@ -202,7 +189,6 @@ export default function TransactionForm(props) {
                           : props.getCategoryById(form.category_id).label
                       }
                       onChange={(event, newValue) => {
-                        // console.log(newValue)
                         setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
                       }}
                       id="categories-dropdown"
@@ -210,13 +196,6 @@ export default function TransactionForm(props) {
                       isOptionEqualToValue={(option, value) =>
                         option.id === value.id
                       }
-                      // sx={{display: "inline-block", }}
-                      // renderOption: Autocomplete uses the category label as a key. If user enters 2 categories with same name, will give error due to identical keys. Using option._id which refers to category._id overwrites the key and makes it unique no matter what
-                      // renderOption={(props, option) => (
-                      //   <Box component="li" {...props} key={option._id}>
-                      //     {option.label}
-                      //   </Box>
-                      // )}
                       renderInput={(params) => (
                         <TextField
                           {...params}
@@ -229,8 +208,6 @@ export default function TransactionForm(props) {
                     />
                   </div>
                 </LocalizationProvider>
-                {/* </div> */}
-                {/* <div className="formInputGroup"> */}
                 {props.editTransaction.amount !== undefined && (
                   <ButtonSecondary
                     text="Edit"
@@ -243,13 +220,10 @@ export default function TransactionForm(props) {
                     disabled={error.err}
                   ></ButtonPrimary>
                 )}
-                {/* </div> */}
               </div>
             </Box>
           </CardContent>
         </Collapse>
-
-        {/* til here ------------------------------------------------- */}
       </CardContent>
     </Card>
   );

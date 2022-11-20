@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, Fragment } from "react";
 import {
   TransactionForm,
   TransactionsTable,
@@ -7,10 +7,7 @@ import {
 } from "../features/transactions";
 import { Container } from "@mui/system";
 import { transactionsAPI } from "../api";
-import { fetchTransactions } from "../api/transactionsAPI";
 import { useSelector } from "react-redux";
-import { Fragment, } from "react";
-import { Grid } from "@mui/material";
 import "../style/index.css";
 
 export default function Home() {
@@ -64,41 +61,6 @@ export default function Home() {
     console.log("use effect");
   }, [filter, updateTransactions]);
 
-  // const [transactionsByCategory, setTransactionsByCategory] = useState([]);
-
-  // async function fetchTransactions(
-  //   startDate=null,
-  //   endDate=null,
-  //   category = null
-  // ) {
-  //   // console.log(filter)
-  //   // setLoading(true);
-  //   // await getTransactionsByMonth(startDate, endDate, category);
-  //   // // await getTransactionsByCategory(startDate, endDate);
-  //   // setLoading(false);
-  // }
-
-  // async function getTransactionsByMonth(
-  //   startDate=null,
-  //   endDate=null,
-  //   category = null
-  // ) {
-  //   console.log("in call toa pi funct")
-  //   console.log(startDate)
-  //   const res = await transactionsAPI.getTransactionsByMonth(
-  //     startDate,
-  //     endDate,
-  //     category
-  //   );
-  //   if (res.ok) {
-  //     const { data } = await res.json();
-  //     setTransactionsData(data);
-  //   }
-  // }
-
-  // const getExpensesByCategory = async () => {
-
-  // }
   function scrollToTarget(target) {
     if (target === "chart") {
       chartRef.current.scrollIntoView({ behavior: "smooth" });
@@ -113,39 +75,12 @@ export default function Home() {
       : { label: "Other", iconName: "other" };
   }
 
-
-  // function categoryIconById(id) {
-  //   //compare id with those in user's categories list. If match, return name, else 'NA'
-  //   const category = user.categories.find((category) => category._id === id);
-  //   return category ? category.icon.name : "Other";
-  // }
-
-  // // const myRef = useRef(null);
-  // function scrollToRef(target) {
-  //   //jump to component
-  //   switch(target){
-  //     case "charts":
-  //       return chartRef.current.scrollIntoView;
-  //     case "form":
-  //       return formRef.current.scrollIntoView;
-  //   }
-  // }
-
-  // function scrollToRef(target){
-  //   let idx;
-  //   if(target === "form"){
-  //     idx=0;
-  //   } else if(target === "chart"){
-  //     idx=1;
-  //   }
-  //   myRef[idx].scrollIntoView();
-  // }
-
-
   return (
-    // <Grid>
-    <Container  maxWidth="lg" sx={{ width: {xxs: "98%", md: "90%"}, paddingBottom: "80px" }} >
-    {/* minWidth: 700, */}
+    <Container
+      maxWidth="lg"
+      sx={{ width: { xxs: "98%", md: "90%" }, paddingBottom: "80px" }}
+    >
+      {console.log(user)}
       <TransactionForm
         editTransaction={editTransaction}
         setEditTransaction={setEditTransaction}
@@ -180,6 +115,5 @@ export default function Home() {
         )}
       </div>
     </Container>
-    // </Grid>
   );
 }

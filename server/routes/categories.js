@@ -1,4 +1,4 @@
-import { Router } from  "express";
+import { Router } from "express";
 
 import * as CategoriesController from "../controller/CategoriesController.js";
 
@@ -10,6 +10,4 @@ router.post("/", CategoriesController.addCategory);
 router.patch("/:id", CategoriesController.updateCategory);
 router.delete("/:id", CategoriesController.deleteCategory);
 
-
-
-export default router; 
+export default router;

@@ -1,46 +1,38 @@
-//date input fields for start and end date and reset button
 import * as React from "react";
-
 import { TextField, Box } from "@mui/material";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DesktopDatePicker } from "@mui/x-date-pickers";
 import { ButtonTertiary } from "../ui";
 import { useState } from "react";
-import "../../style/index.css"
+import "../../style/index.css";
 
 export default function DateFilter(props) {
   const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null); 
+  const [endDate, setEndDate] = useState(null);
   const [disabled, setDisabled] = useState(true);
 
   function handleStartDateChange(newDate) {
     setStartDate(newDate);
     if (endDate) {
       setDisabled(false);
-      props.setFilter({...props.filter, startDate: newDate, endDate: endDate});
-    } 
+      props.setFilter({
+        ...props.filter,
+        startDate: newDate,
+        endDate: endDate,
+      });
+    }
   }
 
   function handleEndDateChange(newDate) {
     setEndDate(newDate);
     setDisabled(false);
     if (startDate) {
-      props.setFilter({...props.filter, startDate: startDate, endDate: newDate});
-    } 
-  }
-
-  function plusMinus1Day(date, operator) {
-    //takes a date, adds or subtracts 1 day, and returns the new date
-    //-> use to add 1 day to end date 
-    if (!date) {
-      return null;
-    }
-    let newDate = new Date(date);
-    if (operator === "+") {
-      return newDate.setDate(new Date(date).getDate() + 1);
-    } else { 
-      return newDate.setDate(new Date(date).getDate() - 1);
+      props.setFilter({
+        ...props.filter,
+        startDate: startDate,
+        endDate: newDate,
+      });
     }
   }
 
@@ -49,21 +41,16 @@ export default function DateFilter(props) {
     setStartDate(null);
     setEndDate(null);
     setDisabled(true);
-    props.setFilter({...props.filter, startDate: null, endDate: null});
+    props.setFilter({ ...props.filter, startDate: null, endDate: null });
   }
-  
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Box 
-      className="dateFilter"
+      <Box
+        className="dateFilter"
         sx={{
-          // display: "flex",
-          // marginRight: "23px",
           marginBottom: "1px",
           marginLeft: "0",
-          // justifyContent: "flex-end",
-          // width: "100%",
-          // flexDirection: "row"
         }}
       >
         <DesktopDatePicker
@@ -71,7 +58,7 @@ export default function DateFilter(props) {
           inputFormat="DD/MM/YYYY"
           onChange={handleStartDateChange}
           value={startDate}
-          maxDate={plusMinus1Day(endDate, "-")} //at least 1 day between start and end date
+          maxDate={endDate}
           renderInput={(params) => (
             <TextField
               variant="standard"
@@ -86,7 +73,7 @@ export default function DateFilter(props) {
           inputFormat="DD/MM/YYYY"
           onChange={handleEndDateChange}
           value={endDate}
-          minDate={plusMinus1Day(startDate, "+")} //at least 1 day between start and end date
+          minDate={startDate}
           renderInput={(params) => (
             <TextField
               sx={{ marginRight: 2, maxWidth: "35%" }}
@@ -96,7 +83,11 @@ export default function DateFilter(props) {
             />
           )}
         />
-      <ButtonTertiary handleClick={handleReset} disabled={disabled} text="RESET" />
+        <ButtonTertiary
+          handleClick={handleReset}
+          disabled={disabled}
+          text="RESET"
+        />
       </Box>
     </LocalizationProvider>
   );

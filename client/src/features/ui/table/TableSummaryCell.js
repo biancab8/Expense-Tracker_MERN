@@ -8,7 +8,11 @@ export default function TableSummaryCell(props) {
       colSpan={props.span}
       sx={{
         backgroundColor: colors.tableBackgroundSecondary,
-        color: colors.textPrimary, fontWeight:"bold", fontSize: {xs: "0.75rem", md: "0.875rem"}, whiteSpace: "pre-wrap", wordBreak: "keep-all"
+        color: colors.textPrimary,
+        fontWeight: "bold",
+        fontSize: { xs: "0.75rem", md: "0.875rem" },
+        whiteSpace: "pre-wrap",
+        wordBreak: "keep-all",
       }}
     >
       <em>{props.text}</em>

@@ -21,7 +21,6 @@ import { useState } from "react";
 import { ErrorMessage } from "../features/ui";
 import { primaryButtonTheme } from "../features/ui/buttons/ButtonPrimary";
 
-
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -67,7 +66,7 @@ export default function Login() {
         <Typography component="h1" variant="h5">
           Log in
         </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}> 
+        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
           <TextField
             margin="normal"
             required
@@ -101,7 +100,7 @@ export default function Login() {
           >
             Log In
           </Button>
-          {errorMsg.length > 0 && <ErrorMessage msg={errorMsg}/>}
+          {errorMsg.length > 0 && <ErrorMessage msg={errorMsg} />}
           <Grid container>
             <Grid item>
               <Link to="/register" variant="body2">

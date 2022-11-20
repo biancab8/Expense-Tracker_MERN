@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import {Home, Register, Login, Categories} from "./pages";
+import { Home, Register, Login, Categories } from "./pages";
 import App from "./App";
-import {CheckAuth, CheckGuest} from "./features/auth";
+import { CheckAuth, CheckGuest } from "./features/auth";
 
 export default createBrowserRouter([
   {
@@ -36,10 +36,10 @@ export default createBrowserRouter([
         path: "/categories",
         element: (
           <CheckAuth>
-          <Categories />
-        </CheckAuth>
-        )
-      }
+            <Categories />
+          </CheckAuth>
+        ),
+      },
     ],
   },
 ]);

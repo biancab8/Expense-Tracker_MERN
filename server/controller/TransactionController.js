@@ -25,8 +25,6 @@ export const updateTransaction = async (req, res) => {
   res.json({ message: "success" });
 };
 
-
-
 export const findTransactions = async (req, res) => {
   let { startDate, endDate, category } = req.query;
 
@@ -64,7 +62,12 @@ export const findTransactions = async (req, res) => {
               "December",
             ],
           },
-          in: { $arrayElemAt: ["$$monthsInString", {$subtract: [{ $month: "$date" }, 1]}] },
+          in: {
+            $arrayElemAt: [
+              "$$monthsInString",
+              { $subtract: [{ $month: "$date" }, 1] },
+            ],
+          },
         }, //minus 1 for idx starting at 0
       },
       " ",
@@ -117,46 +120,28 @@ export const findTransactions = async (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        // console.log(groupedTransactions)
         res.json({ data: groupedTransactions });
       }
     }
   );
 };
 
-// export const getCategories = async(req, res) => {
-//   User.findOne(
-//     {_id: req.user._id},
-
-//      function(err, user){
-//       if(err){
-// console.log("err")
-//       } else {
-//         console.log(user.categories)
-//         res.json({categories: user.categories});
-//       }
-//     })
-// }
-
-
 export const updateTransactionsbyCategory = async (req, res) => {
-  const oldCategoryId = req.params.oldId;  
+  const oldCategoryId = req.params.oldId;
   const newCategoryId = req.params.newId;
-  Transaction.updateMany({user_id: req.user._id, category_id: oldCategoryId}, 
-  {category_id: newCategoryId},
-  {new: true},
-  function(err, updatedTransactions){
-    if (err){
-      console.log(err)
-    } else {
-      // console.log("-----------------------------")
-      // console.log(newCategoryId)
-      // console.log(updatedTransactions)
-      res.json({message: "Successfully updated the transactions."})
+  Transaction.updateMany(
+    { user_id: req.user._id, category_id: oldCategoryId },
+    { category_id: newCategoryId },
+    { new: true },
+    function (err, updatedTransactions) {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json({ message: "Successfully updated the transactions." });
+      }
     }
-  }  )
+  );
 };
-
 
 export const getTotalExpensesByCategory = async (req, res) => {
   //get total per category (for dates requested if applicable)
@@ -187,7 +172,6 @@ export const getTotalExpensesByCategory = async (req, res) => {
       if (err) {
         console.log("err");
       } else {
-        // console.log(categoryTotals);
         res.json({ categoryTotals: categoryTotals });
       }
     }

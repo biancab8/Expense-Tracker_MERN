@@ -1,10 +1,10 @@
 import * as React from "react";
-import {AppBar, Box, Toolbar, Typography, Button,} from "@mui/material";
+import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
 import { Link, resolvePath, useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../auth/authSlice";
-import {colors} from "../../assets"
+import { colors } from "../../assets";
 
 export default function NavBar() {
   const dispatch = useDispatch();
@@ -14,50 +14,50 @@ export default function NavBar() {
     (state) => state.authReducer.isAuthenticated
   );
 
-
-    // const getOut = () => new Promise(() => {
-    //   dispatch(removeUser());
-      
-    // })
-
   function logout() {
     //delete token from cookies
     Cookie.remove("token");
-    // getOut().then(() => { navigate("/login")})
     dispatch(removeUser());
     navigate("/login");
   }
 
   return (
-      <AppBar position="static" sx={{backgroundColor: colors.tableBackgroundPrimary, color: colors.textSecondary}}> 
-      {/* display: "inline-flex" */}
-        <Toolbar >
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1, }}>
-            <Link to="/" className="text-white">
-              Expense Tracker
-            </Link>
-          </Typography>
-          {isAuthenticated && (
-            <Link to="/categories" className="text-white">
-              <Button sx={{marginRight: "20px"}} color="inherit">Categories</Button>
-            </Link>
-          )}
-          {isAuthenticated && (
-            <Button onClick={logout} color="inherit">
-              Logout
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: colors.tableBackgroundPrimary,
+        color: colors.textSecondary,
+      }}
+    >
+      <Toolbar>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          <Link to="/" className="text-white">
+            Expense Tracker
+          </Link>
+        </Typography>
+        {isAuthenticated && (
+          <Link to="/categories" className="text-white">
+            <Button sx={{ marginRight: "20px" }} color="inherit">
+              Categories
             </Button>
-          )}
-          {!isAuthenticated && (
-            <>
-              <Link to="/login" className="text-white">
-                <Button color="inherit">Login</Button>
-              </Link>
-              <Link to="/register" className="text-white">
-                <Button color="inherit">Register</Button>
-              </Link>
-            </>
-          )}
-        </Toolbar>
-      </AppBar>
+          </Link>
+        )}
+        {isAuthenticated && (
+          <Button onClick={logout} color="inherit">
+            Logout
+          </Button>
+        )}
+        {!isAuthenticated && (
+          <>
+            <Link to="/login" className="text-white">
+              <Button color="inherit">Login</Button>
+            </Link>
+            <Link to="/register" className="text-white">
+              <Button color="inherit">Register</Button>
+            </Link>
+          </>
+        )}
+      </Toolbar>
+    </AppBar>
   );
 }

@@ -6,7 +6,7 @@ export default function ButtonSecondary(props) {
     <Button
       type="submit"
       variant="outlined"
-      disabled={props.disabled} 
+      disabled={props.disabled}
       sx={{
         maxHeight: "40px",
         borderColor: colors.buttonSecondary,

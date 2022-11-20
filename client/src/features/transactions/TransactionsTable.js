@@ -3,7 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { DateFilter } from "./index";
 import { CategoryFilter, CategoryIcon } from "../categories";
 import {
@@ -18,7 +18,6 @@ import {
   IconButton,
   Box,
   Grid,
-  TextField,
 } from "@mui/material";
 import {
   TableHeaderCell,
@@ -33,8 +32,6 @@ import "../../style/index.css";
 
 export default function TransactionsTable(props) {
   const user = useSelector((state) => state.authReducer.user);
-  // const [categoryFilter, setCategoryFilter] = useState("");
-
   async function remove(id) {
     //delete transaction
     if (!window.confirm("Are you sure you want to delete this item?")) {
@@ -46,19 +43,6 @@ export default function TransactionsTable(props) {
       }
     }
   }
-
-  // async function filterTransactions(startDate=null) {
-  //   //filter transactions list by selected date range
-  //   console.log("in table")
-  //   console.log(props.endDate)
-  //   await props.fetchTransactions(props.startDate, props.endDate, categoryFilter);
-  // }
-
-  // function categoryNameById(id) {
-  //   //compare id with those in user's categories list. If match, return name, else 'NA'
-  //   const category = user.categories.find((category) => category._id === id);
-  //   return category ? category.icon.name : "Other";
-  // }
 
   function numToCurrency(num) {
     //format num to currency with 2 decimal places
@@ -75,29 +59,10 @@ export default function TransactionsTable(props) {
     return date.toLocaleString("en-US", { month: "long" });
   }
 
-  // async function filterCategory(event) {
-  //   //filter transactions list by selected cateogry
-  //   const category = event.target.value;
-  //   setCategoryFilter(category);
-  //   await props.fetchTransactions(category);
-  // }
-
   let total = 0;
 
   return (
     <>
-     
-      {/* heading & date filter */}
-      <Box
-        // sx={{
-        //   display: "flex",
-        //   // alignItems: "flex-end",
-        //   // justifyContent: "space-between",
-        //   // marginBottom: 1,
-        //   // marginTop: 9,
-        //   flexDirection: "row"
-        // }}
-      >
       <div className="transactionsTableHeader">
         <div>
           <Typography sx={{ marginRight: 1 }} variant="h6" display="inline">
@@ -114,14 +79,10 @@ export default function TransactionsTable(props) {
           <DateFilter
             filter={props.filter}
             setFilter={props.setFilter}
-           
           ></DateFilter>
         </div>
       </div>
-      </Box>
-      {/* table */}
-      <TableContainer component={Paper} >
-        {/* sx={{ minWidth: 650 }} */}
+      <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow>
@@ -129,7 +90,7 @@ export default function TransactionsTable(props) {
               <TableHeaderCell text="Description" />
               <TableHeaderCell
                 text="Category"
-                // nested cell = category filter
+                // nested cell -> category filter
                 nestedCell=<CategoryFilter
                   filter={props.filter}
                   setFilter={props.setFilter}
@@ -147,14 +108,12 @@ export default function TransactionsTable(props) {
               //for each group
               return (
                 <Fragment key={transactionsByMonth.transactions[0]._id}>
-                  <TableRow
-                  // sx={{
-                  //   "&:last-child td, &:last-child th": {
-                  //     border: 0,
-                  //   },
-                  // }}
-                  >
-                    <TableSummaryCell text={transactionsByMonth._id} span={2} align="left" />
+                  <TableRow>
+                    <TableSummaryCell
+                      text={transactionsByMonth._id}
+                      span={2}
+                      align="left"
+                    />
                     <TableSummaryCell span={1} />
                     <TableSummaryCell
                       span={2}
@@ -167,38 +126,20 @@ export default function TransactionsTable(props) {
                   {transactionsByMonth.transactions.map((transaction) => {
                     //for each transaction
                     total = total + transaction.amount;
-                    {
-                      /* console.log(transaction) */
-                    }
                     const category = props.getCategoryById(
                       transaction.category_id
                     );
-                    {
-                      /* console.log(category) */
-                    }
                     return (
-                      <TableRow
-                        key={transaction._id}
-                        // width="100%"
-                        // sx={{display: "flex",
-                        // justifyContent: "space-between", alignItems: "stretch"}}
-                        // sx={{
-                        //   "&:last-child td, &:last-child th": { border: 0 },
-                        // }}
-                      >
+                      <TableRow key={transaction._id}>
                         <TableInnerCell
                           text={"$" + numToCurrency(transaction.amount)}
-                          
                         />
                         <TableInnerCell text={transaction.description} />
-                        {/* icon + category name nested in 1 outer cell */}
                         <TableInnerCell
                           text=""
                           nestedCell=<Grid container>
                             <Grid item xs={1} />
-                            <Grid item xs={4} 
-                            marginLeft="6px" 
-                            align="center">
+                            <Grid item xs={4} marginLeft="6px" align="center">
                               <CategoryIcon categoryName={category.iconName} />
                             </Grid>
                             <Grid item xs={6} align="left">
@@ -234,7 +175,6 @@ export default function TransactionsTable(props) {
                             </IconButton>
                           </div>
                         />
-                 
                       </TableRow>
                     );
                   })}
@@ -242,18 +182,25 @@ export default function TransactionsTable(props) {
               );
             })}
 
-
-{/* grand total */}
-<TableRow>
-
-                  <TableCell variant="head" align="right" colSpan={5} sx={{
-        color: colors.textPrimary, fontWeight:"bold", fontSize: {xs: "0.75rem", md: "0.875rem"}, whiteSpace: "pre-wrap", wordBreak: "keep-all", textDecoration: "underline 2px double", textUnderlineOffset: "6px"
-      }}>
-                    {`Total: $${numToCurrency(
-                        total
-                      )}`}
-                  </TableCell>
-</TableRow>
+            {/* grand total */}
+            <TableRow>
+              <TableCell
+                variant="head"
+                align="right"
+                colSpan={5}
+                sx={{
+                  color: colors.textPrimary,
+                  fontWeight: "bold",
+                  fontSize: { xs: "0.75rem", md: "0.875rem" },
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "keep-all",
+                  textDecoration: "underline 2px double",
+                  textUnderlineOffset: "6px",
+                }}
+              >
+                {`Total: $${numToCurrency(total)}`}
+              </TableCell>
+            </TableRow>
           </TableBody>
         </Table>
         {props.loading && <Loading />}
