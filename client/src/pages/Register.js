@@ -17,13 +17,16 @@ import { authAPI } from "../api";
 import { useState } from "react";
 import { ErrorMessage } from "../features/ui";
 import { primaryButtonTheme } from "../features/ui/buttons/ButtonPrimary";
+import {Loading} from "../features/ui";
 
 export default function Register() {
   const navigate = useNavigate();
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
     const formData = {
       firstName: data.get("firstName"),
@@ -34,6 +37,7 @@ export default function Register() {
     try {
       const res = await authAPI.register(formData);
       if (res.ok) {
+        setLoading(false);
         navigate("/login");
       } else {
         const { message } = await res.json();
@@ -125,6 +129,7 @@ export default function Register() {
           </Grid>
         </Box>
       </Box>
+      {loading ? <Loading/>: null}
     </Container>
   );
 }

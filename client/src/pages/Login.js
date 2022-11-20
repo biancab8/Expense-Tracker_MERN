@@ -20,14 +20,17 @@ import { authAPI } from "../api";
 import { useState } from "react";
 import { ErrorMessage } from "../features/ui";
 import { primaryButtonTheme } from "../features/ui/buttons/ButtonPrimary";
+import { Loading } from "../features/ui";
 
 export default function Login() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const data = new FormData(event.currentTarget);
     const formData = {
       email: data.get("email"),
@@ -39,6 +42,7 @@ export default function Login() {
         const { token, user } = await res.json();
         Cookie.set("token", token);
         dispatch(setUser(user));
+        setLoading(false);
         navigate("/");
       } else {
         const { message } = await res.json();
@@ -110,6 +114,7 @@ export default function Login() {
           </Grid>
         </Box>
       </Box>
+      {loading ? <Loading/>: null}
     </Container>
   );
 }

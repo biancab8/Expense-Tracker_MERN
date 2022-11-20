@@ -55,6 +55,7 @@ export default function TransactionForm(props) {
   useEffect(() => {
     if (props.editTransaction.amount !== undefined) {
       setForm(props.editTransaction);
+      setExpanded(true);
     }
   }, [props.editTransaction]);
 
