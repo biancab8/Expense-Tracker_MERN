@@ -16,7 +16,7 @@ import { icons } from "./CategoryIcon";
 
 const initialForm = {
   label: "",
-  icon: { name: "", default: false },
+  icon: { name: "other", default: false },
 }; //default false -> is not a default category, so it can be deleted by user
 
 export default function CategoryForm(props) {
@@ -113,6 +113,7 @@ export default function CategoryForm(props) {
               fontSize="5px"
               value={form.icon.name}
               onChange={(event, newValue) => {
+                console.log(event.target.value)
                 setForm({
                   ...form,
                   icon: { name: event.target.value, default: false },
@@ -125,11 +126,10 @@ export default function CategoryForm(props) {
               sx={{
                 ".MuiSelect-select": { paddingBottom: 0 },
                 marginRight: 1,
-                ".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {
-                  minHeight: "40px",
-                  minWidth: "80px",
-                  // maxWidth: "50%"
-                },
+                // ".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {
+                  // minHeight: "40px",
+                  // minWidth: "80px",
+                // },
               }}
             >
               {/* use icons from CategoryIcon, not form DB -> just showing all available icons, not all categories */}
