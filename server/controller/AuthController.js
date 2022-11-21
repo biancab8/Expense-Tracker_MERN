@@ -22,7 +22,7 @@ const categories = [
     //check if use already has an account 
     User.findOne({email: email}, async function(err, foundUser){
         if(err){
-            res.json({message: "Something went wrong. Please try again later."})
+            res.json({message: "Could not register user."})
         } else if (foundUser){
             res.status(409).json({message: "An account with this email already exists."}); //409 = conflict
         } else {
@@ -50,7 +50,7 @@ export const loginUser = (req, res) => {
     //check if user exists
     User.findOne({email: email}, async function(err, foundUser){
         if(err){
-            res.json({message: "Something went wrong. Please try again later."})
+            res.json({message: "User login failed."})
         } else if(foundUser){
             const matched = await bcrypt.compare(password, foundUser.password);
             if(!matched){

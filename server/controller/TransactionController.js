@@ -11,18 +11,31 @@ export const createTransaction = async (req, res) => {
     user_id: req.user._id,
     category_id: category_id,
   });
-  await transaction.save();
-  res.json({ message: "Successfully added transaction to DB" });
+  try{
+    await transaction.save();
+    res.json({ message: "Successfully added transaction to DB" });
+  } catch{
+    res.json({message: "Could not create transaction."})
+  }
 };
 
 export const deleteTransaction = async (req, res) => {
-  await Transaction.deleteOne({ _id: req.params.id });
-  res.json({ mesage: "success" });
+  try{
+    await Transaction.deleteOne({ _id: req.params.id });
+    res.json({ mesage: "success" });
+  } catch {
+    res.json({message: "Could not delete transaction."})
+  }
 };
 
 export const updateTransaction = async (req, res) => {
+  try{
   await Transaction.updateOne({ _id: req.params.id }, { $set: req.body });
   res.json({ message: "success" });
+  } catch {
+    res.json({message: "Could not update transaction."})
+  }
+
 };
 
 export const findTransactions = async (req, res) => {
@@ -118,7 +131,7 @@ export const findTransactions = async (req, res) => {
     ],
     function (err, groupedTransactions) {
       if (err) {
-        // res.status(404).json({message: "Something went wrong."})
+        res.json({message: "Could not fetch transactions."})
       } else {
         res.json({ data: groupedTransactions });
       }
@@ -135,7 +148,7 @@ export const updateTransactionsbyCategory = async (req, res) => {
     { new: true },
     function (err, updatedTransactions) {
       if (err) {
-        console.log(err);
+        res.json({message: "Could not update transactions."})
       } else {
         res.json({ message: "Successfully updated the transactions." });
       }
@@ -170,7 +183,7 @@ export const getTotalExpensesByCategory = async (req, res) => {
     ],
     function (err, categoryTotals) {
       if (err) {
-        console.log("err");
+        res.json({message: "Could not get transactions by category."})
       } else {
         res.json({ categoryTotals: categoryTotals });
       }

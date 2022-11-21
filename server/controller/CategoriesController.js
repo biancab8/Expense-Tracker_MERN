@@ -9,7 +9,7 @@ export const deleteCategory = async (req, res) => {
       if (!err) {
         res.json({ user: updatedUser });
       } else {
-        console.log(err);
+        res.json({message: "Could not delete the category."})
       }
     }
   );
@@ -25,7 +25,7 @@ export const addCategory = async (req, res) => {
       if (!err) {
         res.json({ user: updatedUser });
       } else {
-        console.log(err);
+        res.json({message: "Could not add the category."})
       }
     }
   );
@@ -52,7 +52,7 @@ export const updateCategory = async (req, res) => {
       if (!err) {
         res.json({ user: updatedUser });
       } else {
-        console.log(err);
+        res.json({message: "Could not update the category information."})
       }
     });
 };
