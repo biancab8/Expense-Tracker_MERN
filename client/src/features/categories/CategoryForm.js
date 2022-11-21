@@ -128,6 +128,7 @@ export default function CategoryForm(props) {
                 ".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {
                   minHeight: "40px",
                   minWidth: "80px",
+                  // maxWidth: "50%"
                 },
               }}
             >

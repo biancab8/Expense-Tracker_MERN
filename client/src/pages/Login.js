@@ -47,6 +47,7 @@ export default function Login() {
       } else {
         const { message } = await res.json();
         setErrorMsg(message);
+        setLoading(false);
       }
     } catch {
       setErrorMsg("Something went wrong. Please try again later.");
