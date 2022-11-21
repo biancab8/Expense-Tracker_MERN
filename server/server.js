@@ -25,6 +25,6 @@ app.use("/", routes);
 //connect to DB & start server
 connectDB().then(
   app.listen(PORT, () => {
-    console.log("server running on port 4000");
+    console.log(`server running on port ${PORT}`);
   })
 );

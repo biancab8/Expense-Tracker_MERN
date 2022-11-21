@@ -96,7 +96,6 @@ export default function Home() {
       maxWidth="lg"
       sx={{ width: { xxs: "98%", md: "90%" }, paddingBottom: "80px" }}
     >
-      {console.log(user)}
       <TransactionForm
         editTransaction={editTransaction}
         setEditTransaction={setEditTransaction}
