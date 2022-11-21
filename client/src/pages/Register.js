@@ -45,6 +45,7 @@ export default function Register() {
       }
     } catch {
       setErrorMsg("Something went wrong. Please try again later.");
+      setLoading(false);
     }
   };
 

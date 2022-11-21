@@ -1,5 +1,5 @@
-import { TextField } from "@mui/material";
-import { colors } from "../../assets";
+import { TextField, Box, Modal } from "@mui/material";
+import { colors } from "../../../assets";
 
 export default function ErrorMessage(props) {
   return (
@@ -11,7 +11,10 @@ export default function ErrorMessage(props) {
       input="readonly"
       value={props.msg}
       disabled
-      style={{ backgroundColor: colors.error }}
+      style={{ backgroundColor: colors.error,}}
     />
   );
 }
+
+
+

@@ -17,33 +17,39 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
 import { CategoryForm, CategoryIcon } from "../features/categories";
 import { useState } from "react";
-import { TableHeaderCell } from "../features/ui";
+import { TableHeaderCell, ErrorModal } from "../features/ui";
 import { categoriesAPI, transactionsAPI } from "../api";
 
 export default function Categories() {
   const user = useSelector((state) => state.authReducer.user);
   const dispatch = useDispatch();
   const [editCategory, setEditCategory] = useState({});
+  const [apiError, setApiError] = useState(false);
 
   async function remove(id) {
     //delete category from user's category array
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
-      const res = await categoriesAPI.deleteCategory(id);
-      if (res.ok) {
-        const { user } = await res.json();
-        dispatch(setUser(user)); //update user in store so that page refreshes
+      try{
+        
+        const res = await categoriesAPI.deleteCategory(id);
+        if (res.ok) {
+          const { user } = await res.json();
+          dispatch(setUser(user)); //update user in store so that page refreshes
+      } else {
       }
+    } catch(error){
+      setApiError(true);
+    }
       //add the default category "other" to each transaction that used the deleted category
       const newId = getDefaultCategory();
       const result = await transactionsAPI.updateTransactionsbyCategory(
         id,
         newId
-      );
-      if (result.ok) {
-      } else {
-        console.log("err");
+        );
+        if (!result.ok) {
+          setApiError(true);
       }
     }
   }
@@ -53,12 +59,17 @@ export default function Categories() {
     const category = user.categories.find(
       (category) => category.icon.default === true
     );
-    console.log("should be this id");
-    console.log(category._id);
     return category._id;
   }
 
   return (
+    <>
+  {apiError ? (
+        <ErrorModal
+          open={apiError}
+          onClose={() => setApiError(false)}
+        ></ErrorModal>
+      ) : null}
     <Container
       align="center"
       maxWidth="sm"
@@ -128,5 +139,6 @@ export default function Categories() {
         </Table>
       </TableContainer>
     </Container>
+    </>
   );
 }

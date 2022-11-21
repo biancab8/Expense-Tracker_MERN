@@ -11,7 +11,8 @@ import ButtonPrimary from "./buttons/ButtonPrimary";
 import ButtonSecondary from "./buttons/ButtonSecondary";
 import Loading from "./Loading";
 import ButtonTertiary from "./buttons/ButtonTertiary";
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "./error/ErrorMessage"
+import ErrorModal from "./error/ErrorModal";
 
 export {
   NavBar,
@@ -23,4 +24,5 @@ export {
   Loading,
   ButtonTertiary,
   ErrorMessage,
+  ErrorModal,
 };

@@ -50,6 +50,7 @@ export default function Login() {
       }
     } catch {
       setErrorMsg("Something went wrong. Please try again later.");
+      setLoading(false);
     }
   };
 

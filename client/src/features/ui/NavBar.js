@@ -1,6 +1,6 @@
 import * as React from "react";
-import { AppBar, Box, Toolbar, Typography, Button } from "@mui/material";
-import { Link, resolvePath, useNavigate } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
 import { removeUser } from "../auth/authSlice";

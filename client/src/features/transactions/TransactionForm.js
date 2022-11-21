@@ -22,6 +22,7 @@ import { ButtonPrimary, ButtonSecondary } from "../ui";
 import { transactionsAPI } from "../../api";
 import "../../style/index.css";
 import { colors } from "../../assets";
+import {ErrorModal} from "../ui";
 
 const initialForm = {
   amount: "",
@@ -51,6 +52,7 @@ export default function TransactionForm(props) {
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState({ err: false, msg: "" });
   const [expanded, setExpanded] = useState(false);
+  const [apiError, setApiError] = useState(false);
 
   useEffect(() => {
     if (props.editTransaction.amount !== undefined) {
@@ -79,153 +81,163 @@ export default function TransactionForm(props) {
     //add or update transaction API call
     event.preventDefault();
     let res;
-    if (props.editTransaction.amount === undefined) {
-      res = await transactionsAPI.addTransaction(form);
-    } else {
-      res = await transactionsAPI.updateTransaction(
-        form,
-        props.editTransaction._id
-      );
-    }
-    if (res.ok) {
-      setForm(initialForm);
-      props.setEditTransaction({});
-      props.setUpdateTransactions(true);
+    try {
+      if (props.editTransaction.amount === undefined) {
+        res = await transactionsAPI.addTransaction(form);
+      } else {
+        res = await transactionsAPI.updateTransaction(
+          form,
+          props.editTransaction._id
+        );
+      }
+      if (res.ok) {
+        setForm(initialForm);
+        props.setEditTransaction({});
+        props.setUpdateTransactions(true);
+      } else {
+        setApiError(true);
+      }
+    } catch (error) {
+      setApiError(true);
     }
   }
 
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
-
   return (
-    <Card
-      sx={{
-        marginTop: 10,
-      }}
-    >
-      <CardContent>
-        <CardActions
-          disableSpacing
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-            ".MuiCardContent-root": { paddingBottom: "16px" },
-          }}
-        >
-          <Typography variant="h6" sx={{ marginBottom: 0 }}>
-            {props.editTransaction.amount ? "Edit " : "Add New"} Transaction
-          </Typography>
-
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
+    <>
+      {apiError ? (
+        <ErrorModal
+          open={apiError}
+          onClose={() => setApiError(false)}
+        ></ErrorModal>
+      ) : null}
+      <Card
+        sx={{
+          marginTop: 10,
+        }}
+      >
+        <CardContent>
+          <CardActions
+            disableSpacing
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              ".MuiCardContent-root": { paddingBottom: "16px" },
+            }}
           >
-            <ExpandMoreIcon />
-          </ExpandMore>
-        </CardActions>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Box component="form" onSubmit={handleSubmit}>
-              <div className="transactionForm">
-                <div className="transactionFormInput">
-                  <TextField
-                    onChange={handleChange}
-                    size="small"
-                    id="amount"
-                    label="Amount"
-                    variant="outlined"
-                    value={form.amount}
-                    name="amount"
-                    type="number"
-                    required
-                    error={error.err}
-                    helperText={error.msg}
-                    fullWidth
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">$</InputAdornment>
-                      ),
-                    }}
-                  />
-                </div>
-                <div className="transactionFormInput">
-                  <TextField
-                    onChange={handleChange}
-                    size="small"
-                    id="description"
-                    label="Description"
-                    inputProps={{ maxLength: 35 }}
-                    variant="outlined"
-                    value={form.description}
-                    name="description"
-                    required
-                    fullWidth
-                  />
-                </div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Typography variant="h6" sx={{ marginBottom: 0 }}>
+              {props.editTransaction.amount ? "Edit " : "Add New"} Transaction
+            </Typography>
+
+            <ExpandMore
+              expand={expanded}
+              onClick={() => setExpanded(!expanded)}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
+          <Collapse in={expanded} timeout="auto" unmountOnExit>
+            <CardContent>
+              <Box component="form" onSubmit={handleSubmit}>
+                <div className="transactionForm">
                   <div className="transactionFormInput">
-                    <DesktopDatePicker
-                      label="Transaction Date"
-                      inputFormat="DD/MM/YYYY"
-                      onChange={handleDateChange}
-                      value={form.date}
-                      renderInput={(params) => (
-                        <TextField
-                          sx={{ display: "inline", paddingTop: "6px" }}
-                          size="small"
-                          {...params}
-                          fullWidth
-                        />
-                      )}
-                    />
-                  </div>
-                  <div className="transactionFormInput">
-                    <Autocomplete
-                      value={
-                        !form.category_id
-                          ? ""
-                          : props.getCategoryById(form.category_id).label
-                      }
-                      onChange={(event, newValue) => {
-                        setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
+                    <TextField
+                      onChange={handleChange}
+                      size="small"
+                      id="amount"
+                      label="Amount"
+                      variant="outlined"
+                      value={form.amount}
+                      name="amount"
+                      type="number"
+                      required
+                      error={error.err}
+                      helperText={error.msg}
+                      fullWidth
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">$</InputAdornment>
+                        ),
                       }}
-                      id="categories-dropdown"
-                      options={categories}
-                      isOptionEqualToValue={(option, value) =>
-                        option.id === value.id
-                      }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          size="small"
-                          label="Category"
-                          required
-                          fullWidth
-                        />
-                      )}
                     />
                   </div>
-                </LocalizationProvider>
-                {props.editTransaction.amount !== undefined && (
-                  <ButtonSecondary
-                    text="Edit"
-                    disabled={error.err}
-                  ></ButtonSecondary>
-                )}
-                {props.editTransaction.amount === undefined && (
-                  <ButtonPrimary
-                    text="Submit"
-                    disabled={error.err}
-                  ></ButtonPrimary>
-                )}
-              </div>
-            </Box>
-          </CardContent>
-        </Collapse>
-      </CardContent>
-    </Card>
+                  <div className="transactionFormInput">
+                    <TextField
+                      onChange={handleChange}
+                      size="small"
+                      id="description"
+                      label="Description"
+                      inputProps={{ maxLength: 35 }}
+                      variant="outlined"
+                      value={form.description}
+                      name="description"
+                      required
+                      fullWidth
+                    />
+                  </div>
+                  <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <div className="transactionFormInput">
+                      <DesktopDatePicker
+                        label="Transaction Date"
+                        inputFormat="DD/MM/YYYY"
+                        onChange={handleDateChange}
+                        value={form.date}
+                        renderInput={(params) => (
+                          <TextField
+                            sx={{ display: "inline", paddingTop: "6px" }}
+                            size="small"
+                            {...params}
+                            fullWidth
+                          />
+                        )}
+                      />
+                    </div>
+                    <div className="transactionFormInput">
+                      <Autocomplete
+                        value={
+                          !form.category_id
+                            ? ""
+                            : props.getCategoryById(form.category_id).label
+                        }
+                        onChange={(event, newValue) => {
+                          setForm({ ...form, category_id: newValue._id }); //mongo automatically creates an _id field for each member of an array
+                        }}
+                        id="categories-dropdown"
+                        options={categories}
+                        isOptionEqualToValue={(option, value) =>
+                          option.id === value.id
+                        }
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            size="small"
+                            label="Category"
+                            required
+                            fullWidth
+                          />
+                        )}
+                      />
+                    </div>
+                  </LocalizationProvider>
+                  {props.editTransaction.amount !== undefined && (
+                    <ButtonSecondary
+                      text="Edit"
+                      disabled={error.err}
+                    ></ButtonSecondary>
+                  )}
+                  {props.editTransaction.amount === undefined && (
+                    <ButtonPrimary
+                      text="Submit"
+                      disabled={error.err}
+                    ></ButtonPrimary>
+                  )}
+                </div>
+              </Box>
+            </CardContent>
+          </Collapse>
+        </CardContent>
+      </Card>
+    </>
   );
 }

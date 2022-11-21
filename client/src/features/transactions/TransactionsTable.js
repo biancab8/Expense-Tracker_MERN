@@ -3,7 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 import { DateFilter } from "./index";
 import { CategoryFilter, CategoryIcon } from "../categories";
 import {
@@ -25,6 +25,7 @@ import {
   TableSummaryCell,
   ButtonTertiary,
   Loading,
+  ErrorModal,
 } from "../ui";
 import { transactionsAPI } from "../../api";
 import { colors } from "../../assets";
@@ -32,14 +33,22 @@ import "../../style/index.css";
 
 export default function TransactionsTable(props) {
   const user = useSelector((state) => state.authReducer.user);
+  const [apiError, setApiError] = useState(false);
+
   async function remove(id) {
     //delete transaction
     if (!window.confirm("Are you sure you want to delete this item?")) {
       return;
     } else {
-      const res = await transactionsAPI.deleteTransaction(id);
-      if (res.ok) {
-        props.setUpdateTransactions(true);
+      try {
+        const res = await transactionsAPI.deleteTransaction(id);
+        if (res.ok) {
+          props.setUpdateTransactions(true);
+        } else {
+          setApiError(true);
+        }
+      } catch (error) {
+        setApiError(true);
       }
     }
   }
@@ -52,17 +61,15 @@ export default function TransactionsTable(props) {
     return formatter.format(num);
   }
 
-  function numToMonth(num) {
-    //numerical month to month name
-    const date = new Date();
-    date.setMonth(num - 1); //0=jan
-    return date.toLocaleString("en-US", { month: "long" });
-  }
-
   let total = 0;
-
   return (
     <>
+    {apiError ? (
+        <ErrorModal
+          open={apiError}
+          onClose={() => setApiError(false)}
+        ></ErrorModal>
+      ) : null}
       <div className="transactionsTableHeader">
         <div>
           <Typography sx={{ marginRight: 1 }} variant="h6" display="inline">

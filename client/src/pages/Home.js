@@ -9,6 +9,7 @@ import { Container } from "@mui/system";
 import { transactionsAPI } from "../api";
 import { useSelector } from "react-redux";
 import "../style/index.css";
+import { ErrorModal } from "../features/ui";
 
 export default function Home() {
   const user = useSelector((state) => state.authReducer.user);
@@ -22,6 +23,7 @@ export default function Home() {
   const [updateTransactions, setUpdateTransactions] = useState(false);
   const [loading, setLoading] = useState(false);
   const [editTransaction, setEditTransaction] = useState({});
+  const [apiError, setApiError] = useState(false);
   const chartRef = useRef();
 
   useEffect(() => {
@@ -36,6 +38,8 @@ export default function Home() {
       if (res.ok) {
         const { data } = await res.json();
         setTransactionsData(data);
+      } else {
+        setApiError(true);
       }
       setUpdateTransactions(false);
       setLoading(false);
@@ -53,12 +57,17 @@ export default function Home() {
           return category;
         });
         setExpensesByCategory(categoryTotals);
+      } else {
+        setApiError(true);
       }
     };
     //call functions
-    fetchData();
-    getTotalsByCategory();
-    console.log("use effect");
+    try{
+      fetchData();
+      getTotalsByCategory();
+    } catch (error){
+      setApiError(true);
+    }
   }, [filter, updateTransactions]);
 
   function scrollToTarget(target) {
@@ -76,6 +85,13 @@ export default function Home() {
   }
 
   return (
+    <>
+  {apiError ? (
+        <ErrorModal
+          open={apiError}
+          onClose={() => setApiError(false)}
+        ></ErrorModal>
+      ) : null}
     <Container
       maxWidth="lg"
       sx={{ width: { xxs: "98%", md: "90%" }, paddingBottom: "80px" }}
@@ -115,5 +131,6 @@ export default function Home() {
         )}
       </div>
     </Container>
+    </>
   );
 }

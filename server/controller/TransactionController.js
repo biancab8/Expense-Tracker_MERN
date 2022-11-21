@@ -118,7 +118,7 @@ export const findTransactions = async (req, res) => {
     ],
     function (err, groupedTransactions) {
       if (err) {
-        console.log(err);
+        // res.status(404).json({message: "Something went wrong."})
       } else {
         res.json({ data: groupedTransactions });
       }

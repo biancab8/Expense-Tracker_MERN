@@ -4,6 +4,7 @@ import {
   Chart,
   PieSeries,
   Tooltip,
+  Legend,
 } from "@devexpress/dx-react-chart-material-ui";
 import {
   Animation,
@@ -11,7 +12,6 @@ import {
   EventTracker,
 } from "@devexpress/dx-react-chart";
 import { scaleBand } from "@devexpress/dx-chart-core";
-import { Legend } from "@devexpress/dx-react-chart-material-ui";
 import { Typography } from "@mui/material";
 import { colors } from "../../assets";
 
