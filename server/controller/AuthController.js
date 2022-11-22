@@ -21,7 +21,6 @@ const categories = [
     const {firstName, lastName, password} = req.body;
     let {email} = req.body; 
     email = email.toLowerCase();
-    console.log(email)
     //check if use already has an account 
     User.findOne({email: email}, async function(err, foundUser){
         if(err){
@@ -51,7 +50,6 @@ const categories = [
 export const loginUser = (req, res) => {
     let {email, password} = req.body;
     email = email.toLowerCase();
-    console.log(email)
     //check if user exists
     User.findOne({email: email}, async function(err, foundUser){
         if(err){
