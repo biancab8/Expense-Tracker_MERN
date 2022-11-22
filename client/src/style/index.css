@@ -1,17 +1,16 @@
-html {
-  margin: 0;
-  align-items: center;
-  width: 100vw;
-}
-
+html,
 body,
 #root {
-  background-color: #f5f5f5;
-  background: linear-gradient(to bottom, #ffffff 18%, #5000ff14);
   height: 100%;
   width: 100%;
-  padding: 0;
   margin: 0;
+  padding: 0;
+  align-items: center;
+}
+
+body {
+  background-color: #f5f5f5;
+  background: linear-gradient(to bottom, #ffffff 18%, #5000ff14);
   background-attachment: fixed;
 }
 
