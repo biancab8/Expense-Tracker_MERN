@@ -16,7 +16,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
 import { setCategories } from "../features/user/userSlice";
 import { CategoryForm, CategoryIcon } from "../features/categories";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { TableHeaderCell, ErrorModal } from "../features/ui";
 import { categoriesAPI, transactionsAPI } from "../api";
 
@@ -25,6 +25,7 @@ export default function Categories() {
   const dispatch = useDispatch();
   const [editCategory, setEditCategory] = useState({});
   const [apiError, setApiError] = useState(false);
+  const chartRef = useRef();
 
   async function remove(id) {
     //delete category from user's category array
@@ -74,6 +75,7 @@ export default function Categories() {
       maxWidth="sm"
       sx={{ width: { xxs: "98%", md: "45%" }, paddingBottom: "80px" }}
     >
+    <div ref={chartRef}>
       <CategoryForm
         editCategory={editCategory}
         setEditCategory={setEditCategory}
@@ -85,6 +87,7 @@ export default function Categories() {
       >
         Custom Categories
       </Typography>
+    </div>
       <TableContainer component={Paper}>
         <Table aria-label="simple table">
           <TableHead>
@@ -111,7 +114,9 @@ export default function Categories() {
                         <IconButton
                           color="primary"
                           component="label"
-                          onClick={() => setEditCategory(category)}
+                          onClick={() => {
+                            setEditCategory(category)
+                            chartRef.current.scrollIntoView({ behavior: "smooth" })}}
                         >
                           <EditIcon />
                         </IconButton>
