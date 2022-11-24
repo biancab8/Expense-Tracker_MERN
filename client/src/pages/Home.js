@@ -12,7 +12,7 @@ import "../style/index.css";
 import { ErrorModal } from "../features/ui";
 
 export default function Home() {
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector((state) => state.userReducer.user);
   const [filter, setFilter] = useState({
     startDate: null,
     endDate: null,

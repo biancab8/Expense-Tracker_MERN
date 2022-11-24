@@ -114,7 +114,6 @@ export const findTransactions = async (req, res) => {
               amount: "$amount",
               description: "$description",
               date: "$date",
-              type: "$type",
               _id: "$_id",
               user_id: "$user_id",
               category_id: "$category_id",
@@ -140,6 +139,7 @@ export const findTransactions = async (req, res) => {
 };
 
 export const updateTransactionsbyCategory = async (req, res) => {
+  //find all transactions whose category id equals oldId, and update its category to newId
   const oldCategoryId = req.params.oldId;
   const newCategoryId = req.params.newId;
   Transaction.updateMany(

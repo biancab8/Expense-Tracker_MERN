@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Button } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
 import { useDispatch, useSelector } from "react-redux";
-import { removeUser } from "../auth/authSlice";
+import { removeUser } from "../user/userSlice";
 import { colors } from "../../assets";
 
 export default function NavBar() {
@@ -11,7 +11,7 @@ export default function NavBar() {
   const navigate = useNavigate();
 
   const isAuthenticated = useSelector(
-    (state) => state.authReducer.isAuthenticated
+    (state) => state.userReducer.isAuthenticated
   );
 
   function logout() {

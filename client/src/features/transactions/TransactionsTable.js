@@ -32,7 +32,7 @@ import { colors } from "../../assets";
 import "../../style/index.css";
 
 export default function TransactionsTable(props) {
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector((state) => state.userReducer.user);
   const [apiError, setApiError] = useState(false);
 
   async function remove(id) {

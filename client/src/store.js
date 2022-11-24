@@ -1,5 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { authSlice } from "./features/auth";
+import { userSlice } from "./features/user";
 import storage from "redux-persist/lib/storage";
 import {
   persistReducer,
@@ -17,13 +17,13 @@ const persistConfig = {
   storage,
 };
 
-// configure the auth reducer (authSlice) to persist its state to browser's local storage
+// configure the user reducer (userSlice) to persist its state to browser's local storage
 // => when refresh, store data won't be deleted
-const persistedReducer = persistReducer(persistConfig, authSlice);
+const persistedReducer = persistReducer(persistConfig, userSlice);
 
 export const store = configureStore({
   reducer: {
-    authReducer: persistedReducer,
+    userReducer: persistedReducer,
   },
   //when using persist, add this to disable check for unserializable store items
   middleware: (getDefaultMiddleware) =>

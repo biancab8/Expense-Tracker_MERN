@@ -30,13 +30,13 @@ export async function updateTransaction(data, id) {
 }
 
 export async function updateTransactionsbyCategory(oldId, newId) {
+  //find all transactions whose category id equals oldId, and update its category to newId
   const token = Cookie.get("token");
   const res = await fetch(
     `${process.env.REACT_APP_API_URL}/transactions/byCategory/${oldId}/${newId}`,
     {
       method: "PATCH",
       headers: {
-        "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
     }

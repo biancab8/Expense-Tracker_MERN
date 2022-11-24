@@ -48,7 +48,7 @@ const ExpandMore = styled((props) => {
 }));
 
 export default function TransactionForm(props) {
-  let categories = useSelector((state) => state.authReducer.user.categories);
+  let categories = useSelector((state) => state.userReducer.user.categories);
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState({ err: false, msg: "" });
   const [expanded, setExpanded] = useState(false);

@@ -3,7 +3,6 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import React from "react";
 
 export default function CategoryFilter(props) {
-
   return (
     <Select
       size="small"

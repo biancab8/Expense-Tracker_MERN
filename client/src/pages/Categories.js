@@ -14,14 +14,14 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../features/auth/authSlice";
+import { setCategories } from "../features/user/userSlice";
 import { CategoryForm, CategoryIcon } from "../features/categories";
 import { useState } from "react";
 import { TableHeaderCell, ErrorModal } from "../features/ui";
 import { categoriesAPI, transactionsAPI } from "../api";
 
 export default function Categories() {
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
   const [editCategory, setEditCategory] = useState({});
   const [apiError, setApiError] = useState(false);
@@ -35,10 +35,9 @@ export default function Categories() {
         
         const res = await categoriesAPI.deleteCategory(id);
         if (res.ok) {
-          const { user } = await res.json();
-          dispatch(setUser(user)); //update user in store so that page refreshes
-      } else {
-      }
+          const { categories } = await res.json();
+          dispatch(setCategories(categories)); //update user in store so that page refreshes
+      } 
     } catch(error){
       setApiError(true);
     }

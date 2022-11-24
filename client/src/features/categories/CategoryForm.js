@@ -9,7 +9,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser } from "../auth/authSlice";
+import { setCategories } from "../user/userSlice";
 import { ButtonPrimary, ButtonSecondary, ErrorModal } from "../ui";
 import { categoriesAPI } from "../../api";
 import { icons } from "./CategoryIcon";
@@ -20,7 +20,7 @@ const initialForm = {
 }; //default false -> is not a default category, so it can be deleted by user
 
 export default function CategoryForm(props) {
-  const user = useSelector((state) => state.authReducer.user);
+  const user = useSelector((state) => state.userReducer.user);
   const dispatch = useDispatch();
   const [form, setForm] = useState(initialForm);
   const [error, setError] = useState({ err: false, msg: "" });
@@ -56,13 +56,13 @@ export default function CategoryForm(props) {
         res = await categoriesAPI.updateCategory(props.editCategory._id, form);
       }
       if (res.ok) {
-        const { user } = await res.json();
+        const { categories } = await res.json();
         if (props.editCategory) {
           props.setEditCategory({}); //if editing, reset the editCategory to {}
         }
         //reset form and update store with updated user data
         setForm(initialForm);
-        dispatch(setUser(user));
+        dispatch(setCategories(categories));
       } else {
         setApiError(true);
       }
@@ -113,7 +113,6 @@ export default function CategoryForm(props) {
               fontSize="5px"
               value={form.icon.name}
               onChange={(event, newValue) => {
-                console.log(event.target.value)
                 setForm({
                   ...form,
                   icon: { name: event.target.value, default: false },
