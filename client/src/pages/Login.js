@@ -13,7 +13,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Cookie from "js-cookie";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setUser } from "../features/user/userSlice";
 import colors from "../assets/colors";
 import { authAPI } from "../api";
