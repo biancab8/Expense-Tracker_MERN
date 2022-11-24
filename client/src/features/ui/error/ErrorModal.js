@@ -1,6 +1,5 @@
 import ErrorMessage from "./ErrorMessage";
 import { Modal, Box } from "@mui/material";
-import { applyMiddleware } from "redux";
 
 const errorModalStyle = {
   position: 'absolute',

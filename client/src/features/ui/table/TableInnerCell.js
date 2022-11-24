@@ -1,5 +1,4 @@
 import { TableCell } from "@mui/material";
-import { colors } from "../../../assets";
 import "../../../style/index.css";
 
 export default function TableInnerCell(props) {
