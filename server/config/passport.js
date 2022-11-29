@@ -1,3 +1,5 @@
+//used for http requests to protected (logged in) routes
+
 import User from "../models/User.js";
 import pkg from "passport-jwt";
 import * as dotenv from "dotenv";

@@ -47,6 +47,14 @@ const ExpandMore = styled((props) => {
   }),
 }));
 
+
+
+
+
+
+
+
+
 export default function TransactionForm(props) {
   let categories = useSelector((state) => state.userReducer.user.categories);
   const [form, setForm] = useState(initialForm);
@@ -61,6 +69,18 @@ export default function TransactionForm(props) {
     }
   }, [props.editTransaction]);
 
+
+  function toTwoDecimals(num) {
+    //format num to number with max of 2 decimal places
+    //does NOT add a thousands separator
+    const formatter = new Intl.NumberFormat("en-US", {
+      maximumFractionDigits: 2, //max nr of decimals
+      useGrouping: false,
+    });
+    return formatter.format(num);
+  }
+
+
   function handleChange(event) {
     let value = event.target.value;
     if (event.target.id === "amount") {
@@ -68,6 +88,7 @@ export default function TransactionForm(props) {
         setError({ err: true, msg: "Amount cannot be less than zero." });
       } else {
         setError({ err: false, msg: "" });
+        value=toTwoDecimals(value)
       }
     }
     setForm({ ...form, [event.target.name]: value });
