@@ -23,5 +23,5 @@ export default function CategoryIcon(props) {
   // takes a category name and returns the corresponding icon, if none match, return icon for "other"
   const categoryName = props.categoryName.toLowerCase();
   const icon = icons.find((icon) => icon.label === categoryName);
-  return icon ? icon.icon : icons.find((icon) => icon.label === "other").icon;
+  return icon ? icon.icon : icons.find((icon) => icon.label === "other").icon;    
 }

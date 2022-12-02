@@ -18,11 +18,10 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { useSelector } from "react-redux";
-import { ButtonPrimary, ButtonSecondary } from "../ui";
+import { ButtonPrimary, ButtonSecondary, ErrorModal } from "../ui";
 import { transactionsAPI } from "../../api";
 import "../../style/index.css";
 import { colors } from "../../assets";
-import {ErrorModal} from "../ui";
 
 const initialForm = {
   amount: "",
@@ -46,13 +45,6 @@ const ExpandMore = styled((props) => {
     duration: theme.transitions.duration.shortest,
   }),
 }));
-
-
-
-
-
-
-
 
 
 export default function TransactionForm(props) {

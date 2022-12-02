@@ -101,7 +101,7 @@ export default function TransactionsTable(props) {
                 nestedCell=<CategoryFilter
                   filter={props.filter}
                   setFilter={props.setFilter}
-                  user={user}
+                  categories={user.categories}
                 />
               ></TableHeaderCell>
               <TableHeaderCell text="Date" />

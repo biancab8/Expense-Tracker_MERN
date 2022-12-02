@@ -65,6 +65,7 @@ export async function getTransactionsByMonth(
   category = null
 ) {
   const token = Cookie.get("token");
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   //if start and end dates and/or category are provided, add those as params to url
   let apiUrl = `${process.env.REACT_APP_API_URL}/transactions`;
   if (startDate && endDate) {
@@ -80,6 +81,11 @@ export async function getTransactionsByMonth(
     } else {
       apiUrl = apiUrl + `?category=${category}`;
     }
+  }
+  if(startDate && endDate || category){
+    apiUrl = apiUrl + `&timezone=${timezone}`
+  } else{
+    apiUrl = apiUrl + `?timezone=${timezone}`
   }
   const res = await fetch(apiUrl, {
     method: "GET",

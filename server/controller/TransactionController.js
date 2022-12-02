@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import Transaction from "../models/transaction.js";
 
 export const createTransaction = async (req, res) => {
-  const { amount, description, date, category_id } = req.body;
+  const { amount, description, date, category_id, timezone } = req.body;
   const transaction = new Transaction({
     amount: amount,
     description: description,
@@ -39,8 +39,7 @@ export const updateTransaction = async (req, res) => {
 };
 
 export const findTransactions = async (req, res) => {
-  let { startDate, endDate, category } = req.query;
-
+  let { startDate, endDate, category, timezone } = req.query;
   //if filter by date or category requested, add those conditions:
   let dateConditions = {};
   if (startDate && endDate) {
@@ -78,14 +77,14 @@ export const findTransactions = async (req, res) => {
           in: {
             $arrayElemAt: [
               "$$monthsInString",
-              { $subtract: [{ $month: "$date" }, 1] },
+              { $subtract: [{ $month: {date: "$date", timezone: timezone} }, 1] },
             ],
           },
         }, //minus 1 for idx starting at 0
       },
       " ",
       { $toString: { $year: "$date" } },
-    ],
+    ]
   };
 
   Transaction.aggregate(
@@ -97,7 +96,7 @@ export const findTransactions = async (req, res) => {
         $match: categoryCondition, //filter by category id
       },
       {
-        $match: dateConditions, //if date range specified, filter by date range
+        $match: dateConditions, // filter by date range
       },
       {
         $sort: { date: -1, createdAt: -1 },
@@ -107,7 +106,10 @@ export const findTransactions = async (req, res) => {
         //STAGE 1 -> CREATE GROUPS
         //group by month/year -> creates 1 document per (month+year)
         $group: {
-          _id: monthDateQuery, //now looks like this: {"data":[{"_id":{"November 2022"},...]
+          _id: monthDateQuery,
+        //now looks like this: {"data":[{"_id":{"November 2022"},...]
+          year: {$first: {$year: "$date"}},
+          month: {$first: {$month: "$date"}},
           //for each group, create a list with all of its transactions
           transactions: {
             $push: {
@@ -125,7 +127,7 @@ export const findTransactions = async (req, res) => {
       },
       {
         //STAGE 2 -> WORK ON THE GROUP LEVEL, ie sort the groups by their _id which is (year+month)
-        $sort: { _id: -1 }, //newest at top
+        $sort: {year: -1, month: -1}
       },
     ],
     function (err, groupedTransactions) {
@@ -133,6 +135,7 @@ export const findTransactions = async (req, res) => {
         res.json({message: "Could not fetch transactions."})
       } else {
         res.json({ data: groupedTransactions });
+
       }
     }
   );

@@ -32,7 +32,7 @@ export default function CategoryFilter(props) {
       <MenuItem value={null}>
         <em>None</em>
       </MenuItem>
-      {props.user.categories.map((category) => {
+      {props.categories.map((category) => {
         return (
           <MenuItem key={category._id} value={category._id}>
             {category.label}
