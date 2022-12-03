@@ -164,7 +164,7 @@ export default function TransactionForm(props) {
                       value={form.amount}
                       name="amount"
                       type="number"
-                      step="0.01"
+                      step="any"
                       required
                       error={error.err}
                       helperText={error.msg}
