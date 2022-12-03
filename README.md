@@ -5,4 +5,28 @@ The user can add new transactions, edit or delete existing entries, and create t
 The app also offers the option to filter the transactions list by category and/or by date range.  
 Right below the transactions list, the app automatically creates a bar graph depicting the total expenses per month, as well as a pie chart that breaks down the expenses by category.  
 
+## Technologies used: 
+### Front-end
+* HTML
+* CSS
+* JavaScript
+* React 
+* Redux Toolkit
+* Redux Persist
+* DevExpress (charts)
+* js-cookie
+* Material UI
+
+### Back-end
+* Node.js
+* Express.js
+* CORS
+* Bcrypt
+* Passport.js 
+* Mongoose
+
+### Database
+* MongoDB
+  
+## Wiki
 For more information, please visit this project's Wiki page.  
