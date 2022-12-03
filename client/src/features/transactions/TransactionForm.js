@@ -56,7 +56,7 @@ export default function TransactionForm(props) {
 
   useEffect(() => {
     if (props.editTransaction.amount !== undefined) {
-      setForm(props.editTransaction);
+      setForm({...props.editTransaction, amount: Number(props.editTransaction.amount)});
       setExpanded(true);
     }
   }, [props.editTransaction]);
@@ -76,6 +76,7 @@ export default function TransactionForm(props) {
   function handleChange(event) {
     let value = event.target.value;
     if (event.target.id === "amount") {
+      value=Number(value);
       if (value < 0) {
         setError({ err: true, msg: "Amount cannot be less than zero." });
       } else {
@@ -83,6 +84,7 @@ export default function TransactionForm(props) {
         value=toTwoDecimals(value)
       }
     }
+    console.log(typeof(value))
     setForm({ ...form, [event.target.name]: value });
   }
 
@@ -161,14 +163,17 @@ export default function TransactionForm(props) {
                       id="amount"
                       label="Amount"
                       variant="outlined"
+                      type="number"
                       value={form.amount}
                       name="amount"
-                      type="number"
-                      step="any"
                       required
                       error={error.err}
                       helperText={error.msg}
                       fullWidth
+                      inputProps={{
+                        step:0.01,
+                        min:0
+                      }}
                       InputProps={{
                         startAdornment: (
                           <InputAdornment position="start">$</InputAdornment>
