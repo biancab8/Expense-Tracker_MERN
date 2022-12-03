@@ -70,7 +70,6 @@ export default function TransactionForm(props) {
         value = value+"0";
         console.log(value)
       }
-      // value=Number(value);
       if (value < 0) {
         setError({ err: true, msg: "Amount cannot be less than zero." });
       } else {
