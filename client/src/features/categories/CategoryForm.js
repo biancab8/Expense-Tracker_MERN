@@ -30,6 +30,9 @@ export default function CategoryForm(props) {
     if (props.editCategory._id !== undefined) {
       setForm(props.editCategory);
     }
+    if(error){
+      setError(false);
+    }
   }, [props.editCategory._id]);
 
   function handleChange(event) {
@@ -40,9 +43,12 @@ export default function CategoryForm(props) {
   async function handleSubmit(event) {
     event.preventDefault();
     //check if category already exists
-    const duplicate = user.categories.find(
-      (category) => category.label.toLowerCase() === form.label.toLowerCase()
-    );
+    let duplicate = false;
+    if (props.editCategory._id === undefined) {
+      duplicate = user.categories.find(
+        (category) => category.label.toLowerCase() === form.label.toLowerCase()
+      );
+    }
     if (duplicate) {
       setError({ err: true, msg: "A category with that name already exists." });
       return;
@@ -126,8 +132,8 @@ export default function CategoryForm(props) {
                 ".MuiSelect-select": { paddingBottom: 0 },
                 marginRight: 1,
                 // ".css-9ddj71-MuiInputBase-root-MuiOutlinedInput-root": {
-                  // minHeight: "40px",
-                  // minWidth: "80px",
+                // minHeight: "40px",
+                // minWidth: "80px",
                 // },
               }}
             >
