@@ -150,7 +150,7 @@ export default function TransactionForm(props) {
                       id="amount"
                       label="Amount"
                       variant="outlined"
-                      type="number"
+                      // type="number"
                       value={form.amount}
                       name="amount"
                       required
@@ -159,7 +159,8 @@ export default function TransactionForm(props) {
                       fullWidth
                       inputProps={{
                         step:0.01,
-                        min:0
+                        min:0,
+                        type:"number"
                       }}
                       InputProps={{
                         startAdornment: (
