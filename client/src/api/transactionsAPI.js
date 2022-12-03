@@ -82,7 +82,7 @@ export async function getTransactionsByMonth(
       apiUrl = apiUrl + `?category=${category}`;
     }
   }
-  if(startDate && endDate || category){
+  if((startDate && endDate) || category){
     apiUrl = apiUrl + `&timezone=${timezone}`
   } else{
     apiUrl = apiUrl + `?timezone=${timezone}`
