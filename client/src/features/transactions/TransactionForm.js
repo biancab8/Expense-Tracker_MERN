@@ -64,18 +64,19 @@ export default function TransactionForm(props) {
   function handleChange(event) {
     let value = event.target.value;
     if (event.target.id === "amount") {
+      //browsers like safari trigger input udpate when typing "." -> will be invalid
+      //number and changes value to 0.  -> add "0" after period to make it a valid number
       if(value.substr(value.length-1) === "."){
         value = value+"0";
+        console.log(value)
       }
-      console.log(value.substr(value.length-1))
-      // value=Number(value);
+      value=Number(value);
       if (value < 0) {
         setError({ err: true, msg: "Amount cannot be less than zero." });
       } else {
         setError({ err: false, msg: "" });
       }
     }
-    console.log(typeof(value))
     setForm({ ...form, [event.target.name]: value });
   }
 
