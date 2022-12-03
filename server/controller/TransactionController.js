@@ -52,6 +52,9 @@ export const findTransactions = async (req, res) => {
     category = mongoose.Types.ObjectId(category);
     categoryCondition = { category_id: category };
   }
+  if(!timezone){
+    timezone="America/Edmonton"
+  }
 
   // sub queries
   const monthDateQuery = {
