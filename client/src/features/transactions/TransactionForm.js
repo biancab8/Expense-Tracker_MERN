@@ -64,7 +64,7 @@ export default function TransactionForm(props) {
   function handleChange(event) {
     let value = event.target.value;
     if (event.target.id === "amount") {
-      value=Number(value);
+      // value=Number(value);
       if (value < 0) {
         setError({ err: true, msg: "Amount cannot be less than zero." });
       } else {
